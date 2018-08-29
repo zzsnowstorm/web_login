@@ -9,7 +9,7 @@ const progressbarWebpack = require('progress-bar-webpack-plugin');
 module.exports = (options, webpackConfig) => {
     const distName = "dist"
     const packagePath = 'package/'
-    const proxyName = 'login'
+    //const proxyName = 'login'
     if (!options.dev) {
         const dockerContent = "FROM nginx\r\nCOPY nginx.conf /etc/nginx/nginx.conf\r\nCOPY " + distName + " /etc/nginx/" + distName
         fs.writeFile(packagePath + "Dockerfile", dockerContent)
@@ -22,9 +22,9 @@ module.exports = (options, webpackConfig) => {
         },
         output: {
             path: output_path,
-            filename: proxyName + '/' + (options.dev ? '[name].js' : '[name].[chunkhash].js'),
+            filename:  options.dev ? '[name].js' : '[name].[chunkhash].js',
             // publicPath: options.dev ? '/':'',
-            publicPath: "",
+            publicPath: "login/",
         },
         module: {
             rules: [{
@@ -94,7 +94,7 @@ module.exports = (options, webpackConfig) => {
             new CopyWebpackPlugin([
                 {
                     from: 'src/public',
-                    to: options.dev ? output_path : ('./' + proxyName),
+                    to: output_path,
                 },
             ]),
             new HtmlWebpackPlugin({
@@ -105,7 +105,7 @@ module.exports = (options, webpackConfig) => {
                 template: './src/index.html'
 
             }),
-            new ExtractTextPlugin('login/[name].[chunkhash].css'),
+            new ExtractTextPlugin('[name].[chunkhash].css'),
             new cleanWebpackPlugin(['./package/dist', './build']),
             new progressbarWebpack()
         ],
