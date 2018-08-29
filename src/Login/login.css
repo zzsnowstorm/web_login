@@ -1,0 +1,383 @@
+.root{
+	width: 100%;
+	height: 100%;
+	margin: 0;
+    padding: 0;
+}
+.content{
+    width: 100%;
+	height: 100%;
+	min-height: 350px;
+    margin: 0;
+    padding: 0;
+    display:flex;
+	flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.img, .loginBox{
+    height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+.img{
+    width: 62.5%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%; 
+}
+ 
+.loginBox{
+	width: 37.5%;
+	display:flex;
+	flex-direction: column;
+	justify-content: center;
+    align-items: center;
+}
+
+.loginBox .title{
+	width: 100%;
+	font-family: PingFangSC-Medium;
+	color: #233539;
+	letter-spacing: 0;
+    text-align: center;
+    font-weight: bold;
+	font-size: 48px;
+	margin: 0;
+}
+
+.loginBox form{
+	margin-top: 130px;
+	width:360px ;
+}
+
+.loginBox form > div:not(:nth-child(3)){
+	width: 100%;
+	display:flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding-bottom: 5px;
+	border-bottom: 1px solid rgba(18,33,51,0.3);
+}
+
+.loginBox form > div:nth-child(3){
+	margin-top: 10px;
+	justify-content: flex-start;
+	align-items: center;
+	font-family: PingFangSC-Regular;
+	font-size: 14px;
+	color: #233539;
+	height: 20px;
+}
+
+.loginBox form div span{
+	display: inline-block;
+	height: 20px;
+	line-height: 20px;
+	vertical-align:middle;  
+}
+
+.loginBox form div input{
+	height: 24px;
+	width: 300px;
+	margin-left: 10px;
+	border: 0;
+	padding: 0;
+}
+
+.loginBox form div input[type='checkbox']{
+	height: 16px;
+	width: 16px;
+	margin-left: 0;
+	vertical-align:middle;  
+}
+
+.loginBox form button{
+	width: 100%;
+	border: 1px solid #4DA1FF;
+	margin-top: 60px;
+	height: 48px;
+	background: #4DA1FF;
+	border-radius: 2px;
+	font-family: PingFangSC-Medium;
+	font-size: 20px;
+	color: #FFFFFF;
+	padding: 0;
+	cursor: pointer;
+}
+
+.loginBox form div input:focus{
+	outline: none;
+}
+
+.foot{
+	width:360px ;
+	margin-top: 36px;
+	font-family: PingFangSC-Regular;
+	height: 20px;
+    font-size: 20px;
+}
+
+.foot a{
+    text-decoration:none;
+}
+
+.qrCodeBox{
+	width:360px ;
+    margin-top: 140px;
+}
+
+.qrimgBox{
+    padding: 5px;
+    border-radius: 4px;
+    border: 4px solid rgba(77,161,255,0.3)
+}
+
+.qrimg{
+    width: 146px;
+    height: 146px;
+}
+
+.qrTitle{
+    display: inline-block;
+    width: 150px;
+    height: 20px;
+    margin-top: 5px;
+    line-height: 20px;
+    text-align: center;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #233539;
+}
+
+
+@media only screen and (max-height: 850px){
+	.qrCodeBox{
+		display: none;
+	}
+}
+
+@media only screen and (max-height: 540px){
+	.loginBox form{
+		margin-top: 20px;
+	}
+	.loginBox form button{
+		margin-top: 20px;
+	}
+}
+
+@media only screen and (max-width: 1440px){
+	.img{
+        display: none;
+    }
+    .loginBox{
+        width: 100%;
+	}
+}
+
+@media only screen and (max-width: 768px){
+	.loginBox form{
+		width: 320px;
+	}
+	.foot{
+		width: 320px;
+	}
+	.qrCodeBox{
+		display: none;
+	}
+}
+
+.maskLayer{
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(0,0,0,0.65);
+}
+
+.modal-wrap{
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: auto;
+}
+
+.modal-wrap .modal{
+	width: 100%;
+	margin-top: 100px;
+	margin-bottom: 24px;
+	height: 528px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0;
+	overflow: auto;
+}
+
+.modal-wrap .modal .modal-content{
+	position: relative;
+	height: 100%;
+	width: 520px;
+	background: white;
+	border-radius: 4px;
+}
+
+.modal-content .modal-close{
+	width: 56px;
+	height: 56px;
+	float: right;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+}
+
+.modal-content .modal-close img{
+	filter:alpha(Opacity=70);
+	-moz-opacity: 0.7;
+	opacity: 0.7;
+}
+
+.modal-content .modal-close:hover img{
+	filter:alpha(Opacity=100);
+	-moz-opacity: 1;
+	opacity: 1;
+}
+
+.modal-content .modal-header{
+	/* width: 472px; */
+	height: 22px;
+	padding: 16px 24px;
+	border-bottom: 1px solid rgb(232,232,232);
+}
+
+.modal-content .modal-body{
+	/* width: 472px; */
+	height: 372px;
+	padding: 24px;
+	border-bottom: 1px solid rgb(232,232,232);
+}
+
+.modal-content .modal-body .modal-form{
+	width: 100%;
+	height: 100%;
+}
+
+.modal-form .modal-item{
+	height: 61px;
+	padding: 0px 0px 9px 0px;
+	margin:  0px 0px 24px 0px;
+}
+
+.modal-form .modal-item .item-lable{
+	width: 100%;
+	height: 21px;
+	padding: 0 0 8px 0;
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+.red{
+	color: red;
+}
+
+.red::-webkit-input-placeholder{
+	color: red;
+}
+.red:-moz-placeholder{
+	color: red;
+}
+.red::-moz-placeholder{
+	color: red;
+}
+.red:-ms-input-placeholder{
+	color: red;
+}
+
+.modal-form .modal-item .item-control{
+	width: 100%;
+	height: 32px;
+}
+
+.item-control input,select{
+	width: 100%;
+	height: 100%;
+	border: 1px solid rgb(232,232,232);
+	border-radius: 4px;
+	padding: 0;
+	text-indent:11px;
+}
+
+.explain{
+	height: 20px;
+	font-size: 14px;
+}
+
+.item-control input:focus{
+	outline: 0;
+    box-shadow: 0 0 0 2px rgba(24,144,255,.2);
+}
+
+.item-control input:focus, .item-control input:hover {
+    border-color: #40a9ff;
+    border-right-width: 1px!important;
+}
+
+.item-control select:focus{
+	outline: 0;
+    box-shadow: 0 0 0 2px rgba(24,144,255,.2);
+}
+
+.item-control select:focus, .item-control select:hover {
+    border-color: #40a9ff;
+    border-right-width: 1px!important;
+}
+
+.modal-content .modal-foot{
+	/* width: 488px; */
+	height: 32px;
+	padding: 10px 16px;
+}
+
+.item-control .check-error{
+	width: 100%;
+	height: 100%;
+	border: 1px solid red;
+	border-radius: 4px;
+	padding: 0;
+}
+
+.item-control .check-error:focus, .item-control .check-error:hover {
+    border-color: red;
+    border-right-width: 1px!important;
+}
+
+.item-control .check-error:focus{
+	outline: 0;
+    box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+}
+
+.modal-foot button{
+	float: right;
+	font-weight: 400;
+	text-align: center;
+	border: 1px solid transparent;
+	font-size: 14px;
+    border-radius: 4px;
+	height: 32px;
+	padding: 0px 15px;
+	background-color: rgb(24, 144, 255);
+	color: white;
+	cursor: pointer;
+}
+
+@media only screen and (max-width: 767px){
+	.modal-wrap .modal .modal-content{
+		width: 90%;
+	}
+}
