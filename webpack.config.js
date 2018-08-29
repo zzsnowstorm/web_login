@@ -49,7 +49,7 @@ module.exports = (options, webpackConfig) => {
                     use: ['css-loader']
                 })
             }, {
-                test: /\.(png|jpg|gif)$/,
+                test: /\.(png|jpg|gif|svg)$/,
                 use: [
                     {
                         loader: 'url-loader',
@@ -94,7 +94,7 @@ module.exports = (options, webpackConfig) => {
             new CopyWebpackPlugin([
                 {
                     from: 'src/public',
-                    to: options.dev ? output_path : ('./' + proxyName),
+                    to: options.dev ? output_path : ('./'),
                 },
             ]),
             new HtmlWebpackPlugin({
