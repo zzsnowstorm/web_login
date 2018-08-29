@@ -94,7 +94,7 @@ module.exports = (options, webpackConfig) => {
             new CopyWebpackPlugin([
                 {
                     from: 'src/public',
-                    to: options.dev ? output_path : ('./'),
+                    to: options.dev ? output_path : ('./' + proxyName),
                 },
             ]),
             new HtmlWebpackPlugin({
