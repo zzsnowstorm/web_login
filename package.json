@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server -d --hot --host 0.0.0.0 --env.dev",
-    "build": "webpack -p --env --mode production"
+    "build": "webpack -p --env --mode production",
+    "deploy": "cd package && sh deploy.sh "
   },
   "author": "xiaotong.shi",
   "license": "ISC",
