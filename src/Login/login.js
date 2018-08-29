@@ -19,6 +19,7 @@ export default class Login extends Component{
             loginFocus:{},
             _version: 0,
 
+            origin: window.store.origin,
             remembered: window.store.remembered,
             token: window.store.tokenInfo && window.store.tokenInfo.accessToken,
             user: window.store.user,
@@ -26,7 +27,7 @@ export default class Login extends Component{
     }
 
     handleSubmit(){
-        const {login, loginCheck, remembered} = this.state;
+        const {login, loginCheck, remembered, origin} = this.state;
         const check = Object.keys(login).find((key)=>{return this.isNull(login[key])});
         if(check){
             loginCheck[check] = true;
@@ -59,7 +60,7 @@ export default class Login extends Component{
                             setStorage('user', userData);
                             window.store.user = userData;
     
-                            window.location.href = window.location.origin + '#/index';
+                            window.location.href = origin + '/#/index';
                         }
                         
                     })
@@ -128,9 +129,9 @@ export default class Login extends Component{
     }
 
     jumpIfAlreadyLogin() {
-        const { user, remembered, token } = this.state
+        const { user, remembered, token, origin } = this.state
         if (remembered && token && user && user.customer) {
-            window.location.href = window.location.origin + '#/index';
+            window.location.href = origin + '/#/index';
         } else {
             clearStorage()
         }
@@ -145,7 +146,6 @@ export default class Login extends Component{
         window.store.locale = locale || 'zh-CN';
 
         this.state.locale = locale || 'zh-CN';
-        document.title = getString("login");
     }
 
     componentDidMount(){
@@ -168,7 +168,7 @@ export default class Login extends Component{
     }
 
     render(){
-        const {locale, origin, remembered, modal, loginCheck, loginFocus} = this.state;
+        const {locale, remembered, origin, modal, loginCheck, loginFocus} = this.state;
 
         return (<div className='root'>
                     <div className='content'>
