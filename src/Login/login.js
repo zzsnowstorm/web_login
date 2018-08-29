@@ -12,8 +12,8 @@ export default class Login extends Component{
         this.state = {
             modal: false,
             login:{
-                userName: 'admin',
-                password: 'admin@2018'
+                userName: '',
+                password: ''
             },
             loginCheck:{},
             loginFocus:{},
@@ -172,7 +172,7 @@ export default class Login extends Component{
 
         return (<div className='root'>
                     <div className='content'>
-                        <div className='img' style={{backgroundImage: 'url(./landing_img_3@3x.png)'}}></div>
+                        <div className='img' style={{backgroundImage: 'url(./landing_img_3@3x.jpg)'}}></div>
                         <div className='loginBox'>
                             <div className="title">{locale=='zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
                             <form>

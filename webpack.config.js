@@ -113,7 +113,7 @@ module.exports = (options, webpackConfig) => {
             contentBase: path.resolve(__dirname, 'dist'),
             host: 'localhost',
             compress: false,
-            port: 8080,
+            port: 8000,
             proxy: [
                 // {
                 //     context: ['/api/mdm/page'],
