@@ -172,12 +172,12 @@ export default class Login extends Component{
 
         return (<div className='root'>
                     <div className='content'>
-                        <div className='img' style={{backgroundImage: 'url(./landing_img_3@3x.jpg)'}}></div>
+                        <div className='img' ></div>
                         <div className='loginBox'>
                             <div className="title">{locale=='zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
                             <form>
                                 <div style={{borderBottomColor: loginFocus['userName'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)'}}>
-                                    <Icon size={[24,24]} iconPath='./user.svg' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
+                                    <Icon size={[24,24]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
                                     <input type="text" name='userName' 
                                         onInput={(e)=>{this.checkLogin(e)}} 
                                         onFocus={(e)=>{ this.setLoginFocus(e,true) }}
@@ -187,7 +187,7 @@ export default class Login extends Component{
                                 </div>
                                 <div style={{marginTop: window.innerHeight <= 450 ? 30 : 55,
                                             borderBottomColor: loginFocus['password'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)'}}>
-                                    <Icon size={[24,24]} iconPath='./lock.svg' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
+                                    <Icon size={[24,24]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
                                     <input type="password" name='password' 
                                         onInput={(e)=>{this.checkLogin(e)}} 
                                         onFocus={(e)=>{ this.setLoginFocus(e,true) }}
@@ -308,7 +308,8 @@ class Logon extends Component{
                         <div className="modal" data-type="modal"> 
                             <div className="modal-content"> 
                                 <div className='modal-close' onClick={()=>{this.props.modalHide()}}>
-                                    <img src="./close.svg" style={{width: 22, height: 22}} />
+                                    {/* <img src="./close.svg" style={{width: 22, height: 22}} /> */}
+                                    <i style={{ fontSize: 22, color: 'black', lineHeight: 22 }} className="iconfont icon-close" />
                                 </div>
                                 <div className='modal-header'>
                                     <div>{getString("apply+customer+account")}</div>

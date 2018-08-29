@@ -23,7 +23,8 @@
 }
 
 .img{
-    width: 62.5%;
+	width: 62.5%;
+	background-image: url(../public/landing_img_3@3x.jpg);
     background-repeat: no-repeat;
     background-size: 100% 100%; 
 }
@@ -237,13 +238,13 @@
 	cursor: pointer;
 }
 
-.modal-content .modal-close img{
+.modal-content .modal-close i{
 	filter:alpha(Opacity=70);
 	-moz-opacity: 0.7;
 	opacity: 0.7;
 }
 
-.modal-content .modal-close:hover img{
+.modal-content .modal-close:hover i{
 	filter:alpha(Opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;

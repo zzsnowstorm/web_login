@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Login from './Login/login';
 import './index.css';
+import './public/iconfont.css';
 
 window.store || (window.store = {});
 
