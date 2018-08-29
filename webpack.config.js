@@ -21,7 +21,7 @@ module.exports = (options, webpackConfig) => {
         },
         output: {
             path: output_path,
-            filename: options.dev ? '[name].js' : '[name].[chunkhash].js',
+            filename: options.dev ? 'login/[name].js' : 'login/[name].[chunkhash].js',
             // publicPath: options.dev ? '/':'',
             publicPath: "",
         },
@@ -104,7 +104,7 @@ module.exports = (options, webpackConfig) => {
                 template: './src/index.html'
 
             }),
-            new ExtractTextPlugin('[name].[chunkhash].css'),
+            new ExtractTextPlugin('login/[name].[chunkhash].css'),
             new cleanWebpackPlugin(['./package/dist', './build']),
             new progressbarWebpack()
         ],
