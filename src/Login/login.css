@@ -120,7 +120,7 @@
 .loginBox form button{
 	width: 100%;
 	border: 1px solid #4DA1FF;
-	margin-top: 60px;
+	margin-top: 55px;
 	height: 48px;
 	background: #4DA1FF;
 	border-radius: 2px;
@@ -137,10 +137,10 @@
 
 .foot{
 	width:360px ;
-	margin-top: 36px;
+	margin-top: 20px;
 	font-family: PingFangSC-Regular;
 	height: 20px;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .foot a{
