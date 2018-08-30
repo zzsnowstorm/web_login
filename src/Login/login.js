@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import QRCode  from 'qrcode-react';
 import Icon from '../compent/Icon';
 import getString from '../util/intl';
-import {clearStorage, setStorage, setCookie, getCookie} from '../util/index';
+import {clearStorage, setStorage, setCookie, getStorage} from '../util/index';
 import axios from 'axios';
 import './login.css';
 
@@ -20,7 +20,7 @@ export default class Login extends Component{
             _version: 0,
 
             origin: window.store.origin,
-            remembered: window.store.remembered,
+            remembered: getStorage('remembered') == '1' ? true : false,
             token: window.store.tokenInfo && window.store.tokenInfo.accessToken,
             user: window.store.user,
         };
