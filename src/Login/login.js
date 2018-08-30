@@ -169,16 +169,15 @@ export default class Login extends Component{
 
     render(){
         const {locale, remembered, origin, modal, loginCheck, loginFocus} = this.state;
-        
-        const showImage = window.innerWidth<1440 ? true : false;
+        const isMobile = (window.innerWidth < 768 || window.innerHeight < 768)? true : false;
+
+        const loginBoxStyle = isMobile ? {width: '100%'} : {width: 500};
+        const loginTitleStyle = isMobile ? ( window.innerHeight > 600 ?{marginTop: 70} : {marginTop: 20}) : {marginTop: 80};
 
         return (<div className='root'>
-                    <div className='content'>
-                        {showImage ? '':
-                            <div className='img' style={{backgroundImage: 'url(login/landing_img_3@3x.jpg)'}}></div>
-                        }
-                        <div className='loginBox'>
-                            <div className="title">{locale=='zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
+                    <div className='content' style={{backgroundImage: isMobile ? '' : 'url(landing_img_3@3x.png)', backgroundSize: window.screen.width + 'px 100%' }}>
+                        <div className='loginBox' style={loginBoxStyle}>
+                            <div className="title" style={loginTitleStyle}>{locale=='zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
                             <form>
                                 <div style={{borderBottomColor: loginFocus['userName'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)'}}>
                                     <Icon iconSize={[24,24]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
@@ -189,7 +188,7 @@ export default class Login extends Component{
                                         className={loginCheck['userName'] ? 'red' : ''} 
                                         placeholder={getString("please+fill+userName")} />
                                 </div>
-                                <div style={{marginTop: window.innerHeight <= 450 ? 30 : 55,
+                                <div style={{marginTop: 30,
                                             borderBottomColor: loginFocus['password'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)'}}>
                                     <Icon iconSize={[24,24]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
                                     <input type="password" name='password' 
@@ -201,7 +200,6 @@ export default class Login extends Component{
                                 </div>
                                 <div>
                                     <span className={'checkBox ' + (remembered ? 'checked' : '')} onClick={()=>{this.setState({remembered: !remembered})} } >
-                                        {/* <input type="checkbox" checked={remembered} onChange={(e)=>{this.setState({remembered: e.target.checked})}} /> */}
                                         {
                                             !remembered ? '': 
                                             <Icon iconSize={[14,14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />
@@ -213,13 +211,14 @@ export default class Login extends Component{
                                 <button type="button" onClick={()=>{this.handleSubmit()}}>{locale=='zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</button>  
                             </form>
                             <div className="foot">
-                                <a href="#" style={{color:'#4DA1FF'}} onClick={()=>{this.setState({modal: true})}}>{getString('apply+account')}</a>
+                                <a href="#" style={{color:'#4DA1FF'}} onClick={()=>{ this.setState({modal: true})}}>{getString('apply+account')}</a>
                                 <div style={{float: 'right'}}>
                                     <a href="#"  style={{color: locale=='zh-CN' ? '#4DA1FF': '#11171B'}} onClick={()=>{this.setLocale('zh-CN')}}>中文</a>
                                     /
                                     <a href="#" style={{color: locale=='zh-CN' ? '#11171B': '#4DA1FF'}} onClick={()=>{this.setLocale('en-US')}}>English</a>
                                 </div>
                             </div>
+                            {isMobile ? '' :
                             <div className='qrCodeBox'>
                                 <div style={{float: 'left'}}>
                                     <div className='qrimgBox'>
@@ -233,12 +232,10 @@ export default class Login extends Component{
                                     </div>
                                     <span className='qrTitle'>android {getString('scan_code_download')}</span>
                                 </div>
-                            </div>
+                            </div>}
                         </div>
                     </div>
-                    {!modal ? '' :
-                        <Logon modalHide={()=>{this.setState({modal: false})}} />
-                    }
+                    <Logon modal={modal} modalHide={()=>{this.setState({modal: false})}} />
                 </div>)
     }
 }
@@ -247,6 +244,7 @@ class Logon extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            init: false,
             logon:{
                 mdmId: '',
                 name: '',
@@ -308,16 +306,30 @@ class Logon extends Component{
         return value===undefined||value===null||value==='';
     }
 
-    render(){
-        const {logonCheck} = this.state;
+    componentWillUpdate(){
+        if(!this.props.modal){
+            setTimeout(() => {
+                this.setState({init: false})
+            }, 500);
 
-        return (<div style={{zIndex: 9999}}>
+            //this.state.init = false;
+        }else{
+            this.state.init = true;
+        }
+    }
+
+    render(){
+        const {init, logonCheck} = this.state;
+        const {modal} = this.props;
+
+        return !modal ? '': 
+                (<div style={{zIndex: 9999}}>
                     <div className='maskLayer'></div>
                     <div className='modal-wrap' data-type="modal" onClick={(e)=>{
                         (e.target.dataset.type=='modal')&&this.props.modalHide()
                     }}>
                         <div className="modal" data-type="modal"> 
-                            <div className="modal-content"> 
+                            <div className={"modal-content " + (modal ? 'md-show' : 'md-hide')}> 
                                 <div className='modal-close' onClick={()=>{this.props.modalHide()}}>
                                     {/* <img src="./close.svg" style={{width: 22, height: 22}} /> */}
                                     <i style={{ fontSize: 22, color: 'black', lineHeight: 22 }} className="iconfont icon-close" />
