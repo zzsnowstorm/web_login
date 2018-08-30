@@ -173,9 +173,11 @@ export default class Login extends Component{
         const {locale, remembered, origin, modal, loginCheck, loginFocus} = this.state;
         const isMobile = (window.innerWidth < 768 || window.innerHeight < 768)? true : false;
 
-        const contentStyle = isMobile ? {} : {backgroundImage: 'url(login/landing_img_3@3x.jpg)', backgroundSize: window.screen.width + 'px 100%', opacity: 0.9 }
+        const imgWidth = 1.2*window.innerHeight*window.screen.width/window.screen.height;
+
+        const contentStyle = isMobile ? {} : {backgroundImage: 'url(login/landing_img_3@3x.jpg)', backgroundSize: imgWidth + 'px ' + window.innerHeight + 'px', opacity: 0.9 }
         const loginBoxStyle = isMobile ? {width: '100%'} : {width: 500};
-        const loginTitleStyle = isMobile ? ( window.innerHeight > 600 ?{marginTop: 70} : {marginTop: 20}) : {marginTop: 80};
+        const loginTitleStyle = isMobile ? ( window.innerHeight > 600 ?{marginTop: 0-window.innerHeight*0.1} : {marginTop: 0}) : {marginTop: 0-window.innerHeight*0.3};
 
         return (<div className='root'>
                     <div className='content' style={contentStyle}>
