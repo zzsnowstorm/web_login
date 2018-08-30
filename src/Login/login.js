@@ -175,7 +175,7 @@ export default class Login extends Component{
         const loginTitleStyle = isMobile ? ( window.innerHeight > 600 ?{marginTop: 70} : {marginTop: 20}) : {marginTop: 80};
 
         return (<div className='root'>
-                    <div className='content' style={{backgroundImage: isMobile ? '' : 'url(login/landing_img_3@3x.png)', backgroundSize: window.screen.width + 'px 100%' }}>
+                    <div className='content' style={{backgroundImage: isMobile ? '' : 'url(login/landing_img_3@3x.jpg)', backgroundSize: window.screen.width + 'px 100%' }}>
                         <div className='loginBox' style={loginBoxStyle}>
                             <div className="title" style={loginTitleStyle}>{locale=='zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
                             <form>
