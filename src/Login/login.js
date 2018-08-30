@@ -200,7 +200,14 @@ export default class Login extends Component{
                                         placeholder={getString("please+fill+password")} />
                                 </div>
                                 <div>
-                                    <input type="checkbox" checked={remembered} onChange={(e)=>{this.setState({remembered: e.target.checked})}} />
+                                    <span className={'checkBox ' + (remembered ? 'checked' : '')} onClick={()=>{this.setState({remembered: !remembered})} } >
+                                        {/* <input type="checkbox" checked={remembered} onChange={(e)=>{this.setState({remembered: e.target.checked})}} /> */}
+                                        {
+                                            !remembered ? '': 
+                                            <Icon iconSize={[14,14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />
+                                        }
+                                    </span>
+                                    
                                     <span>{getString('remember+password')}</span>
                                 </div>
                                 <button type="button" onClick={()=>{this.handleSubmit()}}>{locale=='zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</button>  

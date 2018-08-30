@@ -72,12 +72,35 @@
 	height: 20px;
 }
 
-.loginBox form div span{
-	display: inline-block;
-	height: 20px;
-	line-height: 20px;
+.loginBox form > div > span{
+	height: 16px;
+	margin-left: 0;
 	vertical-align:middle;  
 }
+
+.loginBox form > div > .checkBox{
+	display:inline-block;
+	width: 15px;
+	height: 15px;
+	margin-left: 0;
+	margin-right: 10px;
+	border: 1px solid rgba(0,0,0,0.3);
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+.loginBox form > div > .checked{
+	background: rgb(24, 144, 255);
+	border: 1px solid rgb(24, 144, 255);
+}
+
+/* .checked > span{
+	display:inline-block;
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+} */
 
 .loginBox form div input{
 	height: 24px;
@@ -87,12 +110,12 @@
 	padding: 0;
 }
 
-.loginBox form div input[type='checkbox']{
+/* .loginBox form div input[type='checkbox']{
 	height: 16px;
 	width: 16px;
 	margin-left: 0;
 	vertical-align:middle;  
-}
+} */
 
 .loginBox form button{
 	width: 100%;
