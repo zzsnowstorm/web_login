@@ -169,15 +169,19 @@ export default class Login extends Component{
 
     render(){
         const {locale, remembered, origin, modal, loginCheck, loginFocus} = this.state;
+        
+        const showImage = window.innerWidth<1440 ? true : false;
 
         return (<div className='root'>
                     <div className='content'>
-                        <div className='img' ></div>
+                        {showImage ? '':
+                            <div className='img' style={{backgroundImage: 'url(login/landing_img_3@3x.jpg)'}}></div>
+                        }
                         <div className='loginBox'>
                             <div className="title">{locale=='zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
                             <form>
                                 <div style={{borderBottomColor: loginFocus['userName'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)'}}>
-                                    <Icon size={[24,24]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
+                                    <Icon iconSize={[24,24]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
                                     <input type="text" name='userName' 
                                         onInput={(e)=>{this.checkLogin(e)}} 
                                         onFocus={(e)=>{ this.setLoginFocus(e,true) }}
@@ -187,7 +191,7 @@ export default class Login extends Component{
                                 </div>
                                 <div style={{marginTop: window.innerHeight <= 450 ? 30 : 55,
                                             borderBottomColor: loginFocus['password'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)'}}>
-                                    <Icon size={[24,24]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
+                                    <Icon iconSize={[24,24]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
                                     <input type="password" name='password' 
                                         onInput={(e)=>{this.checkLogin(e)}} 
                                         onFocus={(e)=>{ this.setLoginFocus(e,true) }}
