@@ -146,6 +146,8 @@ export default class Login extends Component{
         window.store.locale = locale || 'zh-CN';
 
         this.state.locale = locale || 'zh-CN';
+        window.document.title = getString('login')
+
     }
 
     componentDidMount(){
