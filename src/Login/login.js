@@ -244,13 +244,13 @@ export default class Login extends Component {
                         <div className='qrCodeBox'>
                             <div style={{ float: 'left' }}>
                                 <div className='qrimgBox'>
-                                    <QRCode value={origin + "/static/node/media/share_app_andriod?share=true"} size={146} />
+                                    <QRCode value={origin + "/static/node/media/share_app_android?share=true"} size={146} />
                                 </div>
                                 <span className='qrTitle'>ios {getString('scan_code_download')}</span>
                             </div>
                             <div style={{ float: 'right' }}>
                                 <div className='qrimgBox'>
-                                    <QRCode value={origin + "/static/node/media/share_app_andriod?share=true"} size={146} />
+                                    <QRCode value={origin + "/static/node/media/share_app_android?share=true"} size={146} />
                                 </div>
                                 <span className='qrTitle'>android {getString('scan_code_download')}</span>
                             </div>
