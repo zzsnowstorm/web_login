@@ -10,10 +10,10 @@ module.exports = (options, webpackConfig) => {
     const distName = "dist"
     const packagePath = 'package/'
     const proxyName = 'login'
-    // if (!options.dev) {
-    //     const dockerContent = "FROM nginx\r\nCOPY nginx.conf /etc/nginx/nginx.conf\r\nCOPY " + distName + " /etc/nginx/" + distName
-    //     fs.writeFile(packagePath + "Dockerfile", dockerContent)
-    // }
+    if (!options.dev) {
+        const dockerContent = "FROM nginx\r\nCOPY nginx.conf /etc/nginx/nginx.conf\r\nCOPY " + distName + " /etc/nginx/" + distName
+        fs.writeFile(packagePath + "Dockerfile", dockerContent)
+    }
     const output_path = path.resolve(__dirname, packagePath + distName)
     return {
         mode: options.dev ? 'development' : 'production',
@@ -48,14 +48,13 @@ module.exports = (options, webpackConfig) => {
                     fallback: 'style-loader',
                     use: ['css-loader']
                 })
-            },
-            {
+            }, {
                 test: /\.(png|jpg|gif|svg)$/,
                 use: [
                     {
                         loader: 'url-loader',
                         options: {
-                             limit: '2097152'
+                            limit: '8192'
                         }
                     }]
             }, {
