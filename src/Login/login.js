@@ -189,7 +189,7 @@ export default class Login extends Component {
 
         const imgWidth = 1.2 * window.innerHeight * window.screen.width / window.screen.height;
 
-        const contentStyle = isMobile ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: 'contain', opacity: 0.9 }
+        const contentStyle = isMobile ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: imgWidth +'px ' + window.innerHeight + 'px', opacity: 0.9 }
         const loginBoxStyle = isMobile ? { width: '100%' } : { width: 500 };
         const loginTitleStyle = isMobile ? (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.1 } : { marginTop: 0 }) : { marginTop: 0 - window.innerHeight * 0.3 };
 
@@ -246,13 +246,13 @@ export default class Login extends Component {
                         <div className='qrCodeBox'>
                             <div style={{ float: 'left' }}>
                                 <div className='qrimgBox'>
-                                    <QRCode value={origin + "/static/node/media/share_app_android?share=true"} size={146} />
+                                    <QRCode value={origin + "/static/node/media/share_app_andriod?share=true"} size={146} />
                                 </div>
                                 <span className='qrTitle'>ios {getString('scan_code_download')}</span>
                             </div>
                             <div style={{ float: 'right' }}>
                                 <div className='qrimgBox'>
-                                    <QRCode value={origin + "/static/node/media/share_app_android?share=true"} size={146} />
+                                    <QRCode value={origin + "/static/node/media/share_app_andriod?share=true"} size={146} />
                                 </div>
                                 <span className='qrTitle'>android {getString('scan_code_download')}</span>
                             </div>
