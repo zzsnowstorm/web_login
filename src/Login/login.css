@@ -198,6 +198,65 @@
 	border-radius: 4px;
 }
 
+.md-show .maskLayer{
+	animation: modalShow-maskLayer 0.4s;
+}
+
+.md-hide .maskLayer{
+	background: rgba(0,0,0,0);
+	animation: modalHide-maskLayer 0.4s;
+}
+
+@keyframes modalShow-maskLayer{
+	from {
+		background: rgba(0,0,0,0);
+	}
+    to {
+		background: rgba(0,0,0,0.65);
+	}
+}
+
+@keyframes modalHide-maskLayer{
+	from {
+		background: rgba(0,0,0,0.65);
+	}
+    to {
+		background: rgba(0,0,0,0);
+	}
+}
+
+
+.md-show .modal-content{
+	animation: modalShow-content 0.4s;
+}
+
+.md-hide .modal-content{
+	opacity: 0;
+	animation: modalHide-content 0.4s;
+}
+
+@keyframes modalShow-content{
+	from {
+		transform: scale(0.5);
+		opacity: 0;
+	}
+    to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes modalHide-content{
+	from {
+		transform: scale(1);
+		opacity: 1;
+	}
+    to {
+		transform: scale(0.5);
+		opacity: 0;
+	}
+}
+
 .modal-content .modal-close{
 	width: 56px;
 	height: 56px;

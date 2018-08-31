@@ -10,7 +10,10 @@ export default class Login extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            modal: false,
+            modal: {
+                init: false,
+                show: false
+            },
             login:{
                 userName: '',
                 password: ''
@@ -123,6 +126,18 @@ export default class Login extends Component{
         this.setState({locale: locale});
     }
 
+    modalHide(){
+        const {modal} = this.state;
+        modal.show = false;
+
+        setTimeout(() => {
+            modal.init = false;
+            this.setState({modal: modal})
+        }, 400);
+
+        this.setState({modal: modal})
+    }
+
     onWindowResize(){
         console.log('window resize');
         this.setState({_version: this.state._version + 1});
@@ -147,7 +162,6 @@ export default class Login extends Component{
 
         this.state.locale = locale || 'zh-CN';
         window.document.title = getString('login')
-
     }
 
     componentDidMount(){
@@ -216,7 +230,9 @@ export default class Login extends Component{
                                 <button type="button" onClick={()=>{this.handleSubmit()}}>{locale=='zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</button>  
                             </form>
                             <div className="foot">
-                                <a href="#" style={{color:'#4DA1FF'}} onClick={()=>{ this.setState({modal: true})}}>{getString('apply+account')}</a>
+                                <a href="#" style={{color:'#4DA1FF'}} onClick={()=>{ 
+                                    this.setState({modal: {init: true, show: true}})}}
+                                >{getString('apply+account')}</a>
                                 <div style={{float: 'right'}}>
                                     <a href="#"  style={{color: locale=='zh-CN' ? '#4DA1FF': '#11171B'}} onClick={()=>{this.setLocale('zh-CN')}}>中文</a>
                                     /
@@ -240,7 +256,8 @@ export default class Login extends Component{
                             </div>}
                         </div>
                     </div>
-                    <Logon modal={modal} modalHide={()=>{this.setState({modal: false})}} />
+                    {!modal.init ? '' :
+                      <Logon modal={modal} modalHide={()=>{this.modalHide()}} />}
                 </div>)
     }
 }
@@ -249,7 +266,6 @@ class Logon extends Component{
     constructor(props) {
         super(props);
         this.state = {
-            init: false,
             logon:{
                 mdmId: '',
                 name: '',
@@ -311,30 +327,18 @@ class Logon extends Component{
         return value===undefined||value===null||value==='';
     }
 
-    componentWillUpdate(){
-        if(!this.props.modal){
-            setTimeout(() => {
-                this.setState({init: false})
-            }, 500);
-
-            //this.state.init = false;
-        }else{
-            this.state.init = true;
-        }
-    }
-
     render(){
-        const {init, logonCheck} = this.state;
+        const {logonCheck} = this.state;
         const {modal} = this.props;
+        console.log(modal);
 
-        return !modal ? '': 
-                (<div style={{zIndex: 9999}}>
+        return  <div className={modal.show ? 'md-show' : 'md-hide'} style={{zIndex: 9999}}>
                     <div className='maskLayer'></div>
                     <div className='modal-wrap' data-type="modal" onClick={(e)=>{
                         (e.target.dataset.type=='modal')&&this.props.modalHide()
                     }}>
                         <div className="modal" data-type="modal"> 
-                            <div className={"modal-content " + (modal ? 'md-show' : 'md-hide')}> 
+                            <div className="modal-content"> 
                                 <div className='modal-close' onClick={()=>{this.props.modalHide()}}>
                                     {/* <img src="./close.svg" style={{width: 22, height: 22}} /> */}
                                     <i style={{ fontSize: 22, color: 'black', lineHeight: 22 }} className="iconfont icon-close" />
@@ -392,7 +396,7 @@ class Logon extends Component{
                             </div>
                         </div>
                     </div>
-                </div>)
+                </div>
     }
 }
 
