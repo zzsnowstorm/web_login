@@ -1,4 +1,23 @@
-const setStorage = (key, data) => {
+import config from './config';
+import getString from './intl';
+
+const setStore = (key, data) => {
+  if (window.store) {
+    window.store[key] = data
+  } else {
+    window.store = { key: data }
+  }
+}
+
+const getStore = (key) => {
+  if (window.store && window.store[key] != null) {
+    return _.cloneDeep(window.store[key])
+  } else {
+    return null
+  }
+}
+
+ const setStorage = (key, data) => {
     try {
       if (data instanceof Object) {
         let json = JSON.stringify(data)
@@ -11,13 +30,7 @@ const setStorage = (key, data) => {
     }
   }
 
-  const getStore = (key) => {
-    if (window.store && window.store[key] != null) {
-      return _.cloneDeep(window.store[key])
-    } else {
-      return null
-    }
-  }
+
   
   const getStorage = (key, isObj) => {
     let str
@@ -86,8 +99,11 @@ const setStorage = (key, data) => {
   }
 
   export {
+    getString,
+    config,
     setStorage,
     getStore,
+    setStore,
     getStorage,
     delStorage,
     getToken,

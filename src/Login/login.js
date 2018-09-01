@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import QRCode from 'qrcode-react';
 import Icon from '../compent/Icon';
-import getString from '../util/intl';
-import { clearStorage, setStorage, setCookie, getStorage } from '../util/index';
+import { getString, config, clearStorage, setStorage, setCookie, getStorage, setStore } from '../util/index';
 import axios from 'axios';
 import './login.css';
 
@@ -10,6 +9,7 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            loading: false,
             modal: {
                 init: false,
                 show: false
@@ -29,6 +29,79 @@ export default class Login extends Component {
         };
     }
 
+    jumpIfAlreadyLoad(){
+        try{
+            const { user } = window.store;
+            const { menus, componentList, pageList } = window.store.page
+            user && menus && componentList && pageList && (window.location = '/#/index');
+        }catch(e){
+            console.warn("load cache page error:" + err)
+        }
+    }
+
+    parseMenus(menus, pageList) {
+        menus.map(menu => {
+            menu.menu || ((pageList.push(menu)) && (menu.link = '/' + menu.key))
+            menu.containers && menu.containers.length > 0 && (this.parseMenus(menu.containers, pageList))
+        })
+    }
+
+    fetchMdmData(params, callback){
+        const { group, type } = params
+        const Authorization = 'Bearer ' + getStorage('token', true).accessToken
+        const url = '/api/mdm/' + group + '/' + type;
+
+        axios.get(url,{
+            headers: { Authorization, "Accept-Language": window.store.locale },
+        }).then((response)=>{
+            (response.status == '200') ? callback&&callback(response.data) : '';
+        }).catch((error) => {
+            this.setState({loading: false});
+            alert(error);
+        })
+    }
+
+    fetchMdmDatas(){
+        this.fetchMdmData({ group: 'page', type: 'component'}, (componentList) => {
+            this.fetchMdmData({ group: 'page', type: 'container' }, (subMenus) => {
+                if (subMenus && subMenus.length > 0) {
+                    const pageList = []
+                    this.parseMenus(subMenus, pageList)
+                    // 普通用户不能访问配置管理 hard code
+                    // const menusHard = subMenus.filter(m => group || m.key != 'config_center')
+                    const menus = subMenus.sort((a, b) => a.index > b.index)
+                    const page = {
+                        menus,
+                        pageList,
+                        componentList
+                    }
+                    setStore('page', page)
+                    setStorage("page", page)
+
+                    this.jumpIfAlreadyLoad()
+                } else {
+                    this.fetchMdmData({ group: 'page', type: 'container' }, (pageList) => {
+                        const  menus = config.mock.menus;
+                        pageList.map(page => {
+                            const subMenu = menus.find(menu => menu.key == page.pId)
+                            page.link = '/' + page.key
+                            subMenu && !subMenu.containers.find(m => m.mdmId == page.mdmId) && subMenu.containers.push(page)
+                        })
+                        const page = {
+                            menus,
+                            pageList,
+                            componentList
+                        }
+                        setStore('page', page)
+                        setStorage("page", page)
+
+                        this.jumpIfAlreadyLoad()
+                    })
+                }
+            })
+        })
+    }
+
     handleSubmit() {
         const { login, loginCheck, remembered, origin } = this.state;
         const check = Object.keys(login).find((key) => { return this.isNull(login[key]) });
@@ -37,44 +110,43 @@ export default class Login extends Component {
             this.setState({ loginCheck: loginCheck });
         } else {
             axios.post('/api/users/login', login)
-                .then((response) => {
-                    if (response.status == '200') {
-                        const accessToken = response.data.accessToken;
-                        const refreshToken = response.data.refreshToken;
+            .then((response) => {
+                if (response.status == '200') {
+                    const accessToken = response.data.accessToken;
+                    const refreshToken = response.data.refreshToken;
 
-                        //remembered && setCookie('login', JSON.stringify(login))
+                    const _remembered = remembered ? 1 : 0;
+                    setStorage('remembered', _remembered)
+                    window.store.remembered = _remembered
+                    setStorage('token', { accessToken, refreshToken })
+                    window.store = { ...window.store, tokenInfo: { accessToken, refreshToken } }
 
-                        const _remembered = remembered ? 1 : 0;
-                        setStorage('remembered', _remembered)
-                        window.store.remembered = _remembered
-                        setStorage('token', { accessToken, refreshToken })
-                        window.store = { ...window.store, tokenInfo: { accessToken, refreshToken } }
+                    const Authorization = 'Bearer ' + accessToken;
+                    axios.get('/api/mdm/person/user/' + response.data.user.userId, {
+                        headers: { Authorization, "Accept-Language": window.store.locale },
+                    }).then((response) => {
+                        if (response.status == '200') {
+                            const userData = {
+                                ...response.data.user,
+                                ...response.data
+                            }
+                            setStorage('user', userData);
+                            window.store.user = userData;
+                            this.jumpIfAlreadyLoad()
+                            //window.location.href = origin + '/#/index';
+                        }
+                    }).catch((error) => {
+                        alert(error.response.status);
+                    });
 
-                        const Authorization = 'Bearer ' + accessToken;
-                        axios.get('/api/mdm/person/user/' + response.data.user.userId, {
-                            headers: { Authorization, "Accept-Language": window.store.locale },
-                        })
-                            .then((response) => {
-                                if (response.status == '200') {
-                                    const userData = {
-                                        ...response.data.user,
-                                        ...response.data
-                                    }
-                                    setStorage('user', userData);
-                                    window.store.user = userData;
-
-                                    window.location.href = origin + '/#/index';
-                                }
-
-                            })
-                            .catch((error) => {
-                                alert(error.response.status);
-                            })
-                    }
-                })
-                .catch((error) => {
-                    alert(error.response.data.error);
-                });
+                    this.fetchMdmDatas();
+                }
+            })
+            .catch((error) => {
+                this.setState({loading: false});
+                alert(error.response.data.error);
+            });
+            this.setState({loading: true});
         }
     }
 
@@ -184,10 +256,11 @@ export default class Login extends Component {
     }
 
     render() {
-        const { locale, remembered, origin, modal, loginCheck, loginFocus } = this.state;
+        const { locale, remembered, origin, modal, loginCheck, loginFocus, loading } = this.state;
         const isMobile = (window.innerWidth < 768 || window.innerHeight < 768) ? true : false;
+        const imgWidth = window.innerWidth < 1524 ? 1024 : window.innerWidth-500;
 
-        const contentStyle = isMobile ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (window.innerWidth-500) +'px ' + window.innerHeight + 'px', opacity: 0.9 }
+        const contentStyle = isMobile ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (imgWidth) +'px ' + window.innerHeight + 'px', opacity: 0.9 }
         const loginBoxStyle = isMobile ? { width: '100%' } : { width: 500 };
         const loginTitleStyle = isMobile ? (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.1 } : { marginTop: 0 }) : { marginTop: 0 - window.innerHeight * 0.3 };
 
@@ -241,29 +314,46 @@ export default class Login extends Component {
                         </div>
                     </div>
                     {isMobile ? '' :
-                        <div className='qrCodeBox'>
-                            <div style={{ float: 'left' }}>
+                        <div className='qrCodeBox' style={{top: 0.65*window.innerHeight}}>
+                            {/* <div style={{ float: 'left' }}>
                                 <div className='qrimgBox'>
                                     <QRCode value={origin + "/static/node/media/share_app_android?share=true"} size={146} />
                                 </div>
                                 <span className='qrTitle'>ios {getString('scan_code_download')}</span>
-                            </div>
-                            <div style={{ float: 'right' }}>
-                                <div className='qrimgBox'>
-                                    <QRCode value={origin + "/static/node/media/share_app_android?share=true"} size={146} />
+                            </div> */}
+                            <div>
+                                <div className='qrimgBox' style={{width: 200, margin: '0 auto'}}>
+                                    <QRCode value={origin + "/static/node/media/share_app_android?share=true"} size={200} />
                                 </div>
-                                <span className='qrTitle'>android {getString('scan_code_download')}</span>
+                                <span className='qrTitle' style={{width: '100%', textAlign: 'center'}}>android {getString('scan_code_download')}</span>
                             </div>
                         </div>}
                 </div>
             </div>
             {!modal.init ? '' :
                 <Logon modal={modal} modalHide={() => { this.modalHide() }} />}
+            {!loading ? '' :
+                <div style={{ zIndex: 9999 }}>
+                    <div className='maskLayer'></div>
+                    <div className='modal-wrap loading'>
+                        <div className="la-ball-spin-clockwise">
+						    <div></div>
+						    <div></div>
+						    <div></div>
+						    <div></div>
+						    <div></div>
+						    <div></div>
+						    <div></div>
+						    <div></div>
+						</div>
+                    </div>
+                </div>
+            }
         </div>)
     }
 }
 
-class Logon extends Component {
+class Logon extends Component { 
     constructor(props) {
         super(props);
         this.state = {
