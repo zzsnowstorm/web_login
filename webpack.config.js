@@ -1,20 +1,19 @@
 const path = require('path');
 const fs = require('fs');
-const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
 const progressbarWebpack = require('progress-bar-webpack-plugin');
-module.exports = (options, webpackConfig) => {
-    const distName = "dist"
-    const packagePath = 'package/'
-    const proxyName = 'login'
+module.exports = (options) => {
+    const distName = 'dist';
+    const packagePath = 'package/';
+    const proxyName = 'login';
     if (!options.dev) {
-        const dockerContent = "FROM nginx\r\nCOPY nginx.conf /etc/nginx/nginx.conf\r\nCOPY " + distName + " /etc/nginx/" + distName
-        fs.writeFile(packagePath + "Dockerfile", dockerContent)
+        const dockerContent = 'FROM nginx\r\nCOPY nginx.conf /etc/nginx/nginx.conf\r\nCOPY ' + distName + ' /etc/nginx/' + distName;
+        fs.writeFile(packagePath + 'Dockerfile', dockerContent);
     }
-    const output_path = path.resolve(__dirname, packagePath + distName)
+    const output_path = path.resolve(__dirname, packagePath + distName);
     return {
         mode: options.dev ? 'development' : 'production',
         entry: {
@@ -24,8 +23,8 @@ module.exports = (options, webpackConfig) => {
             path: output_path,
             filename: proxyName + '/' + (options.dev ? '[name].js' : '[name].[chunkhash].js'),
             // publicPath: options.dev ? '/':'',
-            publicPath: "",
-        },
+            publicPath: '',
+        }, 
         module: {
             rules: [{
                 test: /\.(js|jsx)$/,
@@ -33,30 +32,35 @@ module.exports = (options, webpackConfig) => {
                 exclude: /node_modules/,
                 options: {
                     plugins: [
-                        ['import', { libraryName: "antd", style: true }]
-                    ]
+                        ['import', { libraryName: 'antd', style: true }],
+                    ],
                 },
-            }, {
+            },{
+                test: /\.(js|jsx)$/,
+                enforce: 'pre',
+                include: [path.resolve(__dirname, 'src')], // 指定检查的目录
+                loader: 'eslint-loader',
+            },{
                 test: /\.less/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader', 'less-loader']
-                })
+                    use: ['css-loader', 'less-loader'],
+                }),
             }, {
                 test: /\.css$/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader']
-                })
+                    use: ['css-loader'],
+                }),
             }, {
                 test: /\.(png|jpg|gif|svg)$/,
                 use: [
                     {
                         loader: 'url-loader',
                         options: {
-                            limit: '8192'
-                        }
-                    }]
+                            limit: '8192',
+                        },
+                    }],
             }, {
                 test: /\.(woff|woff2|ttf|eot|svg|otf)\/?.*$/i,
                 loader: 'file-loader?name=res/fonts/[path][name].[ext]',
@@ -65,12 +69,12 @@ module.exports = (options, webpackConfig) => {
                 test: /\.json$/,
                 loader: 'json-loader',
                 exclude: /node_modules/,
-            }]
+            }],
         },
-        devtool: options.dev ? "cheap-module-eval-source-map" : undefined,
+        devtool: options.dev ? 'cheap-module-eval-source-map' : undefined,
         optimization: {
             runtimeChunk: {
-                name: "manifest"
+                name: 'manifest',
             },
             splitChunks: {
                 chunks: 'initial', // 只对入口文件处理
@@ -79,16 +83,16 @@ module.exports = (options, webpackConfig) => {
                         test: /node_modules\//,
                         name: 'vendor',
                         priority: 10,
-                        enforce: true
+                        enforce: true,
                     },
                     commons: { // split util、components、layouts、page、service目录下被打包的代码到`commons.js && .css`
                         test: /util\/|components\/|layout\/|page\/|service\//,
                         name: 'commons',
                         priority: 10,
-                        enforce: true
-                    }
-                }
-            }
+                        enforce: true,
+                    },
+                },
+            },
         },
         plugins: [
             new CopyWebpackPlugin([
@@ -99,15 +103,14 @@ module.exports = (options, webpackConfig) => {
             ]),
             new HtmlWebpackPlugin({
                 minify: {
-                    removeAttributeQuotes: true
+                    removeAttributeQuotes: true,
                 },
                 hash: true,
-                template: './src/index.html'
-
+                template: './src/index.html',
             }),
             new ExtractTextPlugin('login/[name].[chunkhash].css'),
             new cleanWebpackPlugin(['./package/dist', './build']),
-            new progressbarWebpack()
+            new progressbarWebpack(),
         ],
         devServer: {
             historyApiFallback: true,
@@ -150,7 +153,7 @@ module.exports = (options, webpackConfig) => {
                 //     target: 'http://localhost:8012',
                 //     secure: false
                 // }
-            ]
+            ],
         },
-    }
-}
+    };
+};
