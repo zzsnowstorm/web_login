@@ -10,6 +10,7 @@ export default class Login extends Component {
         super(props);
         this.state = {
             loading: false,
+            loadingText: '',
             modal: {
                 init: false,
                 show: false
@@ -104,6 +105,48 @@ export default class Login extends Component {
         })
     }
 
+    loginSubmit(){
+        const { login, remembered } = this.state;
+
+        axios.post('/api/users/login', login)
+        .then((response) => {
+            if (response.status == '200') {
+                const accessToken = response.data.accessToken;
+                const refreshToken = response.data.refreshToken;
+
+                const _remembered = remembered ? 1 : 0;
+                setStorage('remembered', _remembered)
+                window.store.remembered = _remembered
+                setStorage('token', { accessToken, refreshToken })
+                window.store = { ...window.store, tokenInfo: { accessToken, refreshToken } }
+
+                const Authorization = 'Bearer ' + accessToken;
+                axios.get('/api/mdm/person/user/' + response.data.user.userId, {
+                    headers: { Authorization, "Accept-Language": window.store.locale },
+                }).then((response) => {
+                    if (response.status == '200') {
+                        const userData = {
+                            ...response.data.user,
+                            ...response.data
+                        }
+                        setStorage('user', userData);
+                        window.store.user = userData;
+                        this.jumpIfAlreadyLoad()
+                        //window.location.href = origin + '/#/index';
+                    }
+                }).catch((error) => {
+                    alert(error.response.status);
+                });
+
+                this.fetchMdmDatas();
+            }
+        })
+        .catch((error) => {
+            this.setState({loading: false});
+            alert(error.response.data.error);
+        });
+    }
+
     handleSubmit() {
         const { login, loginCheck, remembered, origin } = this.state;
         const check = Object.keys(login).find((key) => { return this.isNull(login[key]) });
@@ -111,44 +154,17 @@ export default class Login extends Component {
             loginCheck[check] = true;
             this.setState({ loginCheck: loginCheck });
         } else {
-            axios.post('/api/users/login', login)
-            .then((response) => {
-                if (response.status == '200') {
-                    const accessToken = response.data.accessToken;
-                    const refreshToken = response.data.refreshToken;
 
-                    const _remembered = remembered ? 1 : 0;
-                    setStorage('remembered', _remembered)
-                    window.store.remembered = _remembered
-                    setStorage('token', { accessToken, refreshToken })
-                    window.store = { ...window.store, tokenInfo: { accessToken, refreshToken } }
+            window.setTimeout(()=>{
+                this.setState({loadingText: '正在加载主数据...'})
+            },100);
 
-                    const Authorization = 'Bearer ' + accessToken;
-                    axios.get('/api/mdm/person/user/' + response.data.user.userId, {
-                        headers: { Authorization, "Accept-Language": window.store.locale },
-                    }).then((response) => {
-                        if (response.status == '200') {
-                            const userData = {
-                                ...response.data.user,
-                                ...response.data
-                            }
-                            setStorage('user', userData);
-                            window.store.user = userData;
-                            this.jumpIfAlreadyLoad()
-                            //window.location.href = origin + '/#/index';
-                        }
-                    }).catch((error) => {
-                        alert(error.response.status);
-                    });
+            window.setTimeout(()=>{
+                this.loginSubmit();
+                this.setState({loadingText: '加载完成，正在渲染...'})
+            },400);
 
-                    this.fetchMdmDatas();
-                }
-            })
-            .catch((error) => {
-                this.setState({loading: false});
-                alert(error.response.data.error);
-            });
-            this.setState({loading: true});
+            this.setState({loading: true, loadingText: '正在建立连接...'});
         }
     }
 
@@ -259,7 +275,7 @@ export default class Login extends Component {
     }
 
     render() {
-        const { locale, remembered, origin, modal, loginCheck, loginFocus, loading } = this.state;
+        const { locale, remembered, origin, modal, loginCheck, loginFocus, loading, loadingText } = this.state;
         const isMobile = (window.innerWidth < 768 || window.innerHeight < 768) ? true : false;
         const imgWidth = window.innerWidth < 1524 ? 1024 : window.innerWidth-500;
 
@@ -351,7 +367,7 @@ export default class Login extends Component {
                                 <div></div>
                             </div>
                             <div className='loadingText'>
-                                <strong>LOADING . . .</strong>
+                                <strong>{loadingText}</strong>
                             </div>
                         </div>
                     </div>
