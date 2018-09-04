@@ -157,11 +157,11 @@ export default class Login extends Component {
 
             window.setTimeout(()=>{
                 this.setState({loadingText: '正在加载主数据...'})
-            },1000);
+            },300);
 
             window.setTimeout(()=>{
                 this.setState({loadingText: '加载完成，正在渲染...'})
-            },4000);
+            },600);
 
             this.loginSubmit();
             this.setState({loading: true, loadingText: '正在建立连接...'});
