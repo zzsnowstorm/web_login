@@ -418,6 +418,17 @@
     align-items: center;
 }
 
+.loading > .loadingBack{
+	width: 300px;
+}
+
+.loading > .loadingBack > .loadingText{
+	color: #fff;
+	width: 100%;
+	text-align: center;
+	margin-top: 25px;
+}
+
 .la-ball-spin-clockwise,.la-ball-spin-clockwise>div {
     position: relative;
     -webkit-box-sizing: border-box;
@@ -426,7 +437,8 @@
 }
 
 .la-ball-spin-clockwise {
-    display: block;
+	display: block;
+	margin: 0 auto;
     font-size: 0;
 	color: #fff;
 	width: 50px;

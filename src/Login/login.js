@@ -31,11 +31,13 @@ export default class Login extends Component {
 
     jumpIfAlreadyLoad(){
         try{
-            const { user } = window.store;
-            const { menus, componentList, pageList } = window.store.page
-            user && menus && componentList && pageList && (window.location = '/#/index');
+            const { user,page } = window.store;
+            if(page){
+                const { menus, componentList, pageList } = page 
+                user && menus && componentList && pageList && (window.location = '/#/index');
+            } 
         }catch(e){
-            console.warn("load cache page error:" + err)
+            console.warn("load cache page error:" + e)
         }
     }
 
@@ -216,8 +218,9 @@ export default class Login extends Component {
     }
 
     jumpIfAlreadyLogin() {
-        const { user, remembered, token, origin } = this.state
-        if (remembered && token && user && user.customer) {
+        const { user, remembered, token, origin, page } = this.state
+
+        if (remembered && token && user && user.customer && page && page.menus && page.componentList && page.pageList) {
             window.location.href = origin + '/#/index';
         } else {
             clearStorage()
@@ -310,7 +313,7 @@ export default class Login extends Component {
                         <div style={{ float: 'right' }}>
                             <a href="#" style={{ color: locale == 'zh-CN' ? '#4DA1FF' : '#11171B' }} onClick={() => { this.setLocale('zh-CN') }}>中文</a>
                             /
-                                    <a href="#" style={{ color: locale == 'zh-CN' ? '#11171B' : '#4DA1FF' }} onClick={() => { this.setLocale('en-US') }}>English</a>
+                            <a href="#" style={{ color: locale == 'zh-CN' ? '#11171B' : '#4DA1FF' }} onClick={() => { this.setLocale('en-US') }}>English</a>
                         </div>
                     </div>
                     {isMobile ? '' :
@@ -336,16 +339,21 @@ export default class Login extends Component {
                 <div style={{ zIndex: 9999 }}>
                     <div className='maskLayer'></div>
                     <div className='modal-wrap loading'>
-                        <div className="la-ball-spin-clockwise">
-						    <div></div>
-						    <div></div>
-						    <div></div>
-						    <div></div>
-						    <div></div>
-						    <div></div>
-						    <div></div>
-						    <div></div>
-						</div>
+                        <div className='loadingBack'>
+                            <div className="la-ball-spin-clockwise">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                            <div className='loadingText'>
+                                <strong>LOADING . . .</strong>
+                            </div>
+                        </div>
                     </div>
                 </div>
             }
