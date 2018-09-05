@@ -276,8 +276,8 @@ export default class Login extends Component {
         const isMobile = (window.innerWidth < 768 || window.innerHeight < 768);
         const imgWidth = window.innerWidth < 1524 ? 1024 : window.innerWidth - 500;
 
-        const contentStyle = isMobile ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
-        const loginBoxStyle = isMobile ? { width: '100%' } : { width: 500 };
+        const contentStyle = isMobile || (window.innerWidth < 1024) ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
+        const loginBoxStyle = isMobile || (window.innerWidth < 1024) ? { width: '100%' } : { width: 500 };
         const loginTitleStyle = isMobile ? (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.1 } : { marginTop: 0 }) : { marginTop: 0 - window.innerHeight * 0.3 };
 
         return (<div className='root'>
