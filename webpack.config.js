@@ -24,7 +24,7 @@ module.exports = (options) => {
             filename: proxyName + '/' + (options.dev ? '[name].js' : '[name].[chunkhash].js'),
             // publicPath: options.dev ? '/':'',
             publicPath: '',
-        }, 
+        },
         module: {
             rules: [{
                 test: /\.(js|jsx)$/,
@@ -35,12 +35,12 @@ module.exports = (options) => {
                         ['import', { libraryName: 'antd', style: true }],
                     ],
                 },
-            },{
+            }, {
                 test: /\.(js|jsx)$/,
                 enforce: 'pre',
                 include: [path.resolve(__dirname, 'src')], // 指定检查的目录
                 loader: 'eslint-loader',
-            },{
+            }, {
                 test: /\.less/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
