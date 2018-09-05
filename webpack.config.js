@@ -39,7 +39,7 @@ module.exports = (options) => {
                 test: /\.(js|jsx)$/,
                 enforce: 'pre',
                 include: [path.resolve(__dirname, 'src')], // 指定检查的目录
-                loader: 'eslint-loader',
+                loader: ['babel-loader', 'eslint-loader'],
             }, {
                 test: /\.less/,
                 use: ExtractTextPlugin.extract({
