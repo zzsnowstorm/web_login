@@ -278,7 +278,7 @@ export default class Login extends Component {
 
         const contentStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
         const loginBoxStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? { width: '100%' } : { width: 500 };
-        const loginTitleStyle = isMobile ? (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.4 } : { marginTop: 0 }) : { marginTop: 0 - window.innerHeight * 0.3 };
+        const loginTitleStyle = isMobile ? (window.width < 768 ? { marginTop: 0 } : (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.4 } : { marginTop: 0 })) : { marginTop: 0 - window.innerHeight * 0.3 };
 
         return (<div className='root'>
             <div className='content' style={contentStyle}>
@@ -326,7 +326,7 @@ export default class Login extends Component {
                         </div>
                     </div>
                     {
-                        window.innerHeight <= 600 ? '' : <div className='qrCodeBox' style={{ top: window.innerHeight < 768 ? 0.6 * window.innerHeight : 0.65 * window.innerHeight }}>
+                        window.innerHeight <= 600 || window.innerWidth < 768 ? '' : <div className='qrCodeBox' style={{ top: window.innerHeight < 768 ? 0.6 * window.innerHeight : 0.65 * window.innerHeight }}>
                             {/* <div style={{ float: 'left' }}>
                                 <div className='qrimgBox'>
                                     <QRCode value={origin + '/static/node/media/share_app_android?share=true'} size={146} />
