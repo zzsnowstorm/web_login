@@ -58,7 +58,7 @@ export default class Login extends Component {
         axios.get(url,{
             headers: { Authorization, 'Accept-Language': window.store.locale },
         }).then((response)=>{
-            (response.status === '200') ? callback && callback(response.data) : '';
+            (response.status === 200) ? callback && callback(response.data) : '';
         }).catch((error) => {
             this.setState({ loading: false });
             alert(error);
@@ -110,7 +110,7 @@ export default class Login extends Component {
         const { login, remembered } = this.state;
 
         axios.post('/api/users/login', login).then((response) => {
-            if (response.status === '200') {
+            if (response.status === 200) {
                 const { accessToken, refreshToken } = response.data;
 
                 const _remembered = remembered ? 1 : 0;
@@ -123,7 +123,7 @@ export default class Login extends Component {
                 axios.get('/api/mdm/person/user/' + response.data.user.userId, {
                     headers: { Authorization, 'Accept-Language': window.store.locale },
                 }).then((_response) => {
-                    if (_response.status === '200') {
+                    if (_response.status === 200) {
                         const userData = {
                             ..._response.data.user,
                             ..._response.data,
@@ -276,7 +276,7 @@ export default class Login extends Component {
         const isMobile = (window.innerWidth < 768 || window.innerHeight < 768) ? true : false;
         const imgWidth = window.innerWidth < 1524 ? 1024 : window.innerWidth - 500;
 
-        const contentStyle = isMobile ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
+        const contentStyle = isMobile ? {} : { backgroundImage: 'url(sparks.jpg)', backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
         const loginBoxStyle = isMobile ? { width: '100%' } : { width: 500 };
         const loginTitleStyle = isMobile ? (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.1 } : { marginTop: 0 }) : { marginTop: 0 - window.innerHeight * 0.3 };
 
@@ -407,7 +407,7 @@ class Logon extends Component {
             axios.post(this.objToUrl('/api/mdm/customer/register', logon))
                 .then((response) => {
                     console.log(response);
-                    if (response.status === '200') {
+                    if (response.status === 200) {
                         alert('申请成功!审核通过后我们会将账号信息发送至您的手机');
                         this.props.modalHide();
                     }
