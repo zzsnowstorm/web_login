@@ -274,11 +274,11 @@ export default class Login extends Component {
     render() {
         const { locale, remembered, origin, modal, loginCheck, loginFocus, loading, loadingText } = this.state;
         const isMobile = (window.innerWidth < 768 || window.innerHeight < 768);
-        const imgWidth = window.innerWidth < 1524 ? 1024 : window.innerWidth - 500;
+        const imgWidth = window.innerWidth < 1224 ? 800 : window.innerWidth - 500;
 
         const contentStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
         const loginBoxStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? { width: '100%' } : { width: 500 };
-        const loginTitleStyle = isMobile ? (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.1 } : { marginTop: 0 }) : { marginTop: 0 - window.innerHeight * 0.3 };
+        const loginTitleStyle = isMobile ? (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.4 } : { marginTop: 0 }) : { marginTop: 0 - window.innerHeight * 0.3 };
 
         return (<div className='root'>
             <div className='content' style={contentStyle}>
@@ -326,7 +326,7 @@ export default class Login extends Component {
                         </div>
                     </div>
                     {
-                        isMobile ? '' : <div className='qrCodeBox' style={{ top: 0.65 * window.innerHeight }}>
+                        window.innerHeight <= 600 ? '' : <div className='qrCodeBox' style={{ top: window.innerHeight < 768 ? 0.6 * window.innerHeight : 0.65 * window.innerHeight }}>
                             {/* <div style={{ float: 'left' }}>
                                 <div className='qrimgBox'>
                                     <QRCode value={origin + '/static/node/media/share_app_android?share=true'} size={146} />
