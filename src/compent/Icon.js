@@ -10,8 +10,8 @@ export default ({ iconPath, iconColor, iconSize = [25, 25], wrapperStyle = {}, o
     return (
         <div onClick={() => onClick && onClick()} style={{
             ...wrapperStyle,
-            width, 
-            height, 
+            width,
+            height,
             lineHeight,
             overflow: 'hidden',
             margin: wrapperStyle.margin || 'auto',

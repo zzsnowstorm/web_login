@@ -247,7 +247,7 @@ const intlMap = {
     chart_pie: ['饼状图', 'Pie'],
     chart_radial: ['径向图', 'Radial Bar'],
     full_screen: ['全屏展示', 'Full Screen'],
-    lonlat: ['经纬度','Lon & Lat'],
+    lonlat: ['经纬度', 'Lon & Lat'],
 
     device_manager_page: ['设备配置', 'Device Manager'],
     device_template_page: ['模型配置', 'Model Manager'],
@@ -270,7 +270,7 @@ const intlMap = {
 
     cannot_delete_device: ['不能删除拥有子节点的设备', 'can not delete device which has child node'],
     cannot_delete_container: ['不能删除拥有子节点的菜单', 'can not delete menu which has child node'],
-    customer_insert_device_only_one: ['该客户只能分配一个节点','The customer can only assign one node'],
+    customer_insert_device_only_one: ['该客户只能分配一个节点', 'The customer can only assign one node'],
     release_binding: ['正在解绑...', 'release binding..'],
     create_binding: ['正在绑定...', 'release binding..'],
     delete_success: ['删除成功', 'delete success'],

@@ -25,7 +25,7 @@ export default class Login extends Component {
             _version: 0,
 
             origin: window.store.origin,
-            remembered: getStorage('remembered') === '1' ? true : false,
+            remembered: getStorage('remembered') === '1',
             token: window.store.tokenInfo && window.store.tokenInfo.accessToken,
             user: window.store.user,
         };
@@ -33,7 +33,7 @@ export default class Login extends Component {
 
     jumpIfAlreadyLoad() {
         try {
-            const { user,page } = window.store;
+            const { user, page } = window.store;
             if (page) {
                 const { menus, componentList, pageList } = page;
                 user && menus && componentList && pageList && (window.location = '/#/index');
@@ -55,7 +55,7 @@ export default class Login extends Component {
         const Authorization = 'Bearer ' + getStorage('token', true).accessToken;
         const url = '/api/mdm/' + group + '/' + type;
 
-        axios.get(url,{
+        axios.get(url, {
             headers: { Authorization, 'Accept-Language': window.store.locale },
         }).then((response)=>{
             (response.status === 200) ? callback && callback(response.data) : '';
@@ -150,15 +150,15 @@ export default class Login extends Component {
         const check = Object.keys(login).find((key) => this.isNull(login[key]));
         if (check) {
             loginCheck[check] = true;
-            this.setState({ loginCheck: loginCheck });
+            this.setState({ loginCheck });
         } else {
             window.setTimeout(()=>{
                 this.setState({ loadingText: '正在加载主数据...' });
-            },300);
-    
+            }, 300);
+
             window.setTimeout(()=>{
                 this.setState({ loadingText: '加载完成，正在渲染...' });
-            },600);
+            }, 600);
 
             this.loginSubmit();
             this.setState({ loading: true, loadingText: '正在建立连接...' });
@@ -166,9 +166,9 @@ export default class Login extends Component {
     }
 
     login(e) {
-        const key = window.event ? e.keyCode : e.which;  
-        //获取被按下的键值 
-        //判断如果用户按下了回车键（keycody=13） 
+        const key = window.event ? e.keyCode : e.which;
+        //获取被按下的键值
+        //判断如果用户按下了回车键keycody=13
         if (key === 13) {
             this.handleSubmit();
         }
@@ -182,7 +182,7 @@ export default class Login extends Component {
 
         if (loginCheck[name] !== this.isNull(value)) {
             loginCheck[name] = this.isNull(value);
-            this.setState({ loginCheck: loginCheck });
+            this.setState({ loginCheck });
         }
     }
 
@@ -195,7 +195,7 @@ export default class Login extends Component {
         const { name } = e.target;
 
         loginFocus[name] = bool;
-        this.setState({ loginFocus: loginFocus });
+        this.setState({ loginFocus });
     }
 
     getLocale() {
@@ -211,7 +211,7 @@ export default class Login extends Component {
     setLocale(locale) {
         setStorage('locale', locale);
         window.store.locale = locale;
-        this.setState({ locale: locale });
+        this.setState({ locale });
     }
 
     modalHide() {
@@ -220,10 +220,10 @@ export default class Login extends Component {
 
         setTimeout(() => {
             modal.init = false;
-            this.setState({ modal: modal });
+            this.setState({ modal });
         }, 400);
 
-        this.setState({ modal: modal });
+        this.setState({ modal });
     }
 
     onWindowResize() {
@@ -273,7 +273,7 @@ export default class Login extends Component {
 
     render() {
         const { locale, remembered, origin, modal, loginCheck, loginFocus, loading, loadingText } = this.state;
-        const isMobile = (window.innerWidth < 768 || window.innerHeight < 768) ? true : false;
+        const isMobile = (window.innerWidth < 768 || window.innerHeight < 768);
         const imgWidth = window.innerWidth < 1524 ? 1024 : window.innerWidth - 500;
 
         const contentStyle = isMobile ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
@@ -315,7 +315,7 @@ export default class Login extends Component {
                         <button type='button' onClick={() => { this.handleSubmit(); }}>{locale === 'zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</button>
                     </form>
                     <div className='foot'>
-                        <a href='#' style={{ color: '#4DA1FF' }} 
+                        <a href='#' style={{ color: '#4DA1FF' }}
                             onClick={() => { this.setState({ modal: { init: true, show: true } }); }}>
                             {getString('apply+account')}
                         </a>
@@ -348,18 +348,18 @@ export default class Login extends Component {
             }
             {
                 !loading ? '' : <div style={{ zIndex: 9999 }}>
-                    <div className='maskLayer'></div>
+                    <div className='maskLayer' />
                     <div className='modal-wrap loading'>
                         <div className='loadingBack'>
                             <div className='la-ball-spin-clockwise'>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                                <div></div>
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
+                                <div />
                             </div>
                             <div className='loadingText'>
                                 <strong>{loadingText}</strong>
@@ -372,7 +372,7 @@ export default class Login extends Component {
     }
 }
 
-class Logon extends Component { 
+class Logon extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -402,7 +402,7 @@ class Logon extends Component {
         const check = Object.keys(logon).find(key => this.isNull(logon[key]));
         if (check) {
             logonCheck[check] = true;
-            this.setState({ logonCheck: logonCheck });
+            this.setState({ logonCheck });
         } else {
             axios.post(this.objToUrl('/api/mdm/customer/register', logon))
                 .then((response) => {
@@ -426,7 +426,7 @@ class Logon extends Component {
 
         if (logonCheck[name] !== this.isNull(value)) {
             logonCheck[name] = this.isNull(value);
-            this.setState({ logonCheck: logonCheck });
+            this.setState({ logonCheck });
         }
     }
 
@@ -439,8 +439,8 @@ class Logon extends Component {
         const { modal } = this.props;
 
         return (<div className={modal.show ? 'md-show' : 'md-hide'} style={{ zIndex: 9999 }}>
-            <div className='maskLayer'></div>
-            <div className='modal-wrap' data-type='modal' 
+            <div className='maskLayer' />
+            <div className='modal-wrap' data-type='modal'
                 onClick={(e) => {
                     (e.target.dataset.type === 'modal') && this.props.modalHide();
                 }}>
@@ -457,7 +457,7 @@ class Logon extends Component {
                             <form className='modal-form'>
                                 <div className='modal-item'>
                                     <div className='item-lable'>
-                                        <span className='red'>*</span> 
+                                        <span className='red'>*</span>
                                         {getString('ID')}
                                     </div>
                                     <div className='item-control'>

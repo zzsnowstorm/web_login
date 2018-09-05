@@ -8,4 +8,4 @@ window.store || (window.store = {});
 
 window.store.origin = window.location.origin;
 
-ReactDOM.render(<Login />, document.getElementById('app')); 
+ReactDOM.render(<Login />, document.getElementById('app'));
