@@ -3,8 +3,9 @@ const fs = require('fs');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const cleanWebpackPlugin = require('clean-webpack-plugin');
-const progressbarWebpack = require('progress-bar-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ProgressbarWebpack = require('progress-bar-webpack-plugin');
+
 module.exports = (options) => {
     const distName = 'dist';
     const packagePath = 'package/';
@@ -109,8 +110,8 @@ module.exports = (options) => {
                 template: './src/index.html',
             }),
             new ExtractTextPlugin('login/[name].[chunkhash].css'),
-            new cleanWebpackPlugin(['./package/dist', './build']),
-            new progressbarWebpack(),
+            new CleanWebpackPlugin(['./package/dist', './build']),
+            new ProgressbarWebpack(),
         ],
         devServer: {
             historyApiFallback: true,
@@ -133,7 +134,7 @@ module.exports = (options) => {
                 // },
                 {
                     context: ['/sse', '/manager', '/api', '/hlslive', '/pentaho', '/domain', '/static'],
-                    //target: 'http://iiot.jowoiot.com',
+                    // target: 'http://iiot.jowoiot.com',
                     target: 'http://192.168.3.184',
                     // target: 'http://imc.rexel.com.cn',
                     secure: false,

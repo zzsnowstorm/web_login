@@ -324,7 +324,7 @@ export default function getString(param, locale) {
     if (localeMap.hasOwnProperty(locale)) {
         index = localeMap[locale];
     }
-    const text = param.split('+').map(key => {
+    const text = param.split('+').map((key) => {
         let value = key;
         if (intlMap.hasOwnProperty(key) && intlMap[key].length >= index) {
             value = intlMap[key][index];

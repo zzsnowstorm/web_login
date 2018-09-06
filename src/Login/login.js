@@ -44,7 +44,7 @@ export default class Login extends Component {
     }
 
     parseMenus(menus, pageList) {
-        menus.map(menu => {
+        menus.map((menu) => {
             menu.menu || ((pageList.push(menu)) && (menu.link = '/' + menu.key));
             menu.containers && menu.containers.length > 0 && (this.parseMenus(menu.containers, pageList));
         });
@@ -57,7 +57,7 @@ export default class Login extends Component {
 
         axios.get(url, {
             headers: { Authorization, 'Accept-Language': window.store.locale },
-        }).then((response)=>{
+        }).then((response) => {
             (response.status === 200) ? callback && callback(response.data) : '';
         }).catch((error) => {
             this.setState({ loading: false });
@@ -86,7 +86,7 @@ export default class Login extends Component {
                 } else {
                     this.fetchMdmData({ group: 'page', type: 'container' }, (pageList) => {
                         const { menus } = config.mock;
-                        pageList.map(page => {
+                        pageList.map((page) => {
                             const subMenu = menus.find(menu => menu.key === page.pId);
                             page.link = '/' + page.key;
                             subMenu && !subMenu.containers.find(m => m.mdmId === page.mdmId) && subMenu.containers.push(page);
@@ -131,7 +131,7 @@ export default class Login extends Component {
                         setStorage('user', userData);
                         window.store.user = userData;
                         this.jumpIfAlreadyLoad();
-                        //window.location.href = origin + '/#/index';
+                        // window.location.href = origin + '/#/index';
                     }
                 }).catch((error) => {
                     alert(error.response.status);
@@ -147,16 +147,16 @@ export default class Login extends Component {
 
     handleSubmit() {
         const { login, loginCheck } = this.state;
-        const check = Object.keys(login).find((key) => this.isNull(login[key]));
+        const check = Object.keys(login).find(key => this.isNull(login[key]));
         if (check) {
             loginCheck[check] = true;
             this.setState({ loginCheck });
         } else {
-            window.setTimeout(()=>{
+            window.setTimeout(() => {
                 this.setState({ loadingText: '正在加载主数据...' });
             }, 300);
 
-            window.setTimeout(()=>{
+            window.setTimeout(() => {
                 this.setState({ loadingText: '加载完成，正在渲染...' });
             }, 600);
 
@@ -167,8 +167,8 @@ export default class Login extends Component {
 
     login(e) {
         const key = window.event ? e.keyCode : e.which;
-        //获取被按下的键值
-        //判断如果用户按下了回车键keycody=13
+        // 获取被按下的键值
+        // 判断如果用户按下了回车键keycody=13
         if (key === 13) {
             this.handleSubmit();
         }
@@ -261,8 +261,8 @@ export default class Login extends Component {
         const { login } = this.state;
         // 强制重写用户名密码,阻止微信浏览器等重写表单
         setTimeout(() => {
-            login.userName && (document.querySelector(`input[name='userName']`).value = login.userName);
-            login.password && (document.querySelector(`input[name='password']`).value = login.password);
+            login.userName && (document.querySelector('input[name=\'userName\']').value = login.userName);
+            login.password && (document.querySelector('input[name=\'password\']').value = login.password);
         }, 20);
     }
 
@@ -280,95 +280,102 @@ export default class Login extends Component {
         const loginBoxStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? { width: '100%' } : { width: 500 };
         const loginTitleStyle = isMobile ? (window.width < 768 ? { marginTop: 0 } : (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.4 } : { marginTop: 0 })) : { marginTop: 0 - window.innerHeight * 0.3 };
 
-        return (<div className='root'>
-            <div className='content' style={contentStyle}>
-                <div className='loginBox' style={loginBoxStyle}>
-                    <div className='title' style={loginTitleStyle}>{locale === 'zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
-                    <form>
-                        <div style={{ borderBottomColor: loginFocus['userName'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)' }}>
-                            <Icon iconSize={[24, 24]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
-                            <input type='text' name='userName'
-                                onInput={(e) => { this.checkLogin(e); }}
-                                onFocus={(e) => { this.setLoginFocus(e, true); }}
-                                onBlur={(e) => { this.setLoginFocus(e, false); }}
-                                className={loginCheck['userName'] ? 'red' : ''}
-                                placeholder={getString('please+fill+userName')} />
-                        </div>
-                        <div style={{
-                            marginTop: 30,
-                            borderBottomColor: loginFocus['password'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)',
-                        }}>
-                            <Icon iconSize={[24, 24]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
-                            <input type='password' name='password'
-                                onInput={(e) => { this.checkLogin(e); }}
-                                onFocus={(e) => { this.setLoginFocus(e, true); }}
-                                onBlur={(e) => { this.setLoginFocus(e, false); }}
-                                className={loginCheck['password'] ? 'red' : ''}
-                                placeholder={getString('please+fill+password')} />
-                        </div>
-                        <div>
-                            <span className={'checkBox ' + (remembered ? 'checked' : '')} onClick={() => { this.setState({ remembered: !remembered }); }}>
-                                {!remembered ? '' : <Icon iconSize={[14, 14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />}
-                            </span>
-                            <span>{getString('remember+password')}</span>
-                        </div>
-                        <button type='button' onClick={() => { this.handleSubmit(); }}>{locale === 'zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</button>
-                    </form>
-                    <div className='foot'>
-                        <a href='#' style={{ color: '#4DA1FF' }}
-                            onClick={() => { this.setState({ modal: { init: true, show: true } }); }}>
-                            {getString('apply+account')}
-                        </a>
-                        <div style={{ float: 'right' }}>
-                            <a href='#' style={{ color: locale === 'zh-CN' ? '#4DA1FF' : '#11171B' }} onClick={() => { this.setLocale('zh-CN'); }}>中文</a>
-                            /
-                            <a href='#' style={{ color: locale === 'zh-CN' ? '#11171B' : '#4DA1FF' }} onClick={() => { this.setLocale('en-US'); }}>English</a>
-                        </div>
-                    </div>
-                    {
-                        window.innerHeight <= 600 || window.innerWidth < 768 ? '' : <div className='qrCodeBox' style={{ top: window.innerHeight < 768 ? 0.6 * window.innerHeight : 0.65 * window.innerHeight }}>
-                            {/* <div style={{ float: 'left' }}>
-                                <div className='qrimgBox'>
-                                    <QRCode value={origin + '/static/node/media/share_app_android?share=true'} size={146} />
-                                </div>
-                                <span className='qrTitle'>ios {getString('scan_code_download')}</span>
-                            </div> */}
+        return (
+            <div className='root'>
+                <div className='content' style={contentStyle}>
+                    <div className='loginBox' style={loginBoxStyle}>
+                        <div className='title' style={loginTitleStyle}>{locale === 'zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
+                        <form>
+                            <div style={{ borderBottomColor: loginFocus['userName'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)' }}>
+                                <Icon iconSize={[24, 24]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
+                                <input type='text' name='userName'
+                                    onInput={(e) => { this.checkLogin(e); }}
+                                    onFocus={(e) => { this.setLoginFocus(e, true); }}
+                                    onBlur={(e) => { this.setLoginFocus(e, false); }}
+                                    className={loginCheck['userName'] ? 'red' : ''}
+                                    placeholder={getString('please+fill+userName')}
+                                />
+                            </div>
+                            <div style={{
+                                marginTop: 30,
+                                borderBottomColor: loginFocus['password'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)',
+                            }}>
+                                <Icon iconSize={[24, 24]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
+                                <input type='password' name='password'
+                                    onInput={(e) => { this.checkLogin(e); }}
+                                    onFocus={(e) => { this.setLoginFocus(e, true); }}
+                                    onBlur={(e) => { this.setLoginFocus(e, false); }}
+                                    className={loginCheck['password'] ? 'red' : ''}
+                                    placeholder={getString('please+fill+password')} />
+                            </div>
                             <div>
-                                <div className='qrimgBox' style={{ width: 200, margin: '0 auto' }}>
-                                    <QRCode value={origin + '/static/node/media/share_app_android?share=true'} size={200} />
+                                <span className={'checkBox ' + (remembered ? 'checked' : '')} onClick={() => { this.setState({ remembered: !remembered }); }}>
+                                    {!remembered ? '' : <Icon iconSize={[14, 14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />}
+                                </span>
+                                <span>{getString('remember+password')}</span>
+                            </div>
+                            <button type='button' onClick={() => { this.handleSubmit(); }}>{locale === 'zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</button>
+                        </form>
+                        <div className='foot'>
+                            <a href='#' style={{ color: '#4DA1FF' }}
+                                onClick={() => { this.setState({ modal: { init: true, show: true } }); }}>
+                                {getString('apply+account')}
+                            </a>
+                            <div style={{ float: 'right' }}>
+                                <a href='#' style={{ color: locale === 'zh-CN' ? '#4DA1FF' : '#11171B' }} onClick={() => { this.setLocale('zh-CN'); }}>中文</a>
+                                /
+                                <a href='#' style={{ color: locale === 'zh-CN' ? '#11171B' : '#4DA1FF' }} onClick={() => { this.setLocale('en-US'); }}>English</a>
+                            </div>
+                        </div>
+                        {
+                            window.innerHeight <= 600 || window.innerWidth < 768 ? '' : (
+                                <div className='qrCodeBox' style={{ top: window.innerHeight < 768 ? 0.6 * window.innerHeight : 0.65 * window.innerHeight }}>
+                                    {/* <div style={{ float: 'left' }}>
+                                        <div className='qrimgBox'>
+                                            <QRCode value={origin + '/static/node/media/share_app_android?share=true'} size={146} />
+                                        </div>
+                                        <span className='qrTitle'>ios {getString('scan_code_download')}</span>
+                                    </div> */}
+                                    <div>
+                                        <div className='qrimgBox' style={{ width: 200, margin: '0 auto' }}>
+                                            <QRCode value={origin + '/static/node/media/share_app_android?share=true'} size={200} />
+                                        </div>
+                                        <span className='qrTitle' style={{ width: '100%', textAlign: 'center' }}>android {getString('scan_code_download')}</span>
+                                    </div>
                                 </div>
-                                <span className='qrTitle' style={{ width: '100%', textAlign: 'center' }}>android {getString('scan_code_download')}</span>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-            {
-                !modal.init ? '' : <Logon modal={modal} modalHide={() => { this.modalHide(); }} />
-            }
-            {
-                !loading ? '' : <div style={{ zIndex: 9999 }}>
-                    <div className='maskLayer' />
-                    <div className='modal-wrap loading'>
-                        <div className='loadingBack'>
-                            <div className='la-ball-spin-clockwise'>
-                                <div />
-                                <div />
-                                <div />
-                                <div />
-                                <div />
-                                <div />
-                                <div />
-                                <div />
-                            </div>
-                            <div className='loadingText'>
-                                <strong>{loadingText}</strong>
-                            </div>
-                        </div>
+                            )
+                        }
                     </div>
                 </div>
-            }
-        </div>);
+                {
+                    !modal.init ? '' : <Logon modal={modal} modalHide={() => { this.modalHide(); }} />
+                }
+                {
+                    !loading ? '' : (
+                        <div style={{ zIndex: 9999 }}>
+                            <div className='maskLayer' />
+                            <div className='modal-wrap loading'>
+                                <div className='loadingBack'>
+                                    <div className='la-ball-spin-clockwise'>
+                                        <div />
+                                        <div />
+                                        <div />
+                                        <div />
+                                        <div />
+                                        <div />
+                                        <div />
+                                        <div />
+                                    </div>
+                                    <div className='loadingText'>
+                                        <strong>{loadingText}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+            </div>
+        );
     }
 }
 
@@ -387,7 +394,7 @@ class Logon extends Component {
     }
 
     objToUrl(url, obj) {
-        const subFix = Object.keys(obj).filter(k => obj[k] != null).map((k) => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&');
+        const subFix = Object.keys(obj).filter(k => obj[k] != null).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&');
 
         if (url.indexOf('?') > 0) {
             url += '&' + subFix;
@@ -438,72 +445,74 @@ class Logon extends Component {
         const { logonCheck } = this.state;
         const { modal } = this.props;
 
-        return (<div className={modal.show ? 'md-show' : 'md-hide'} style={{ zIndex: 9999 }}>
-            <div className='maskLayer' />
-            <div className='modal-wrap' data-type='modal'
-                onClick={(e) => {
-                    (e.target.dataset.type === 'modal') && this.props.modalHide();
-                }}>
-                <div className='modal' data-type='modal'>
-                    <div className='modal-content'>
-                        <div className='modal-close' onClick={() => { this.props.modalHide(); }}>
-                            {/* <img src='./close.svg' style={{width: 22, height: 22}} /> */}
-                            <i style={{ fontSize: 22, color: 'black', lineHeight: 22 }} className='iconfont icon-close' />
-                        </div>
-                        <div className='modal-header'>
-                            <div>{getString('apply+customer+account')}</div>
-                        </div>
-                        <div className='modal-body'>
-                            <form className='modal-form'>
-                                <div className='modal-item'>
-                                    <div className='item-lable'>
-                                        <span className='red'>*</span>
-                                        {getString('ID')}
+        return (
+            <div className={modal.show ? 'md-show' : 'md-hide'} style={{ zIndex: 9999 }}>
+                <div className='maskLayer' />
+                <div className='modal-wrap' data-type='modal'
+                    onClick={(e) => {
+                        (e.target.dataset.type === 'modal') && this.props.modalHide();
+                    }}>
+                    <div className='modal' data-type='modal'>
+                        <div className='modal-content'>
+                            <div className='modal-close' onClick={() => { this.props.modalHide(); }}>
+                                {/* <img src='./close.svg' style={{width: 22, height: 22}} /> */}
+                                <i style={{ fontSize: 22, color: 'black', lineHeight: 22 }} className='iconfont icon-close' />
+                            </div>
+                            <div className='modal-header'>
+                                <div>{getString('apply+customer+account')}</div>
+                            </div>
+                            <div className='modal-body'>
+                                <form className='modal-form'>
+                                    <div className='modal-item'>
+                                        <div className='item-lable'>
+                                            <span className='red'>*</span>
+                                            {getString('ID')}
+                                        </div>
+                                        <div className='item-control'>
+                                            <input type='text' name='mdmId'
+                                                className={logonCheck['mdmId'] ? 'check-error' : ''}
+                                                onInput={(e) => { this.checkLogon(e); }} />
+                                            <div className='red explain' style={{ display: logonCheck['mdmId'] ? '' : 'none' }}>{getString('please+fill+ID')}</div>
+                                        </div>
                                     </div>
-                                    <div className='item-control'>
-                                        <input type='text' name='mdmId'
-                                            className={logonCheck['mdmId'] ? 'check-error' : ''}
-                                            onInput={(e) => { this.checkLogon(e); }} />
-                                        <div className='red explain' style={{ display: logonCheck['mdmId'] ? '' : 'none' }}>{getString('please+fill+ID')}</div>
+                                    <div className='modal-item'>
+                                        <div className='item-lable'>
+                                            <span className='red'>*</span>  {getString('company+name')}
+                                        </div>
+                                        <div className='item-control'>
+                                            <input type='text' name='name' className={logonCheck['name'] ? 'check-error' : ''} onInput={(e) => { this.checkLogon(e); }} />
+                                            <div className='red explain' style={{ display: logonCheck['name'] ? '' : 'none' }}>{getString('please+fill+company+name')}</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className='modal-item'>
-                                    <div className='item-lable'>
-                                        <span className='red'>*</span>  {getString('company+name')}
+                                    <div className='modal-item'>
+                                        <div className='item-lable'>
+                                            <span className='red'>*</span> {getString('phone')}
+                                        </div>
+                                        <div className='item-control'>
+                                            <input type='text' name='phone' className={logonCheck['phone'] ? 'check-error' : ''} onInput={(e) => { this.checkLogon(e); }} />
+                                            <div className='red explain' style={{ display: logonCheck['phone'] ? '' : 'none' }}>{getString('please+fill+phone')}</div>
+                                        </div>
                                     </div>
-                                    <div className='item-control'>
-                                        <input type='text' name='name' className={logonCheck['name'] ? 'check-error' : ''} onInput={(e) => { this.checkLogon(e); }} />
-                                        <div className='red explain' style={{ display: logonCheck['name'] ? '' : 'none' }}>{getString('please+fill+company+name')}</div>
+                                    <div className='modal-item'>
+                                        <div className='item-lable'>
+                                            <span className='red'>*</span> {getString('account+type')}
+                                        </div>
+                                        <div className='item-control'>
+                                            <select name='type' className={logonCheck['type'] ? 'check-error' : ''} onLoad={(e) => { console.log(e.target); }} onChange={(e) => { this.checkLogon(e); }}>
+                                                <option value='root'>主客户</option>
+                                            </select>
+                                            <div className='red explain' style={{ display: logonCheck['type'] ? '' : 'none' }}>{getString('please+select+account+type')}</div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div className='modal-item'>
-                                    <div className='item-lable'>
-                                        <span className='red'>*</span> {getString('phone')}
-                                    </div>
-                                    <div className='item-control'>
-                                        <input type='text' name='phone' className={logonCheck['phone'] ? 'check-error' : ''} onInput={(e) => { this.checkLogon(e); }} />
-                                        <div className='red explain' style={{ display: logonCheck['phone'] ? '' : 'none' }}>{getString('please+fill+phone')}</div>
-                                    </div>
-                                </div>
-                                <div className='modal-item'>
-                                    <div className='item-lable'>
-                                        <span className='red'>*</span> {getString('account+type')}
-                                    </div>
-                                    <div className='item-control'>
-                                        <select name='type' className={logonCheck['type'] ? 'check-error' : ''} onLoad={(e) => { console.log(e.target); }} onChange={(e) => { this.checkLogon(e); }}>
-                                            <option value='root'>主客户</option>
-                                        </select>
-                                        <div className='red explain' style={{ display: logonCheck['type'] ? '' : 'none' }}>{getString('please+select+account+type')}</div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div className='modal-foot'>
-                            <button type='button' onClick={() => { this.handleSubmit(); }}>{getString('apply')}</button>
+                                </form>
+                            </div>
+                            <div className='modal-foot'>
+                                <button type='button' onClick={() => { this.handleSubmit(); }}>{getString('apply')}</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>);
+        );
     }
 }

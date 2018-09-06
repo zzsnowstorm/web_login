@@ -14,9 +14,8 @@ const setStore = (key, data) => {
 const getStore = (key) => {
     if (window.store && window.store[key] != null) {
         return cloneDeep(window.store[key]);
-    } else {
-        return null;
     }
+    return null;
 };
 
 const setStorage = (key, data) => {
@@ -45,9 +44,8 @@ const getStorage = (key, isObj) => {
                 return null;
             }
             return JSON.parse(str);
-        } else {
-            return str;
         }
+        return str;
     } catch (err) {
         return null;
     }
