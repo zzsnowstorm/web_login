@@ -330,7 +330,7 @@ export default class Login extends Component {
                         </div>
                         {
                             window.innerHeight <= 600 || window.innerWidth < 768 ? '' : (
-                                <div className='qrCodeBox' style={{ bottom: window.innerHeight < 768 ? -0.025 * window.innerHeight : -0.25 * window.innerHeight }}>
+                                <div className='qrCodeBox' style={{ bottom: window.innerHeight < 768 ? -0.028 * window.innerHeight : -0.25 * window.innerHeight }}>
                                     {/* <div style={{ float: 'left' }}>
                                         <div className='qrimgBox'>
                                             <QRCode value={origin + '/static/node/media/share_app_android?share=true'} size={146} />
