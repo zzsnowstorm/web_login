@@ -14,14 +14,14 @@ module.exports = (options) => {
         const dockerContent = 'FROM nginx\r\nCOPY nginx.conf /etc/nginx/nginx.conf\r\nCOPY ' + distName + ' /etc/nginx/' + distName;
         fs.writeFile(packagePath + 'Dockerfile', dockerContent);
     }
-    const output_path = path.resolve(__dirname, packagePath + distName);
+    const outputPath = path.resolve(__dirname, packagePath + distName);
     return {
         mode: options.dev ? 'development' : 'production',
         entry: {
             app: './src/index.js',
         },
         output: {
-            path: output_path,
+            path: outputPath,
             filename: proxyName + '/' + (options.dev ? '[name].js' : '[name].[chunkhash].js'),
             // publicPath: options.dev ? '/':'',
             publicPath: '',
@@ -99,7 +99,7 @@ module.exports = (options) => {
             new CopyWebpackPlugin([
                 {
                     from: 'src/public',
-                    to: options.dev ? output_path : ('./' + proxyName),
+                    to: options.dev ? outputPath : ('./' + proxyName),
                 },
             ]),
             new HtmlWebpackPlugin({

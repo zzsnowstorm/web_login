@@ -7,30 +7,6 @@ import { getString, config, clearStorage, setStorage, getStorage, setStore } fro
 
 
 export default class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loading: false,
-            loadingText: '',
-            modal: {
-                init: false,
-                show: false,
-            },
-            login: {
-                userName: '',
-                password: '',
-            },
-            loginCheck: {},
-            loginFocus: {},
-            _version: 0,
-
-            origin: window.store.origin,
-            remembered: getStorage('remembered') === '1',
-            token: window.store.tokenInfo && window.store.tokenInfo.accessToken,
-            user: window.store.user,
-        };
-    }
-
     jumpIfAlreadyLoad() {
         try {
             const { user, page } = window.store;
@@ -228,7 +204,8 @@ export default class Login extends Component {
 
     onWindowResize() {
         console.log('window resize');
-        this.setState({ _version: this.state._version + 1 });
+        const { _version } = this.state;
+        this.setState({ _version: _version + 1 });
     }
 
     jumpIfAlreadyLogin() {
@@ -239,6 +216,30 @@ export default class Login extends Component {
         } else {
             clearStorage();
         }
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            loadingText: '',
+            modal: {
+                init: false,
+                show: false,
+            },
+            login: {
+                userName: '',
+                password: '',
+            },
+            loginCheck: {},
+            loginFocus: {},
+            _version: 0,
+
+            origin: window.store.origin,
+            remembered: getStorage('remembered') === '1',
+            token: window.store.tokenInfo && window.store.tokenInfo.accessToken,
+            user: window.store.user,
+        };
     }
 
     componentWillMount() {
@@ -278,7 +279,7 @@ export default class Login extends Component {
 
         const contentStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
         const loginBoxStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? { width: '100%' } : { width: 500 };
-        const loginTitleStyle = isMobile ? (window.width < 768 ? { marginTop: 0 } : (window.innerHeight > 600 ? { marginTop: 0 - window.innerHeight * 0.4 } : { marginTop: 0 })) : { marginTop: 0 - window.innerHeight * 0.3 };
+        const loginTitleStyle = isMobile ? { marginTop: 0 } : { marginTop: 0 - window.innerHeight * 0.25 };
 
         return (
             <div className='root'>
@@ -287,9 +288,9 @@ export default class Login extends Component {
                         <div className='title' style={loginTitleStyle}>{locale === 'zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
                         <form>
                             <div style={{ borderBottomColor: loginFocus['userName'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)' }}>
-                                <Icon iconSize={[24, 24]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
+                                <Icon wrapperStyle={{ width: 24, height: 20 }} iconSize={[20, 20]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
                                 <input type='text' name='userName'
-                                    onInput={(e) => { this.checkLogin(e); }}
+                                    onKeyUp={(e) => { this.checkLogin(e); }}
                                     onFocus={(e) => { this.setLoginFocus(e, true); }}
                                     onBlur={(e) => { this.setLoginFocus(e, false); }}
                                     className={loginCheck['userName'] ? 'red' : ''}
@@ -300,9 +301,9 @@ export default class Login extends Component {
                                 marginTop: 30,
                                 borderBottomColor: loginFocus['password'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)',
                             }}>
-                                <Icon iconSize={[24, 24]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
+                                <Icon wrapperStyle={{ width: 24, height: 20 }} iconSize={[20, 20]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
                                 <input type='password' name='password'
-                                    onInput={(e) => { this.checkLogin(e); }}
+                                    onKeyUp={(e) => { this.checkLogin(e); }}
                                     onFocus={(e) => { this.setLoginFocus(e, true); }}
                                     onBlur={(e) => { this.setLoginFocus(e, false); }}
                                     className={loginCheck['password'] ? 'red' : ''}
@@ -329,7 +330,7 @@ export default class Login extends Component {
                         </div>
                         {
                             window.innerHeight <= 600 || window.innerWidth < 768 ? '' : (
-                                <div className='qrCodeBox' style={{ top: window.innerHeight < 768 ? 0.6 * window.innerHeight : 0.65 * window.innerHeight }}>
+                                <div className='qrCodeBox' style={{ bottom: window.innerHeight < 768 ? -0.025 * window.innerHeight : -0.25 * window.innerHeight }}>
                                     {/* <div style={{ float: 'left' }}>
                                         <div className='qrimgBox'>
                                             <QRCode value={origin + '/static/node/media/share_app_android?share=true'} size={146} />
@@ -380,19 +381,6 @@ export default class Login extends Component {
 }
 
 class Logon extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            logon: {
-                mdmId: '',
-                name: '',
-                phone: '',
-                type: 'root',
-            },
-            logonCheck: {},
-        };
-    }
-
     objToUrl(url, obj) {
         const subFix = Object.keys(obj).filter(k => obj[k] != null).map(k => encodeURIComponent(k) + '=' + encodeURIComponent(obj[k])).join('&');
 
@@ -439,6 +427,19 @@ class Logon extends Component {
 
     isNull(value) {
         return value === undefined || value === null || value === '';
+    }
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            logon: {
+                mdmId: '',
+                name: '',
+                phone: '',
+                type: 'root',
+            },
+            logonCheck: {},
+        };
     }
 
     render() {
