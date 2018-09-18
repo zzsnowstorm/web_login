@@ -285,7 +285,7 @@ export default class Login extends Component {
             <div className='root'>
                 <div className='content' style={contentStyle}>
                     <div className='loginBox' style={loginBoxStyle}>
-                        <div className='title' style={loginTitleStyle}>{locale === 'zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</div>
+                        <div className='title' style={loginTitleStyle}>{locale === 'zh-CN' ? getString('login').split('').join(' ') : getString('login')}</div>
                         <form>
                             <div style={{ borderBottomColor: loginFocus['userName'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)' }}>
                                 <Icon wrapperStyle={{ width: 24, height: 20 }} iconSize={[20, 20]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
@@ -315,7 +315,7 @@ export default class Login extends Component {
                                 </span>
                                 <span>{getString('remember+password')}</span>
                             </div>
-                            <button type='button' onClick={() => { this.handleSubmit(); }}>{locale === 'zh-CN' ? Array.from(getString('login')).join(' ') : getString('login')}</button>
+                            <button type='button' onClick={() => { this.handleSubmit(); }}>{locale === 'zh-CN' ? getString('login').split('').join(' ') : getString('login')}</button>
                         </form>
                         <div className='foot'>
                             <a href='#' style={{ color: '#4DA1FF' }}
