@@ -36,8 +36,10 @@ export default class Login extends Component {
         }).then((response) => {
             (response.status === 200) ? callback && callback(response.data) : '';
         }).catch((error) => {
+            setTimeout(() => {
+                alert(error);
+            }, 200);
             this.setState({ loading: false });
-            alert(error);
         });
     }
 
@@ -110,13 +112,23 @@ export default class Login extends Component {
                         // window.location.href = origin + '/#/index';
                     }
                 }).catch((error) => {
-                    alert(error.response.status);
+                    setTimeout(() => {
+                        alert(error.response.status);
+                    }, 200);
+                    this.setState({ loading: false });
                 });
-
+                // 页面数据缓存
                 this.fetchMdmDatas();
+
+                window.setTimeout(() => {
+                    this.setState({ loadingText: '正在加载主数据...' });
+                }, 300);
+                window.setTimeout(() => {
+                    this.setState({ loadingText: '加载完成，正在渲染...' });
+                }, 600);
+                this.setState({ loading: true, loadingText: '正在建立连接...' });
             }
         }).catch((error) => {
-            this.setState({ loading: false });
             alert(error.response.data.error);
         });
     }
@@ -128,16 +140,7 @@ export default class Login extends Component {
             loginCheck[check] = true;
             this.setState({ loginCheck });
         } else {
-            window.setTimeout(() => {
-                this.setState({ loadingText: '正在加载主数据...' });
-            }, 300);
-
-            window.setTimeout(() => {
-                this.setState({ loadingText: '加载完成，正在渲染...' });
-            }, 600);
-
             this.loginSubmit();
-            this.setState({ loading: true, loadingText: '正在建立连接...' });
         }
     }
 
