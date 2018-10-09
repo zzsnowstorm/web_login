@@ -316,7 +316,7 @@ export default class Login extends Component {
                                 <span className={'checkBox ' + (remembered ? 'checked' : '')} onClick={() => { this.setState({ remembered: !remembered }); }}>
                                     {!remembered ? '' : <Icon iconSize={[14, 14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />}
                                 </span>
-                                <span>{getString('remember+password')}</span>
+                                <span>{getString('remember+me')}</span>
                             </div>
                             <button type='button' onClick={() => { this.handleSubmit(); }}>{locale === 'zh-CN' ? getString('login').split('').join(' ') : getString('login')}</button>
                         </form>
