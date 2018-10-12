@@ -156,7 +156,6 @@ export default class Login extends Component {
     checkLogin(elm) {
         const { loginCheck } = this.state;
         const { value, name } = elm.target;
-
         (this.state.login)[name] = value;
 
         if (loginCheck[name] !== this.isNull(value)) {
@@ -293,7 +292,7 @@ export default class Login extends Component {
                             <div style={{ borderBottomColor: loginFocus['userName'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)' }}>
                                 <Icon wrapperStyle={{ width: 24, height: 20 }} iconSize={[20, 20]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
                                 <input type='text' name='userName'
-                                    onKeyUp={(e) => { this.checkLogin(e); }}
+                                    onChange={(e) => { this.checkLogin(e); }}
                                     onFocus={(e) => { this.setLoginFocus(e, true); }}
                                     onBlur={(e) => { this.setLoginFocus(e, false); }}
                                     className={loginCheck['userName'] ? 'red' : ''}
@@ -306,7 +305,7 @@ export default class Login extends Component {
                             }}>
                                 <Icon wrapperStyle={{ width: 24, height: 20 }} iconSize={[20, 20]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
                                 <input type='password' name='password'
-                                    onKeyUp={(e) => { this.checkLogin(e); }}
+                                    onChange={(e) => { this.checkLogin(e); }}
                                     onFocus={(e) => { this.setLoginFocus(e, true); }}
                                     onBlur={(e) => { this.setLoginFocus(e, false); }}
                                     className={loginCheck['password'] ? 'red' : ''}
