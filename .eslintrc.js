@@ -51,6 +51,7 @@ module.exports = {
         "react/jsx-closing-tag-location": 0,// 强制开始标签闭合标签位置
         "react/no-multi-comp": 0, //防止每个文件有多个组件定义
         "no-console": 0,//禁用 console
+        "no-confusing-arrow": 0, //禁止在可能与比较操作符相混淆的地方使用箭头函数
         "import/no-extraneous-dependencies": 0,
         "react/no-unused-state": 0,
         "react/destructuring-assignment": 0,
