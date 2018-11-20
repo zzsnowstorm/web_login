@@ -59,7 +59,7 @@ export default class Login extends Component {
                     // 普通用户不能访问配置管理 hard code
                     // const menusHard = subMenus.filter(m => group || m.key != 'config_center')
                     // const menus = subMenus.sort((a, b) => a.index > b.index);
-                    const menus = subMenus.sort((a, b) => a.index === b.index ? a.name.localeComparepare(b.name) : a.index > b.index);
+                    const menus = subMenus.sort((a, b) => a.index === b.index ? a.name.localeCompare(b.name) : a.index > b.index);
                     const page = {
                         menus,
                         pageList,
