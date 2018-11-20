@@ -19,6 +19,13 @@ export default class Login extends Component {
         }
     }
 
+    getQueryString(name) {
+        const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        const r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
     parseMenus(menus, pageList) {
         menus.map((menu) => {
             menu.menu || ((pageList.push(menu)) && (menu.link = '/' + menu.key));
@@ -86,52 +93,76 @@ export default class Login extends Component {
     }
 
     loginSubmit() {
-        const { login, remembered } = this.state;
+        const { login } = this.state;
 
         axios.post('/api/users/login', login).then((response) => {
             if (response.status === 200) {
-                const { accessToken, refreshToken } = response.data;
-
-                const _remembered = remembered ? 1 : 0;
-                setStorage('remembered', _remembered);
-                window.store.remembered = _remembered;
-                setStorage('token', { accessToken, refreshToken });
-                window.store = { ...window.store, tokenInfo: { accessToken, refreshToken } };
-
-                const Authorization = 'Bearer ' + accessToken;
-                axios.get('/api/mdm/person/user/' + response.data.user.userId, {
-                    headers: { Authorization, 'Accept-Language': window.store.locale },
-                }).then((_response) => {
-                    if (_response.status === 200) {
-                        const userData = {
-                            ..._response.data.user,
-                            ..._response.data,
-                        };
-                        setStorage('user', userData);
-                        window.store.user = userData;
-                        this.jumpIfAlreadyLoad();
-                        // window.location.href = origin + '/#/index';
-                    }
-                }).catch((error) => {
-                    setTimeout(() => {
-                        alert(error.response.status);
-                    }, 200);
-                    this.setState({ loading: false });
-                });
-                // 页面数据缓存
-                this.fetchMdmDatas();
-
-                window.setTimeout(() => {
-                    this.setState({ loadingText: '正在加载主数据...' });
-                }, 300);
-                window.setTimeout(() => {
-                    this.setState({ loadingText: '加载完成，正在渲染...' });
-                }, 600);
-                this.setState({ loading: true, loadingText: '正在建立连接...' });
+                const { accessToken, refreshToken, user } = response.data;
+                this.fetchPageData({ accessToken, refreshToken }, user.userId);
             }
         }).catch((error) => {
             alert(error.response.data.error);
         });
+    }
+
+    jumpIfHasToken() {
+        const token = this.getQueryString('token');
+        if (token) {
+            const url = '/api/users/refreshToken?token=' + token;
+            const Authorization = 'Bearer ' + token;
+            axios.get(url, {
+                headers: { Authorization, 'Accept-Language': window.store.locale },
+            }).then((response) => {
+                if (response.status === 200) {
+                    const { accessToken, refreshToken, userId } = response.data;
+                    this.fetchPageData({ accessToken, refreshToken }, userId);
+                }
+            }).catch((error) => {
+                alert(error.response.data.error);
+            });
+        }
+    }
+
+    fetchPageData(token, userId) {
+        const { remembered } = this.state;
+        const { accessToken, refreshToken } = token;
+
+        const _remembered = remembered ? 1 : 0;
+        setStorage('remembered', _remembered);
+        window.store.remembered = _remembered;
+        setStorage('token', { accessToken, refreshToken });
+        window.store = { ...window.store, tokenInfo: { accessToken, refreshToken } };
+
+        const Authorization = 'Bearer ' + accessToken;
+        axios.get('/api/mdm/person/user/' + userId, {
+            headers: { Authorization, 'Accept-Language': window.store.locale },
+        }).then((_response) => {
+            if (_response.status === 200) {
+                const userData = {
+                    ..._response.data.user,
+                    ..._response.data,
+                };
+                setStorage('user', userData);
+                window.store.user = userData;
+                this.jumpIfAlreadyLoad();
+                // window.location.href = origin + '/#/index';
+            }
+        }).catch((error) => {
+            setTimeout(() => {
+                alert(error.response.status);
+            }, 200);
+            this.setState({ loading: false });
+        });
+        // 页面数据缓存
+        this.fetchMdmDatas();
+
+        window.setTimeout(() => {
+            this.setState({ loadingText: '正在加载主数据...' });
+        }, 300);
+        window.setTimeout(() => {
+            this.setState({ loadingText: '加载完成，正在渲染...' });
+        }, 600);
+        this.setState({ loading: true, loadingText: '正在建立连接...' });
     }
 
     handleSubmit() {
@@ -246,14 +277,15 @@ export default class Login extends Component {
     }
 
     componentWillMount() {
-        this.jumpIfAlreadyLogin();
-
         const locale = this.getLocale();
         setStorage('locale', locale || 'zh-CN');
         window.store.locale = locale || 'zh-CN';
 
         this.state.locale = locale || 'zh-CN';
         window.document.title = getString('login');
+
+        this.jumpIfHasToken();
+        this.jumpIfAlreadyLogin();
     }
 
     componentDidMount() {

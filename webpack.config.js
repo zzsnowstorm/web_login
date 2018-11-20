@@ -134,20 +134,20 @@ module.exports = (options) => {
                 // },
                 {
                     context: ['/sse', '/manager', '/api', '/hlslive', '/pentaho', '/domain', '/static'],
-                    // target: 'http://iiot.jowoiot.com',
-                    target: 'http://192.168.3.184',
+                    target: 'https://iiot.jowoiot.com',
+                    // target: 'http://192.168.3.184',
                     // target: 'http://imc.rexel.com.cn',
                     secure: false,
                     changeOrigin: true,
                     timeout: 0,
                 },
                 // {
-                //     context: ['/sse'],
-                //     target: 'http://localhost:8081',
+                //     context: ['/#/index'],
+                //     target: 'https://iiot.jowoiot.com',
                 //     timeout: 0,
                 //     changeOrigin: true,
-                //     secure: false
-                // }
+                //     secure: false,
+                // },
                 // {
                 //     context: ['/api/usermanager'],
                 //     pathRewrite: { '^/api/usermanager': '/' },
