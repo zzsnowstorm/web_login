@@ -5,6 +5,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <title></title>
+    <script>
+        function getQueryString(name) { 
+            const reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i"); 
+            const r = window.location.search.substr(1).match(reg); 
+            if (r != null) return unescape(r[2]); 
+            return null; 
+        } 
+        function jumpIfHasToken() {
+            const token = getQueryString('token')
+            if (token) {
+                localStorage.setItem('jowo_token', JSON.stringify({ accessToken: token }))
+            }
+
+            if (localStorage.getItem('jowo_token')) window.location = '/#/index'
+        }
+        jumpIfHasToken()
+    </script>
 </head>
 <body>
     <div id="app" style='width: 100%;'></div>
