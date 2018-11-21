@@ -325,6 +325,7 @@ export default class Login extends Component {
                             <div style={{ borderBottomColor: loginFocus['userName'] ? '#4DA1FF' : 'rgba(18,33,51,0.3)' }}>
                                 <Icon wrapperStyle={{ width: 24, height: 20 }} iconSize={[20, 20]} iconPath='icon-user' iconColor={loginFocus['userName'] ? '#4DA1FF' : '#808FA3'} />
                                 <input type='text' name='userName'
+                                    style={{ width: 'calc(100% - 25px)' }}
                                     onChange={(e) => { this.checkLogin(e); }}
                                     onFocus={(e) => { this.setLoginFocus(e, true); }}
                                     onBlur={(e) => { this.setLoginFocus(e, false); }}
@@ -338,6 +339,7 @@ export default class Login extends Component {
                             }}>
                                 <Icon wrapperStyle={{ width: 24, height: 20 }} iconSize={[20, 20]} iconPath='icon-lock' iconColor={loginFocus['password'] ? '#4DA1FF' : '#808FA3'} />
                                 <input type='password' name='password'
+                                    style={{ width: 'calc(100% - 25px)' }}
                                     onChange={(e) => { this.checkLogin(e); }}
                                     onFocus={(e) => { this.setLoginFocus(e, true); }}
                                     onBlur={(e) => { this.setLoginFocus(e, false); }}
