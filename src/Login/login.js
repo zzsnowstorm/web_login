@@ -252,7 +252,9 @@ export default class Login extends Component {
         const remembered = getStorage('remembered');
         const token = getStorage('token', true);
         const page = getStorage('page', true);
-        if (!!remembered && token && user && user.customer && page && page.menus && page.componentList && page.pageList) {
+        var flag = parseInt(remembered);
+        alert(remembered);
+        if (flag == 1 && token && user && user.customer && page && page.menus && page.componentList && page.pageList) {
             window.location.href = origin + '/#/index';
         } else {
             window.localStorage.clear();
