@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import localforage from 'localforage';
 import QRCode from 'qrcode-react';
 import axios from 'axios';
 import './login.css';
@@ -166,6 +167,9 @@ export default class Login extends Component {
     }
 
     handleSubmit() {
+        window.localStorage.clear();
+        localforage.clear();
+        clearStorage();
         const { login, loginCheck } = this.state;
         const check = Object.keys(login).find(key => this.isNull(login[key]));
         if (check) {
@@ -243,11 +247,16 @@ export default class Login extends Component {
     }
 
     jumpIfAlreadyLogin() {
-        const { user, remembered, token, origin, page } = this.state;
-
+        // const { user, remembered, token, origin, page } = this.state;
+        const user = getStorage('user', true);
+        const remembered = getStorage('remembered');
+        const token = getStorage('token', true);
+        const page = getStorage('page', true);
         if (remembered && token && user && user.customer && page && page.menus && page.componentList && page.pageList) {
             window.location.href = origin + '/#/index';
         } else {
+            window.localStorage.clear();
+            localforage.clear();
             clearStorage();
         }
     }
