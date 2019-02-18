@@ -12,8 +12,9 @@ export default class Login extends Component {
         try {
             const { user, page } = window.store;
             if (page) {
+                const { redirect } = this.state;
                 const { menus, componentList, pageList } = page;
-                user && menus && componentList && pageList && (window.location = '/#/index');
+                user && menus && componentList && pageList && (window.location = redirect ? decodeURIComponent(redirect) : '/#/index');
             }
         } catch (e) {
             console.warn('load cache page error:' + e);
@@ -279,6 +280,8 @@ export default class Login extends Component {
             loginFocus: {},
             _version: 0,
 
+            redirect: null,
+
             origin: window.store.origin,
             remembered: getStorage('remembered') === '1',
             token: window.store.tokenInfo && window.store.tokenInfo.accessToken,
@@ -310,6 +313,9 @@ export default class Login extends Component {
             login.userName && (document.querySelector('input[name=\'userName\']').value = login.userName);
             login.password && (document.querySelector('input[name=\'password\']').value = login.password);
         }, 20);
+
+        const redirect = this.getQueryString('redirect');
+        this.setState({ redirect });
     }
 
     componentWillUnmount() {

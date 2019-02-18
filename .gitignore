@@ -6,3 +6,4 @@ node_modulesbak
 dist*
 package/Dockerfile
 package/dist
+yarn.lock
