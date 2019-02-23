@@ -95,7 +95,7 @@ export default class Login extends Component {
         return (
             <div className={styles.login} style={{ backgroundImage: `url(${background})` }}>
                 <div className='login-content'>
-                    <div className='login-title'>登陆</div>
+                    <div className='login-title'>登录</div>
                     <FileInput
                         ref={ref => this.domRefs.push(ref)}
                         style={{ width: '100%', marginTop: 30 }}
