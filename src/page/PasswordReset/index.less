@@ -1,0 +1,86 @@
+.password_reset {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    :global {
+        .password_reset-content {
+            position: relative;
+            width: 440px;
+            // height: 312px;
+            padding: 40px 30px;
+            background: #ffffff;
+
+            .password_reset-title {
+                color: #404040;
+                font-size: 24px;
+                font-family: PingFangSC-Semibold;
+                color: #404040;
+                font-weight: 550;
+            }
+
+            .password_reset-points {
+                font-family: PingFangSC-Regular;
+                font-size: 14px;
+                color: rgba(0,0,0,0.60);
+                letter-spacing: 0;
+            }
+
+            .password_reset-tips {
+                font-family: PingFangSC-Regular;
+                font-size: 12px;
+                color: rgba(0,0,0,0.60);
+                letter-spacing: 0;
+            }
+
+            .password_reset-footer {
+                margin-top: 30px;
+                
+                .password_reset-button {
+                    width: 80px;
+                    height: 32px;
+                    border: 0;
+                    font-family: PingFangSC-Medium;
+                    font-size: 14px;
+                    color: #FFFFFF;
+                    letter-spacing: 0;
+
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .password_reset-copyright {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 40px;
+            opacity: 0.6;
+            background-color: #000000;
+            padding: 10px 40px 10px 0;
+
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-end;
+            align-items: center;
+
+            span {
+                font-family: PingFangSC-Regular;
+                font-size: 14px;
+                color: #FFFFFF;
+                letter-spacing: 0;
+                text-align: right;
+            }
+        }
+    }
+}

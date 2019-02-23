@@ -3,8 +3,9 @@ import localforage from 'localforage';
 import QRCode from 'qrcode-react';
 import axios from 'axios';
 import './login.css';
-import Icon from '../compent/Icon';
-import { getString, config, clearStorage, setStorage, getStorage, setStore } from '../util/index';
+import Icon from '../../compent/Icon';
+import { getString, config, clearStorage, setStorage, getStorage, setStore } from '../../util/index';
+import sparks from '../../public/sparks.jpg';
 
 
 export default class Login extends Component {
@@ -12,7 +13,7 @@ export default class Login extends Component {
         try {
             const { user, page } = window.store;
             if (page) {
-                const { redirect } = this.state;
+                const { redirect } = this.props;
                 const { menus, componentList, pageList } = page;
                 user && menus && componentList && pageList && (window.location = redirect ? decodeURIComponent(redirect) : '/#/index');
             }
@@ -255,7 +256,7 @@ export default class Login extends Component {
         const page = getStorage('page', true);
         const flag = parseInt(remembered, 10);
         if (!!flag && token && user && user.customer && page && page.menus && page.componentList && page.pageList) {
-            window.location.href = origin + '/#/index';
+            this.jumpIfAlreadyLoad();
         } else {
             window.localStorage.clear();
             localforage.clear();
@@ -280,8 +281,6 @@ export default class Login extends Component {
             loginFocus: {},
             _version: 0,
 
-            redirect: null,
-
             origin: window.store.origin,
             remembered: getStorage('remembered') === '1',
             token: window.store.tokenInfo && window.store.tokenInfo.accessToken,
@@ -289,19 +288,13 @@ export default class Login extends Component {
         };
     }
 
-    componentWillMount() {
-        const locale = this.getLocale();
-        setStorage('locale', locale || 'zh-CN');
-        window.store.locale = locale || 'zh-CN';
-
-        this.state.locale = locale || 'zh-CN';
+    componentDidMount() {
+        const { locale } = window.store;
         window.document.title = getString('login');
 
         this.jumpIfHasToken();
         this.jumpIfAlreadyLogin();
-    }
 
-    componentDidMount() {
         this._onWindowResize = this.onWindowResize.bind(this);
         this._login = this.login.bind(this);
         window.addEventListener('resize', this._onWindowResize);
@@ -314,8 +307,7 @@ export default class Login extends Component {
             login.password && (document.querySelector('input[name=\'password\']').value = login.password);
         }, 20);
 
-        const redirect = this.getQueryString('redirect');
-        this.setState({ redirect });
+        this.setState({ locale });
     }
 
     componentWillUnmount() {
@@ -328,7 +320,7 @@ export default class Login extends Component {
         const isMobile = (window.innerWidth < 768 || window.innerHeight < 768);
         const imgWidth = window.innerWidth < 1224 ? 800 : window.innerWidth - 500;
 
-        const contentStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? {} : { backgroundImage: 'url(login/sparks.jpg)', backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
+        const contentStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? {} : { backgroundImage: `url(${sparks})`, backgroundSize: (imgWidth) + 'px ' + window.innerHeight + 'px', opacity: 0.9 };
         const loginBoxStyle = window.innerHeight < 600 || window.innerWidth < 1024 ? { width: '100%' } : { width: 500 };
         const loginTitleStyle = isMobile ? { marginTop: 0 } : { marginTop: 0 - window.innerHeight * 0.25 };
 

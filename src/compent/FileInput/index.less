@@ -1,0 +1,86 @@
+.fileInput {
+    position: relative;
+    width: 182px;
+    min-height: 32px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+
+    &:before {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        border-bottom-style: solid;
+        border-bottom-color:  rgba(0, 0, 0, 0.42);
+        border-bottom-width: 1px ;
+    }
+
+    &:hover {
+        &:before {
+            border-bottom-width: 2px ;
+        }
+    }
+
+    &:after {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: "";
+        position: absolute;
+        pointer-events: none;
+    }
+
+    :global {
+        .fileInput-errorMessage {
+            width: 100%;
+            margin-bottom: 10px;
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            color: #FF1F1F;
+            letter-spacing: 0;
+            text-align: justify;
+        }
+
+        .fileInput-input {
+            border: none;
+            width: 100%;
+            font-family: PingFangSC-Regular;
+
+            &:focus {
+                outline: 0
+            }
+
+            &::-webkit-input-placeholder {/*Chrome/Safari*/
+                font-size: 16px;
+                color: rgba(0,0,0,0.60);
+                letter-spacing: 0;
+            }
+            &::-moz-placeholder {/*Firefox*/
+                font-size: 16px;
+                color: rgba(0,0,0,0.60);
+                letter-spacing: 0;
+            }
+            &::-ms-input-placeholder {/*IE*/
+                font-size: 16px;
+                color: rgba(0,0,0,0.60);
+                letter-spacing: 0;
+            }
+        }
+    }
+}
+
+.fileInputFocus {
+    &:after {
+        border-bottom: 2px solid #1976d2;
+    }
+}
+
+.fileInputError {
+    &:after {
+        border-bottom: 2px solid #f44336;
+    }
+}

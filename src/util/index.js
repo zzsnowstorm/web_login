@@ -73,6 +73,13 @@ const clearStorage = () => {
     setStorage('theme', theme);
 };
 
+const historyPush = (history, url) => {
+    // eslint-disable-next-line
+    let [,search] = window.location.href.split('?');
+    search = search ? `?${search}` : '';
+    history.push(url + search);
+};
+
 export {
     getString,
     config,
@@ -83,4 +90,5 @@ export {
     delStorage,
     getToken,
     clearStorage,
+    historyPush,
 };

@@ -36,16 +36,18 @@ module.exports = (options) => {
                         ['import', { libraryName: 'antd', style: true }],
                     ],
                 },
-            }, {
+            },
+            {
                 test: /\.(js|jsx)$/,
                 enforce: 'pre',
                 include: [path.resolve(__dirname, 'src')], // 指定检查的目录
                 loader: ['babel-loader', 'eslint-loader'],
-            }, {
+            },
+            {
                 test: /\.less/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader', 'less-loader'],
+                    use: ['css-loader?modules&&localIndexName=[local]-[hash:base64:8]', 'less-loader'],
                 }),
             }, {
                 test: /\.css$/,
