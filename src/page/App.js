@@ -6,6 +6,7 @@ import { fetchMdmData, refreshToken, fetchUserData } from '../util/api';
 import Login from './Login/index';
 import Register from './Register';
 import PasswordReset from './PasswordReset';
+import Authentication from './Authentication';
 import Loading from '../compent/Loading/DefaultLoading';
 
 
@@ -213,6 +214,7 @@ export default class App extends Component {
                         <Route path='/register' render={props => this.renderPage(<Register />, props)} />
                         <Route path='/password_reset/:step' render={props => this.renderPage(<PasswordReset />, props)} />
                         <Route path='/password_reset' render={props => this.renderPage(<PasswordReset />, props)} />
+                        <Route path='/authentication' render={props => this.renderPage(<Authentication />, props)} />
                         <Route path='/' render={props => this.renderPage(<Login />, props)} />
                     </Switch>
                 </HashRouter>
