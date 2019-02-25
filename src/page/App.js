@@ -46,12 +46,11 @@ export default class App extends Component {
     }
 
     renderPage(component, props) {
-        const { isMobile, customerId, redirect } = this.state;
+        const { isMobile, customerId } = this.state;
         return React.cloneElement(component, {
             ...props,
             isMobile,
             customerId,
-            redirect,
             fetchPageData: this.fetchPageData.bind(this),
         });
     }

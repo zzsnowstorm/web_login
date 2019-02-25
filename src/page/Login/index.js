@@ -3,7 +3,7 @@ import localforage from 'localforage';
 import styles from './index.less';
 import background from '../../public/register-background.jpg';
 import FileInput from '../../compent/FileInput';
-import { historyPush, clearStorage } from '../../util/index';
+import { historyPush, clearStorage, setStorage } from '../../util/index';
 import { userLogin } from '../../util/api';
 
 export default class Login extends Component {
@@ -37,14 +37,21 @@ export default class Login extends Component {
 
         Promise.all(refs.map(ref => ref.handleCheck())).then((values) => {
             if (values.every(Boolean)) {
-                console.log('通过校验');
                 const { userName, password } = this.state;
                 userLogin({ userName, password })
                     .then((response) => {
                         if (response.status === 200) {
-                            const { accessToken, refreshToken, user } = response.data;
-                            const { fetchPageData } = this.props;
-                            fetchPageData({ accessToken, refreshToken }, user.userId);
+                            const { accessToken, refreshToken, user, doubleFactor } = response.data;
+                            if (doubleFactor) {
+                                const { history } = this.props;
+                                setStorage('token', { accessToken, refreshToken });
+                                setStorage('user', user);
+
+                                historyPush(history, '/authentication');
+                            } else {
+                                const { fetchPageData } = this.props;
+                                fetchPageData({ accessToken, refreshToken }, user.userId);
+                            }
                         }
                     })
                     .catch((error) => {
@@ -96,25 +103,27 @@ export default class Login extends Component {
             <div className={styles.login} style={{ backgroundImage: `url(${background})` }}>
                 <div className='login-content'>
                     <div className='login-title'>登录</div>
-                    <FileInput
-                        ref={ref => this.domRefs.push(ref)}
-                        style={{ width: '100%', marginTop: 30 }}
-                        required
-                        placeholder='电子邮箱或手机号'
-                        value={userName}
-                        onChange={value => this.handleChange({ userName: value })}
-                        validateFields={(value, callback) => this.checkUserName(value, callback)}
-                    />
-                    <FileInput
-                        ref={ref => this.domRefs.push(ref)}
-                        style={{ width: '100%', marginTop: 30 }}
-                        required
-                        type='password'
-                        placeholder='密码'
-                        value={password}
-                        onChange={value => this.handleChange({ password: value })}
-                        validateFields={(value, callback) => this.checkPassword(value, callback)}
-                    />
+                    <form>
+                        <FileInput
+                            ref={ref => this.domRefs.push(ref)}
+                            style={{ width: '100%', marginTop: 30 }}
+                            required
+                            placeholder='电子邮箱或手机号'
+                            value={userName}
+                            onChange={value => this.handleChange({ userName: value })}
+                            validateFields={(value, callback) => this.checkUserName(value, callback)}
+                        />
+                        <FileInput
+                            ref={ref => this.domRefs.push(ref)}
+                            style={{ width: '100%', marginTop: 30 }}
+                            required
+                            type='password'
+                            placeholder='密码'
+                            value={password}
+                            onChange={value => this.handleChange({ password: value })}
+                            validateFields={(value, callback) => this.checkPassword(value, callback)}
+                        />
+                    </form>
                     <div
                         style={{ marginTop: 30, fontSize: 14, color: ' #4C84FF', cursor: 'pointer' }}
                         onClick={this.jump2passwordReset.bind(this)}

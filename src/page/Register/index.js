@@ -35,10 +35,10 @@ export default class Register extends Component {
     }
 
     checkAccount(value, callback) {
-        const checkPhone = /^1[3|4|5|7|8]\d{9}$/;
+        // const checkPhone = /^1[3|4|5|7|8]\d{9}$/;
         // eslint-disable-next-line
-        const checkEmail = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
-        callback(checkPhone.test(value) || checkEmail.test(value), '请填写电子邮箱或手机号');
+        // const checkEmail = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
+        callback(true, '');
     }
 
     checkPassword(value, callback) {

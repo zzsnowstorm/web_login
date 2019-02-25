@@ -52,10 +52,22 @@ const userLogin = params => new Promise((resolve, reject) => {
     });
 });
 
+const checkSms = smsCode => new Promise((resolve, reject) => {
+    const token = getStorage('token', true).accessToken;
+    axios.get('/api/users/checkSms?smsCode=' + smsCode, {
+        headers: { token, 'Accept-Language': window.store.locale },
+    }).then((response) => {
+        resolve(response);
+    }).catch((error) => {
+        reject(error);
+    });
+});
+
 
 export {
     fetchMdmData,
     refreshToken,
     fetchUserData,
     userLogin,
+    checkSms,
 };

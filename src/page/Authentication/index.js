@@ -2,31 +2,70 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import background from '../../public/register-background.jpg';
 import FileInput from '../../compent/FileInput';
-// import { historyPush } from '../../util/index';
+import { historyPush, getStorage } from '../../util/index';
+import { checkSms } from '../../util/api';
 
 export default class Authentication extends Component {
+    jump2Back(step) {
+        const { history } = this.props;
+        historyPush(history, step);
+    }
+
+    handleChange(state) {
+        this.setState(state);
+    }
+
+    checkSmsCode(value, callback) {
+        if (value.length === 6) {
+            callback(true, '');
+        } else {
+            callback(false, '请填写6位验证码');
+        }
+    }
+
+    handleSubmit() {
+        this.domRef.smsCode.handleCheck().then((value) => {
+            if (value) {
+                const { smsCode } = this.state;
+                checkSms(smsCode).then((response) => {
+                    const { accessToken, refreshToken, user } = response.data;
+                    const { fetchPageData } = this.props;
+                    fetchPageData({ accessToken, refreshToken }, user.userId);
+                }).catch((error) => {
+                    alert(error.response.data.error);
+                });
+            }
+        });
+    }
+
     constructor(props) {
         super(props);
-        this.state = {};
+        const { phone } = getStorage('user', true);
+
+        this.state = {
+            phone,
+            smsCode: '',
+        };
         this.domRef = {};
     }
 
     render() {
-        const { account, verificationCode } = this.state;
+        const { phone, smsCode } = this.state;
         return (
             <div className={styles.authentication} style={{ backgroundImage: `url(${background})` }}>
                 <div className='authentication-content'>
                     <div className='authentication-title'>手机号验证码</div>
                     <article className='authentication-points'>
-                        <p>我们刚才向 {account} 发送了一个验证码。请输入你收到的验证码。</p>
+                        <p>我们刚才向 {phone} 发送了一个验证码。请输入你收到的验证码。</p>
                     </article>
                     <FileInput
-                        ref={(ref) => { this.domRef.verificationCode = ref; }}
+                        ref={(ref) => { this.domRef.smsCode = ref; }}
                         style={{ width: '100%', marginTop: 30 }}
                         required
                         placeholder='请输入验证码'
-                        value={verificationCode}
-                        onChange={value => this.handleChange({ verificationCode: value })}
+                        value={smsCode}
+                        onChange={value => this.handleChange({ smsCode: value })}
+                        validateFields={(value, callback) => this.checkSmsCode(value, callback)}
                     />
                     <div className='authentication-footer'>
                         <div style={{ float: 'right' }}>
@@ -34,17 +73,17 @@ export default class Authentication extends Component {
                                 type='button'
                                 className='authentication-button'
                                 style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
-                                onClick={() => this.jump2Back('step1')}
+                                onClick={() => this.jump2Back('/')}
                             >
-                                上一步
+                                返回
                             </button>
                             <button
                                 type='button'
                                 className='authentication-button'
                                 style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
-                                onClick={() => this.jump2Next('step3')}
+                                onClick={() => this.handleSubmit()}
                             >
-                                下一步
+                                登陆
                             </button>
                         </div>
                     </div>
