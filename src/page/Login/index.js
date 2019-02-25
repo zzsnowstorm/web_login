@@ -97,10 +97,10 @@ export default class Login extends Component {
     }
 
     render() {
-        // const { isMobile } = this.props;
+        const { isMobile } = this.props;
         const { userName, password } = this.state;
         return (
-            <div className={styles.login} style={{ backgroundImage: `url(${background})` }}>
+            <div className={styles.login} style={isMobile ? {} : { backgroundImage: `url(${background})` }}>
                 <div className='login-content'>
                     <div className='login-title'>登录</div>
                     <form>
@@ -137,7 +137,7 @@ export default class Login extends Component {
                             style={{ float: 'right', backgroundColor: '#4C84FF' }}
                             onClick={() => this.handleSubmit()}
                         >
-                            登陆
+                            登录
                         </button>
                     </div>
                 </div>

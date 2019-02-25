@@ -47,7 +47,7 @@ module.exports = (options) => {
                 test: /\.less/,
                 use: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader?modules&&localIndexName=[local]-[hash:base64:8]', 'less-loader'],
+                    use: ['css-loader?modules&&localIndexName=[local]-[hash:base64:8]', 'less-loader?sourceMap=true'],
                 }),
             }, {
                 test: /\.css$/,
@@ -136,8 +136,8 @@ module.exports = (options) => {
                 // },
                 {
                     context: ['/sse', '/manager', '/api', '/hlslive', '/pentaho', '/domain', '/static'],
-                    target: 'https://iiot.jowoiot.com',
-                    // target: 'http://192.168.3.184',
+                    // target: 'https://iiot.jowoiot.com',
+                    target: 'http://192.168.3.184',
                     // target: 'http://imc.rexel.com.cn',
                     secure: false,
                     changeOrigin: true,

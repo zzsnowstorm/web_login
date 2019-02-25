@@ -84,3 +84,43 @@
         }
     }
 }
+
+@media screen and(max-width: 768px ) {
+    .authentication {
+        :global {
+            .authentication-content {
+                margin-top: -30px;
+                .authentication-title {
+                    text-align: center;
+                }
+                .authentication-footer {
+                    .authentication-button {
+                        width: 100%;
+                    }
+                }
+            }
+            .authentication-copyright {
+                height: 20px;
+                padding: 0;
+                span {
+                    font-size: 7px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and(max-height: 450px ) {
+    .authentication {
+        :global {
+            .authentication-copyright {
+                height: 20px;
+                padding: 0;
+                justify-content: center;
+                span {
+                    font-size: 7px;
+                }
+            }
+        }
+    }
+}

@@ -178,10 +178,18 @@ export default class App extends Component {
 
     constructor(props) {
         super(props);
+        const locale = this.getLocale() || 'zh-CN';
+        setStorage('locale', locale);
+        window.store.locale = locale;
+        const isMobile = window.innerWidth < 768;
+        const searchParams = this.getSearchParams();
         this.state = {
+            ...searchParams,
+            locale,
+            isMobile,
+
             loading: false,
             loadingText: '',
-            redirect: null,
         };
     }
 
@@ -189,14 +197,7 @@ export default class App extends Component {
         this._resize = this.resize.bind(this);
         window.addEventListener('resize', this._resize);
 
-        const locale = this.getLocale() || 'zh-CN';
-        setStorage('locale', locale);
-        window.store.locale = locale;
-        const searchParams = this.getSearchParams();
-
-        this.setState({ locale, ...searchParams }, () => {
-            this.jumpIfHasToken();
-        });
+        this.jumpIfHasToken();
     }
 
     componentWillUnmount() {

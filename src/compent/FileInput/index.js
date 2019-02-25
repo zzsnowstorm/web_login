@@ -3,6 +3,10 @@ import propTypes from 'prop-types';
 import styles from './index.less';
 
 export default class FileInput extends Component {
+    setErrorMessage(errorMessage) {
+        this.setState({ error: true, errorMessage });
+    }
+
     handleCheck() {
         const status = () => !this.state.error;
         return new Promise((resolve) => {

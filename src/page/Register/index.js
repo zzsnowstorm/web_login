@@ -7,7 +7,7 @@ import arrowblackicon from '../../public/arrowblackicon.png';
 import checkmarkicon from '../../public/checkmarkicon.png';
 import FileInput from '../../compent/FileInput';
 import { historyPush } from '../../util/index';
-
+import { fetchCustomerData, checkUserName, register } from '../../util/api';
 
 export default class Register extends Component {
     filterRefs(refs) {
@@ -15,7 +15,7 @@ export default class Register extends Component {
     }
 
     jump2Step(step) {
-        const { history } = this.props;
+        const { history, customerId } = this.props;
 
         if (['step2', 'step3'].includes(step)) {
             // 下一步
@@ -25,7 +25,29 @@ export default class Register extends Component {
 
             Promise.all(refs.map(ref => ref.handleCheck())).then((values) => {
                 if (values.every(Boolean)) {
-                    historyPush(history, `/register/${step}`);
+                    const { account, password, phone, email } = this.state;
+                    if (step === 'step2') {
+                        // 校验账号是否存在
+                        checkUserName(customerId, account).then((response) => {
+                            if (response.data) {
+                                step1.account.setErrorMessage(`${account}已经是注册过的帐户。如果是你的账户，请立即登录。`);
+                            } else {
+                                historyPush(history, `/register/${step}`);
+                            }
+                        });
+                    } else {
+                        const params = { customerKey: customerId, account, password, phone, email };
+                        register(params).then((response) => {
+                            if (response.status === 200) {
+                                historyPush(history, step);
+                                setTimeout(() => {
+                                    historyPush(history, '/');
+                                }, 1000);
+                            }
+                        }).catch(() => {
+                            alert('注册失败');
+                        });
+                    }
                 }
             });
         } else {
@@ -38,6 +60,7 @@ export default class Register extends Component {
         // const checkPhone = /^1[3|4|5|7|8]\d{9}$/;
         // eslint-disable-next-line
         // const checkEmail = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
+
         callback(true, '');
     }
 
@@ -59,10 +82,10 @@ export default class Register extends Component {
 
     renderstep1() {
         const { history } = this.props;
-        const { account } = this.state;
+        const { customer, account } = this.state;
         return (
             <div className='register-content'>
-                <div className='register-logo' style={{ backgroundImage: `url(${logo})` }} />
+                <div className='register-logo' style={{ backgroundImage: `url(${customer.logo || logo})` }} />
                 <div className='register-title'>
                     创建账号
                 </div>
@@ -96,10 +119,10 @@ export default class Register extends Component {
     }
 
     renderstep2() {
-        const { account, password, phone, email } = this.state;
+        const { customer, account, password, phone, email } = this.state;
         return (
             <div className='register-content'>
-                <div className='register-logo' style={{ backgroundImage: `url(${logo})` }} />
+                <div className='register-logo' style={{ backgroundImage: `url(${customer.logo || logo})` }} />
                 <div
                     className='register-jump2step1'
                     onClick={() => this.jump2Step('step1')}
@@ -189,6 +212,10 @@ export default class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            customer: {
+                logo: '',
+                name: '',
+            },
             account: '',
             password: '',
             phone: '',
@@ -201,7 +228,13 @@ export default class Register extends Component {
     }
 
     componentDidMount() {
-        const { step } = this.props.match.params;
+        const { match: { params: { step } }, customerId } = this.props;
+        fetchCustomerData(customerId).then((response) => {
+            this.setState({ customer: response.data });
+        }).catch((error) => {
+            console.log(error);
+        });
+
         if (!step) {
             const { history } = this.props;
             historyPush(history, '/register/step1');
@@ -209,13 +242,14 @@ export default class Register extends Component {
     }
 
     render() {
-        // const { isMobile } = this.props;
+        const { isMobile } = this.props;
+        const { customer: { name } } = this.state;
         return (
-            <div className={styles.register} style={{ backgroundImage: `url(${background})` }}>
+            <div className={styles.register} style={isMobile ? {} : { backgroundImage: `url(${background})` }}>
                 { this.renderStep() }
                 <div className='register-copyright'>
                     <span>
-                        ©2019 Jowoiot  使用条款 隐私和Cookie
+                        ©2019 { name || 'Jowoiot' }  使用条款 隐私和Cookie
                     </span>
                 </div>
             </div>

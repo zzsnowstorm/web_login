@@ -43,6 +43,10 @@
 
             .password_reset-footer {
                 margin-top: 30px;
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: flex-end;
+                align-items: center;
                 
                 .password_reset-button {
                     width: 80px;
@@ -56,6 +60,8 @@
                     cursor: pointer;
                 }
             }
+
+
         }
 
         .password_reset-copyright {
@@ -80,6 +86,54 @@
                 color: #FFFFFF;
                 letter-spacing: 0;
                 text-align: right;
+            }
+        }
+    }
+}
+
+@media screen and(max-width: 768px ) {
+    .password_reset {
+        :global {
+            .password_reset-content {
+                margin-top: -30px;
+                .password_reset-title {
+                    text-align: center;
+                }
+                .password_reset-footer1 {
+                    .password_reset-button {
+                        width: 100%;
+                    }
+                }
+
+                .password_reset-footer2{
+                    justify-content: space-between;
+                }
+
+                .password_reset-footer3{
+                    justify-content: space-between;
+                }
+            }
+            .password_reset-copyright {
+                height: 20px;
+                padding: 0;
+                span {
+                    font-size: 7px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and(max-height: 450px ) {
+    .password_reset {
+        :global {
+            .password_reset-copyright {
+                height: 20px;
+                padding: 0;
+                justify-content: center;
+                span {
+                    font-size: 7px;
+                }
             }
         }
     }

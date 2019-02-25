@@ -85,11 +85,11 @@ export default class PasswordReset extends Component {
                     onChange={value => this.handleChange({ account: value })}
                     validateFields={(value, callback) => this.checkAccount(value, callback)}
                 />
-                <div className='password_reset-footer'>
+                <div className='password_reset-footer password_reset-footer1'>
                     <button
                         type='button'
                         className='password_reset-button'
-                        style={{ float: 'right', backgroundColor: '#4C84FF' }}
+                        style={{ backgroundColor: '#4C84FF' }}
                         onClick={() => this.jump2Next('step2')}
                     >
                         下一步
@@ -115,25 +115,23 @@ export default class PasswordReset extends Component {
                     value={verificationCode}
                     onChange={value => this.handleChange({ verificationCode: value })}
                 />
-                <div className='password_reset-footer'>
-                    <div style={{ float: 'right' }}>
-                        <button
-                            type='button'
-                            className='password_reset-button'
-                            style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
-                            onClick={() => this.jump2Back('step1')}
-                        >
-                            上一步
-                        </button>
-                        <button
-                            type='button'
-                            className='password_reset-button'
-                            style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
-                            onClick={() => this.jump2Next('step3')}
-                        >
-                            下一步
-                        </button>
-                    </div>
+                <div className='password_reset-footer password_reset-footer2'>
+                    <button
+                        type='button'
+                        className='password_reset-button'
+                        style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
+                        onClick={() => this.jump2Back('step1')}
+                    >
+                        上一步
+                    </button>
+                    <button
+                        type='button'
+                        className='password_reset-button'
+                        style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
+                        onClick={() => this.jump2Next('step3')}
+                    >
+                        下一步
+                    </button>
                 </div>
             </div>
         );
@@ -170,25 +168,23 @@ export default class PasswordReset extends Component {
                     value={confirmPassword}
                     onChange={value => this.handleChange({ confirmPassword: value })}
                 />
-                <div className='password_reset-footer'>
-                    <div style={{ float: 'right' }}>
-                        <button
-                            type='button'
-                            className='password_reset-button'
-                            style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
-                            onClick={() => this.jump2Back('step2')}
-                        >
-                            上一步
-                        </button>
-                        <button
-                            type='button'
-                            className='password_reset-button'
-                            style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
-                            onClick={() => this.jump2Next('step4')}
-                        >
-                            下一步
-                        </button>
-                    </div>
+                <div className='password_reset-footer password_reset-footer3'>
+                    <button
+                        type='button'
+                        className='password_reset-button'
+                        style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
+                        onClick={() => this.jump2Back('step2')}
+                    >
+                        上一步
+                    </button>
+                    <button
+                        type='button'
+                        className='password_reset-button'
+                        style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
+                        onClick={() => this.jump2Next('step4')}
+                    >
+                        下一步
+                    </button>
                 </div>
             </div>
         );
@@ -264,8 +260,9 @@ export default class PasswordReset extends Component {
     }
 
     render() {
+        const { isMobile } = this.props;
         return (
-            <div className={styles.password_reset} style={{ backgroundImage: `url(${background})` }}>
+            <div className={styles.password_reset} style={isMobile ? {} : { backgroundImage: `url(${background})` }}>
                 {this.renderStep()}
                 <div className='password_reset-copyright'>
                     <span>

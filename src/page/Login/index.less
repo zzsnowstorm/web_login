@@ -1,4 +1,5 @@
 .login {
+    position: relative;
     width: 100%;
     height: 100%;
     padding: 0;
@@ -67,6 +68,46 @@
                 color: #FFFFFF;
                 letter-spacing: 0;
                 text-align: right;
+            }
+        }
+    }
+}
+
+@media screen and(max-width: 768px ) {
+    .login {
+        :global {
+            .login-content {
+                margin-top: -30px;
+                .login-title {
+                    text-align: center;
+                }
+                .login-footer {
+                    .login-button {
+                        width: 100%;
+                    }
+                }
+            }
+            .login-copyright {
+                height: 20px;
+                padding: 0;
+                span {
+                    font-size: 7px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and(max-height: 450px ) {
+    .login {
+        :global {
+            .login-copyright {
+                height: 20px;
+                padding: 0;
+                justify-content: center;
+                span {
+                    font-size: 7px;
+                }
             }
         }
     }
