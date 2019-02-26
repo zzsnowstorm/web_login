@@ -7,7 +7,7 @@ export default class Loading extends PureComponent {
         return (
             <div>
                 <div className='loader-5 loader-center'><span /></div>
-                <div style={{ position: 'absolute', top: '50%', left: 'calc(50% - 20px)', textAlign: 'center', color: 'gray' }}>{content}</div>
+                <div style={{ position: 'absolute', top: '50%', width: 'calc(100% - 30px)', textAlign: 'center', color: 'gray', marginLeft: 30 }}>{content}</div>
             </div>
         );
     }
