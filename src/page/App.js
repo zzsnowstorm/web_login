@@ -208,17 +208,18 @@ export default class App extends Component {
 
     render() {
         const { loading, loadingText, isMobile } = this.state;
+
         return (
             <div style={{ width: '100%', height: '100%' }}>
                 <div className={styles.app} style={isMobile ? {} : { backgroundImage: 'url(./login/register-background.jpg)' }}>
                     <HashRouter>
                         <Switch>
-                            <Route path='/register/:step' render={props => this.renderPage(<Register />, props)} />
-                            <Route path='/register' render={props => this.renderPage(<Register />, props)} />
-                            <Route path='/password_reset/:step' render={props => this.renderPage(<PasswordReset />, props)} />
-                            <Route path='/password_reset' render={props => this.renderPage(<PasswordReset />, props)} />
-                            <Route path='/authentication' render={props => this.renderPage(<Authentication />, props)} />
-                            <Route path='/' render={props => this.renderPage(<Login />, props)} />
+                            <Route path='register/:step' render={props => this.renderPage(<Register />, props)} />
+                            <Route path='register' render={props => this.renderPage(<Register />, props)} />
+                            <Route path='password_reset/:step' render={props => this.renderPage(<PasswordReset />, props)} />
+                            <Route path='password_reset' render={props => this.renderPage(<PasswordReset />, props)} />
+                            <Route path='authentication' render={props => this.renderPage(<Authentication />, props)} />
+                            <Route path='' render={props => this.renderPage(<Login />, props)} />
                         </Switch>
                     </HashRouter>
                     {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading content={loadingText} /></div>}
