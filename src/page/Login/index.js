@@ -100,7 +100,7 @@ export default class Login extends Component {
         return (
             <div className={styles.login}>
                 <div className='login-content'>
-                    <div className='login-title'>登录</div>
+                    <div className='login-title'> 登录 </div>
                     <form>
                         <FileInput
                             ref={ref => this.domRefs.push(ref)}
@@ -122,11 +122,21 @@ export default class Login extends Component {
                             validateFields={(value, callback) => this.checkPassword(value, callback)}
                         />
                     </form>
-                    <div
-                        style={{ marginTop: 30, fontSize: 14, color: ' #4C84FF', cursor: 'pointer' }}
-                        onClick={this.jump2passwordReset.bind(this)}
-                    >
-                        忘记密码？
+                    <div style={{ marginTop: 30, fontSize: 14, color: ' #4C84FF' }}>
+                        <div
+                            style={{ cursor: 'pointer', display: 'inline-block' }}
+                            onClick={this.jump2passwordReset.bind(this)}
+                        >
+                            忘记密码？
+                        </div>
+                        <a
+                            target='_blank'
+                            rel='noopener noreferrer'
+                            href={'https://fir.im/iiot' + document.domain}
+                            style={{ float: 'right', textDecoration: 'none', color: ' #4C84FF' }}
+                        >
+                            App下载
+                        </a>
                     </div>
                     <div className='login-footer'>
                         <button
