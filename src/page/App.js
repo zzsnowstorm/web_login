@@ -212,7 +212,7 @@ export default class App extends Component {
         return (
             <div style={{ width: '100%', height: '100%' }}>
                 <div className={styles.app} style={isMobile ? {} : { backgroundImage: 'url(./login/register-background.jpg)' }}>
-                    <HashRouter basename='/login'>
+                    <HashRouter hashType='hashbang'>
                         <Switch>
                             <Route path='/register/:step' render={props => this.renderPage(<Register />, props)} />
                             <Route path='/register' render={props => this.renderPage(<Register />, props)} />
