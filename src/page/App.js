@@ -12,6 +12,14 @@ import styles from './App.less';
 
 
 export default class App extends Component {
+    loginLoder() {
+        this.timer && (window.clearInterval(this.timer));
+        this.timer = setInterval(() => {
+            const { loaded } = this.state;
+            loaded && this.jumpIfAlreadyLoad();
+        }, 200);
+    }
+
     getQueryString(name) {
         const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
         const r = window.location.search.substr(1).match(reg);
@@ -102,7 +110,7 @@ export default class App extends Component {
                 setStore('page', page);
                 setStorage('page', page);
 
-                this.jumpIfAlreadyLoad();
+                this.loginLoder();
             }).catch((error) => {
                 console.warn(error);
                 this.setState({ loading: false });
@@ -126,7 +134,7 @@ export default class App extends Component {
                     };
                     setStorage('user', userData);
                     window.store.user = userData;
-                    this.jumpIfAlreadyLoad();
+                    this.loginLoder();
                 }
             }).catch((error) => {
                 setTimeout(() => {
@@ -142,9 +150,9 @@ export default class App extends Component {
             this.setState({ loadingText: '正在加载主数据...' });
         }, 300);
         window.setTimeout(() => {
-            this.setState({ loadingText: '加载完成，正在渲染...' });
+            this.setState({ loaded: true, loadingText: '加载完成，正在渲染...' });
         }, 600);
-        this.setState({ loading: true, loadingText: '正在建立连接...' });
+        this.setState({ loaded: false, loading: true, loadingText: '正在建立连接...' });
     }
 
     jumpIfHasToken() {
@@ -190,6 +198,7 @@ export default class App extends Component {
             locale,
             isMobile,
 
+            loaded: false,
             loading: false,
             loadingText: '',
         };
@@ -204,6 +213,8 @@ export default class App extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this._resize);
+
+        this.timer && (window.clearInterval(this.timer)) && (delete this.timer);
     }
 
     render() {
@@ -211,7 +222,7 @@ export default class App extends Component {
 
         return (
             <div style={{ width: '100%', height: '100%' }}>
-                <div className={styles.app} style={isMobile ? {} : { backgroundImage: 'url(./login/register-background.jpg)' }}>
+                <div className={styles.app} style={isMobile ? {} : { backgroundImage: 'url(./background.jpg)' }}>
                     <HashRouter hashType='noslash'>
                         <Switch>
                             <Route path='/register/:step' render={props => this.renderPage(<Register />, props)} />
