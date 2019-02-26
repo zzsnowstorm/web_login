@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import background from '../../public/register-background.jpg';
 import FileInput from '../../compent/FileInput';
 import { historyPush } from '../../util/index';
 
@@ -260,9 +259,8 @@ export default class PasswordReset extends Component {
     }
 
     render() {
-        const { isMobile } = this.props;
         return (
-            <div className={styles.password_reset} style={isMobile ? {} : { backgroundImage: `url(${background})` }}>
+            <div className={styles.password_reset}>
                 {this.renderStep()}
                 <div className='password_reset-copyright'>
                     <span>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import localforage from 'localforage';
 import styles from './index.less';
-import background from '../../public/register-background.jpg';
 import FileInput from '../../compent/FileInput';
 import { historyPush, clearStorage, setStorage } from '../../util/index';
 import { userLogin } from '../../util/api';
@@ -97,10 +96,9 @@ export default class Login extends Component {
     }
 
     render() {
-        const { isMobile } = this.props;
         const { userName, password } = this.state;
         return (
-            <div className={styles.login} style={isMobile ? {} : { backgroundImage: `url(${background})` }}>
+            <div className={styles.login}>
                 <div className='login-content'>
                     <div className='login-title'>登录</div>
                     <form>

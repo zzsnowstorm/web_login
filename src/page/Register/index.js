@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import background from '../../public/register-background.jpg';
 import logo from '../../public/logo.png';
 import arrowblueicon from '../../public/arrowblueicon.png';
 import arrowblackicon from '../../public/arrowblackicon.png';
@@ -44,8 +43,8 @@ export default class Register extends Component {
                                     historyPush(history, '/');
                                 }, 1000);
                             }
-                        }).catch(() => {
-                            alert('注册失败');
+                        }).catch((error) => {
+                            alert(error.response.data.error);
                         });
                     }
                 }
@@ -242,10 +241,9 @@ export default class Register extends Component {
     }
 
     render() {
-        const { isMobile } = this.props;
         const { customer: { name } } = this.state;
         return (
-            <div className={styles.register} style={isMobile ? {} : { backgroundImage: `url(${background})` }}>
+            <div className={styles.register}>
                 { this.renderStep() }
                 <div className='register-copyright'>
                     <span>

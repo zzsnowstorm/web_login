@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styles from './index.less';
-import background from '../../public/register-background.jpg';
 import FileInput from '../../compent/FileInput';
 import { historyPush, getStorage } from '../../util/index';
 import { checkSms } from '../../util/api';
@@ -50,10 +49,9 @@ export default class Authentication extends Component {
     }
 
     render() {
-        const { isMobile } = this.props;
         const { phone, smsCode } = this.state;
         return (
-            <div className={styles.authentication} style={isMobile ? {} : { backgroundImage: `url(${background})` }}>
+            <div className={styles.authentication}>
                 <div className='authentication-content'>
                     <div className='authentication-title'>手机号验证码</div>
                     <article className='authentication-points'>
