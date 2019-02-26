@@ -9,7 +9,6 @@ import PasswordReset from './PasswordReset';
 import Authentication from './Authentication';
 import Loading from '../compent/Loading/DefaultLoading';
 import styles from './App.less';
-import background from '../public/register-background.jpg';
 
 
 export default class App extends Component {
@@ -211,7 +210,7 @@ export default class App extends Component {
         const { loading, loadingText, isMobile } = this.state;
         return (
             <div style={{ width: '100%', height: '100%' }}>
-                <div className={styles.app} style={isMobile ? {} : { backgroundImage: `url(${background})` }}>
+                <div className={styles.app} style={isMobile ? {} : { backgroundImage: 'url(./login/register-background.jpg)' }}>
                     <HashRouter>
                         <Switch>
                             <Route path='/register/:step' render={props => this.renderPage(<Register />, props)} />

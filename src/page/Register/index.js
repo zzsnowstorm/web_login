@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import logo from '../../public/logo.png';
-import arrowblueicon from '../../public/arrowblueicon.png';
-import arrowblackicon from '../../public/arrowblackicon.png';
-import checkmarkicon from '../../public/checkmarkicon.png';
 import FileInput from '../../compent/FileInput';
 import { historyPush } from '../../util/index';
 import { fetchCustomerData, checkUserName, register } from '../../util/api';
@@ -100,7 +97,7 @@ export default class Register extends Component {
                 <div className='register-jump'>
                     <span className='jump-span' onClick={() => historyPush(history, '/')}>
                         <div className='jump-text'>已有账号</div>
-                        <div className='jump-arrowblueicon' style={{ backgroundImage: `url(${arrowblueicon})` }} />
+                        <div className='jump-arrowblueicon' style={{ backgroundImage: 'url(./login/arrowblueicon.png)' }} />
                     </span>
                 </div>
                 <div className='register-footer'>
@@ -127,7 +124,7 @@ export default class Register extends Component {
                     onClick={() => this.jump2Step('step1')}
                 >
                     <span className='jump-span'>
-                        <div className='jump-arrowblackicon' style={{ backgroundImage: `url(${arrowblackicon})` }} />
+                        <div className='jump-arrowblackicon' style={{ backgroundImage: 'url(./login/arrowblackicon.png)' }} />
                         <div className='jump-text'>{account}</div>
                     </span>
                 </div>
@@ -185,7 +182,7 @@ export default class Register extends Component {
                 <div style={{ fontSize: 14, color: 'rgba(0,0,0,0.60)', fontFamily: 'PingFangSC-Regular', marginTop: 30 }}>
                     现在你可以使用账号到你的帐户。
                 </div>
-                <div className='register-logo' style={{ backgroundImage: `url(${checkmarkicon})`, width: 43, height: 43, marginTop: 30 }} />
+                <div className='register-logo' style={{ backgroundImage: 'url(./login/checkmarkicon.png)', width: 43, height: 43, marginTop: 30 }} />
             </div>
         );
     }
