@@ -465,5 +465,5 @@
 .loader-center {
     position: absolute;
     top: 45%;
-    left: 50%;
+    left: calc(50% - 16px);
 }
