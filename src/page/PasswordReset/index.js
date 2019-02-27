@@ -252,6 +252,7 @@ export default class PasswordReset extends Component {
 
     componentDidMount() {
         const { step } = this.props.match.params;
+        window.document.title = '重置密码';
         if (!step) {
             const { history } = this.props;
             historyPush(history, '/password_reset/step1');

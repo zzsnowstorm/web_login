@@ -108,6 +108,7 @@ export default class Login extends Component {
                     <div className='login-title'> 登录 </div>
                     <form>
                         <FileInput
+                            name='userName'
                             ref={ref => this.domRefs.push(ref)}
                             style={{ width: '100%', marginTop: 30 }}
                             required
@@ -117,6 +118,7 @@ export default class Login extends Component {
                             validateFields={(value, callback) => this.checkUserName(value, callback)}
                         />
                         <FileInput
+                            name='password'
                             ref={ref => this.domRefs.push(ref)}
                             style={{ width: '100%', marginTop: 30 }}
                             required

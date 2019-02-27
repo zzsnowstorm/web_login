@@ -56,7 +56,7 @@ export default class FileInput extends Component {
 
     render() {
         const { error, errorMessage, focus } = this.state;
-        const { value, placeholder, type, style } = this.props;
+        const { value, placeholder, type, style, name } = this.props;
         return (
             <div
                 className={`${styles.fileInput} ${error ? styles.fileInputError : (focus ? styles.fileInputFocus : '')}`}
@@ -64,6 +64,7 @@ export default class FileInput extends Component {
             >
                 { error && <span className='fileInput-errorMessage'>{errorMessage}</span>}
                 <input
+                    name={name || null}
                     type={type}
                     className='fileInput-input'
                     value={value}
@@ -78,6 +79,7 @@ export default class FileInput extends Component {
 }
 
 FileInput.propTypes = {
+    name: propTypes.string,
     // eslint-disable-next-line
     style: propTypes.object,
     placeholder: propTypes.string,
@@ -91,6 +93,7 @@ FileInput.propTypes = {
 };
 
 FileInput.defaultProps = {
+    name: '',
     style: {},
     placeholder: '',
     value: '',

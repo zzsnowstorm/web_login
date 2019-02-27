@@ -225,6 +225,7 @@ export default class Register extends Component {
 
     componentDidMount() {
         const { match: { params: { step } }, customerId } = this.props;
+        window.document.title = '注册账号';
         fetchCustomerData(customerId).then((response) => {
             this.setState({ customer: response.data });
         }).catch((error) => {
