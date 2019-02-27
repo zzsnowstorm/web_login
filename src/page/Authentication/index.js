@@ -82,7 +82,7 @@ export default class Authentication extends Component {
                                 style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
                                 onClick={() => this.handleSubmit()}
                             >
-                                登陆
+                                登录
                             </button>
                         </div>
                     </div>

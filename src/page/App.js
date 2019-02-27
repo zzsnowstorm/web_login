@@ -7,17 +7,23 @@ import Login from './Login/index';
 import Register from './Register';
 import PasswordReset from './PasswordReset';
 import Authentication from './Authentication';
-import Loading from '../compent/Loading/DefaultLoading';
+// import Loading from '../compent/Loading/DefaultLoading';
 import styles from './App.less';
 
 
 export default class App extends Component {
-    loginLoder() {
-        this.timer && (window.clearInterval(this.timer));
-        this.timer = setInterval(() => {
-            const { loaded } = this.state;
-            loaded && this.jumpIfAlreadyLoad();
-        }, 200);
+    // loginLoder() {
+    //     this.timer && (window.clearInterval(this.timer));
+    //     this.timer = setInterval(() => {
+    //         const { loaded } = this.state;
+    //         loaded && this.jumpIfAlreadyLoad();
+    //     }, 200);
+    // }
+    getBackGround() {
+        const myDate = new Date();
+        const day = myDate.getDay();
+
+        return `./login/background${day}.jpg`;
     }
 
     getQueryString(name) {
@@ -110,7 +116,7 @@ export default class App extends Component {
                 setStore('page', page);
                 setStorage('page', page);
 
-                this.loginLoder();
+                this.jumpIfAlreadyLoad();
             }).catch((error) => {
                 console.warn(error);
                 this.setState({ loading: false });
@@ -134,25 +140,25 @@ export default class App extends Component {
                     };
                     setStorage('user', userData);
                     window.store.user = userData;
-                    this.loginLoder();
+                    this.jumpIfAlreadyLoad();
                 }
             }).catch((error) => {
-                setTimeout(() => {
-                    alert(error.response.status);
-                }, 200);
-                this.setState({ loading: false });
+                // setTimeout(() => {
+                alert(error.response.status);
+                // }, 200);
+                // this.setState({ loading: false });
             });
 
         // 页面数据缓存
         this.fetchMdmDatas();
 
-        window.setTimeout(() => {
-            this.setState({ loadingText: '正在加载主数据...' });
-        }, 300);
-        window.setTimeout(() => {
-            this.setState({ loaded: true, loadingText: '加载完成，正在渲染...' });
-        }, 600);
-        this.setState({ loaded: false, loading: true, loadingText: '正在建立连接...' });
+        // window.setTimeout(() => {
+        //     this.setState({ loadingText: '正在加载主数据...' });
+        // }, 300);
+        // window.setTimeout(() => {
+        //     this.setState({ loaded: true, loadingText: '加载完成，正在渲染...' });
+        // }, 600);
+        // this.setState({ loaded: false, loading: true, loadingText: '正在建立连接...' });
     }
 
     jumpIfHasToken() {
@@ -198,9 +204,9 @@ export default class App extends Component {
             locale,
             isMobile,
 
-            loaded: false,
-            loading: false,
-            loadingText: '',
+            // loaded: false,
+            // loading: false,
+            // loadingText: '',
         };
     }
 
@@ -218,11 +224,11 @@ export default class App extends Component {
     }
 
     render() {
-        const { loading, loadingText, isMobile } = this.state;
+        const { isMobile } = this.state;
 
         return (
             <div style={{ width: '100%', height: '100%' }}>
-                <div className={styles.app} style={isMobile ? {} : { backgroundImage: 'url(./login/background.jpg)' }}>
+                <div className={styles.app} style={isMobile ? {} : { backgroundImage: `url(${this.getBackGround()})` }}>
                     <HashRouter hashType='noslash'>
                         <Switch>
                             <Route path='/register/:step' render={props => this.renderPage(<Register />, props)} />
@@ -233,7 +239,7 @@ export default class App extends Component {
                             <Route path='/' render={props => this.renderPage(<Login />, props)} />
                         </Switch>
                     </HashRouter>
-                    {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading content={loadingText} /></div>}
+                    {/* {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading content={loadingText} /></div>} */}
                 </div>
             </div>
         );

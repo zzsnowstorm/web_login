@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import localforage from 'localforage';
 import styles from './index.less';
+import Icon from '../../compent/Icon';
 import FileInput from '../../compent/FileInput';
-import { historyPush, clearStorage, setStorage } from '../../util/index';
+import { historyPush, clearStorage, setStorage, getString, getStore, setStore } from '../../util/index';
 import { userLogin } from '../../util/api';
 
 export default class Login extends Component {
@@ -36,7 +37,8 @@ export default class Login extends Component {
 
         Promise.all(refs.map(ref => ref.handleCheck())).then((values) => {
             if (values.every(Boolean)) {
-                const { userName, password } = this.state;
+                const { userName, password, remembered } = this.state;
+                setStore('remembered', remembered);
                 userLogin({ userName, password })
                     .then((response) => {
                         if (response.status === 200) {
@@ -78,12 +80,15 @@ export default class Login extends Component {
         this.state = {
             userName: '',
             password: '',
+            remembered: !!getStore('remembered'),
         };
 
         this.domRefs = [];
     }
 
     componentDidMount() {
+        window.document.title = getString('login');
+
         const { userName, password } = this.state;
         this._login = this.login.bind(this);
         window.addEventListener('keydown', this._login);
@@ -96,7 +101,7 @@ export default class Login extends Component {
     }
 
     render() {
-        const { userName, password } = this.state;
+        const { userName, password, remembered } = this.state;
         return (
             <div className={styles.login}>
                 <div className='login-content'>
@@ -122,18 +127,24 @@ export default class Login extends Component {
                             validateFields={(value, callback) => this.checkPassword(value, callback)}
                         />
                     </form>
-                    <div style={{ marginTop: 30, fontSize: 14, color: ' #4C84FF' }}>
-                        <div
+                    <div className='login-block' style={{ marginTop: 30, fontSize: 14, color: ' #4C84FF' }}>
+                        {/* <div
                             style={{ cursor: 'pointer', display: 'inline-block' }}
                             onClick={this.jump2passwordReset.bind(this)}
                         >
                             忘记密码？
+                        </div> */}
+                        <div className='login-rememberme' onClick={() => { this.setState({ remembered: !remembered }); }}>
+                            <span className={'checkBox ' + (remembered ? 'checked' : '')}>
+                                {!remembered ? '' : <Icon iconSize={[14, 14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />}
+                            </span>
+                            <span>{getString('remember+me')}</span>
                         </div>
                         <a
                             target='_blank'
                             rel='noopener noreferrer'
                             href={'https://fir.im/iiot' + document.domain}
-                            style={{ float: 'right', textDecoration: 'none', color: ' #4C84FF' }}
+                            style={{ textDecoration: 'none', color: ' #4C84FF' }}
                         >
                             App下载
                         </a>
