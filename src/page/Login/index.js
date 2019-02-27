@@ -80,7 +80,7 @@ export default class Login extends Component {
         this.state = {
             userName: '',
             password: '',
-            remembered: !!getStorage('remembered'),
+            remembered: getStorage('remembered') === 'true',
         };
 
         this.domRefs = [];

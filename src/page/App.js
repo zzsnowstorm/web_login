@@ -7,7 +7,7 @@ import Login from './Login/index';
 import Register from './Register';
 import PasswordReset from './PasswordReset';
 import Authentication from './Authentication';
-// import Loading from '../compent/Loading/DefaultLoading';
+import Loading from '../compent/Loading/DefaultLoading';
 import styles from './App.less';
 
 
@@ -124,7 +124,7 @@ export default class App extends Component {
     }
 
     fetchPageData(token, userId) {
-        const remembered = getStorage('remembered') || false;
+        const remembered = getStorage('remembered') === 'true';
         setStorage('remembered', remembered);
         window.store.remembered = remembered;
 
@@ -143,15 +143,12 @@ export default class App extends Component {
                     this.jumpIfAlreadyLoad();
                 }
             }).catch((error) => {
-                // setTimeout(() => {
-                alert(error.response.status);
-                // }, 200);
-                // this.setState({ loading: false });
+                this.setState({ loading: false }, () => alert(error.response.status));
             });
 
         // 页面数据缓存
         this.fetchMdmDatas();
-
+        this.setState({ loading: true });
         // window.setTimeout(() => {
         //     this.setState({ loadingText: '正在加载主数据...' });
         // }, 300);
@@ -204,8 +201,8 @@ export default class App extends Component {
             locale,
             isMobile,
 
+            loading: false,
             // loaded: false,
-            // loading: false,
             // loadingText: '',
         };
     }
@@ -224,7 +221,7 @@ export default class App extends Component {
     }
 
     render() {
-        const { isMobile } = this.state;
+        const { isMobile, loading } = this.state;
 
         return (
             <div style={{ width: '100%', height: '100%' }}>
@@ -239,7 +236,7 @@ export default class App extends Component {
                             <Route path='/' render={props => this.renderPage(<Login />, props)} />
                         </Switch>
                     </HashRouter>
-                    {/* {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading content={loadingText} /></div>} */}
+                    {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading /></div>}
                 </div>
             </div>
         );
