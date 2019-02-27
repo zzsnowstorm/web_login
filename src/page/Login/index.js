@@ -3,7 +3,7 @@ import localforage from 'localforage';
 import styles from './index.less';
 import Icon from '../../compent/Icon';
 import FileInput from '../../compent/FileInput';
-import { historyPush, clearStorage, setStorage, getString, getStore, setStore } from '../../util/index';
+import { historyPush, clearStorage, setStorage, getString, getStorage } from '../../util/index';
 import { userLogin } from '../../util/api';
 
 export default class Login extends Component {
@@ -38,7 +38,7 @@ export default class Login extends Component {
         Promise.all(refs.map(ref => ref.handleCheck())).then((values) => {
             if (values.every(Boolean)) {
                 const { userName, password, remembered } = this.state;
-                setStore('remembered', remembered);
+                setStorage('remembered', remembered);
                 userLogin({ userName, password })
                     .then((response) => {
                         if (response.status === 200) {
@@ -80,7 +80,7 @@ export default class Login extends Component {
         this.state = {
             userName: '',
             password: '',
-            remembered: !!getStore('remembered'),
+            remembered: !!getStorage('remembered'),
         };
 
         this.domRefs = [];
@@ -162,7 +162,7 @@ export default class Login extends Component {
                 </div>
                 <div className='login-copyright'>
                     <span>
-                        ©2019 Jowoiot  使用条款 隐私和Cookie
+                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  使用条款 隐私和Cookie
                     </span>
                 </div>
             </div>

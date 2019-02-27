@@ -124,7 +124,7 @@ export default class App extends Component {
     }
 
     fetchPageData(token, userId) {
-        const remembered = window.store.remembered || 0;
+        const remembered = getStorage('remembered') || false;
         setStorage('remembered', remembered);
         window.store.remembered = remembered;
 

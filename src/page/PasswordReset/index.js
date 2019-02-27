@@ -264,7 +264,7 @@ export default class PasswordReset extends Component {
                 {this.renderStep()}
                 <div className='password_reset-copyright'>
                     <span>
-                        ©2019 Jowoiot  使用条款 隐私和Cookie
+                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  使用条款 隐私和Cookie
                     </span>
                 </div>
             </div>

@@ -89,7 +89,7 @@ export default class Authentication extends Component {
                 </div>
                 <div className='authentication-copyright'>
                     <span>
-                        ©2019 Jowoiot  使用条款 隐私和Cookie
+                    ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  使用条款 隐私和Cookie
                     </span>
                 </div>
             </div>

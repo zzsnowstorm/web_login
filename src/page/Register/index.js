@@ -244,7 +244,7 @@ export default class Register extends Component {
                 { this.renderStep() }
                 <div className='register-copyright'>
                     <span>
-                        ©2019 { name || 'Jowoiot' }  使用条款 隐私和Cookie
+                        ©{(new Date()).getFullYear()} { name || 'Jowoiot' }  使用条款 隐私和Cookie
                     </span>
                 </div>
             </div>
