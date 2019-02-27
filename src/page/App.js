@@ -236,7 +236,7 @@ export default class App extends Component {
                             <Route path='/' render={props => this.renderPage(<Login />, props)} />
                         </Switch>
                     </HashRouter>
-                    {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading /></div>}
+                    {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading content='' /></div>}
                 </div>
             </div>
         );
