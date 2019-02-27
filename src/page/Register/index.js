@@ -41,7 +41,8 @@ export default class Register extends Component {
                                 }, 1000);
                             }
                         }).catch((error) => {
-                            alert(error.response.data.error);
+                            const type = error.response.data.error;
+                            step2[type].setErrorMessage(`${type === 'phone' ? phone : email}已被使用`);
                         });
                     }
                 }

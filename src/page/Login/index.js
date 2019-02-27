@@ -16,10 +16,6 @@ export default class Login extends Component {
         this.setState(state);
     }
 
-    filterRefs() {
-        return Array.from(new Set(this.domRefs.filter(Boolean)));
-    }
-
     login(e) {
         const key = window.event ? e.keyCode : e.which;
         // 获取被按下的键值
@@ -33,7 +29,7 @@ export default class Login extends Component {
         window.localStorage.clear();
         localforage.clear();
         clearStorage();
-        const refs = this.filterRefs();
+        const refs = Object.values(this.domRefs);
 
         Promise.all(refs.map(ref => ref.handleCheck())).then((values) => {
             if (values.every(Boolean)) {
@@ -56,7 +52,8 @@ export default class Login extends Component {
                         }
                     })
                     .catch((error) => {
-                        alert(error.response.data.error);
+                        const type = error.response.data.error;
+                        this.domRefs[type].setErrorMessage(type === 'userName' ? `用户${userName}不存在` : '密码错误');
                     });
             }
         });
@@ -83,7 +80,7 @@ export default class Login extends Component {
             remembered: getStorage('remembered') === 'true',
         };
 
-        this.domRefs = [];
+        this.domRefs = {};
     }
 
     componentDidMount() {
@@ -109,7 +106,7 @@ export default class Login extends Component {
                     <form>
                         <FileInput
                             name='userName'
-                            ref={ref => this.domRefs.push(ref)}
+                            ref={(ref) => { this.domRefs.userName = ref; }}
                             style={{ width: '100%', marginTop: 30 }}
                             required
                             placeholder='电子邮箱或手机号'
@@ -119,7 +116,7 @@ export default class Login extends Component {
                         />
                         <FileInput
                             name='password'
-                            ref={ref => this.domRefs.push(ref)}
+                            ref={(ref) => { this.domRefs.password = ref; }}
                             style={{ width: '100%', marginTop: 30 }}
                             required
                             type='password'
