@@ -20,10 +20,16 @@ export default class App extends Component {
     //     }, 200);
     // }
     getBackGround() {
-        const myDate = new Date();
-        const day = myDate.getDay();
+        return `http://jowoiot-front.oss-cn-shanghai.aliyuncs.com/login-pick-${document.domain}.jpg`;
+    }
 
-        return `./login/background${day}.jpg`;
+    getDefaultImg(e) {
+        const src = './login/background.jpg';
+        if (e.currentTarget.src === window.location.origin + '/login/background.jpg') {
+            e.currentTarget.src = './background.jpg';
+        } else {
+            e.currentTarget.src = src;
+        }
     }
 
     getQueryString(name) {
@@ -225,7 +231,8 @@ export default class App extends Component {
 
         return (
             <div style={{ width: '100%', height: '100%' }}>
-                <div className={styles.app} style={isMobile ? {} : { backgroundImage: `url(${this.getBackGround()})` }}>
+                <div className={styles.app}>
+                    {!isMobile && <img className='background' src={this.getBackGround()} alt='' onError={this.getDefaultImg.bind(this)} />}
                     <HashRouter hashType='noslash'>
                         <Switch>
                             <Route path='/register/:step' render={props => this.renderPage(<Register />, props)} />
