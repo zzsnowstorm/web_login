@@ -78,6 +78,7 @@ export default class Login extends Component {
         if (locale !== _locale) {
             setStore('locale', locale);
             setStorage('locale', locale);
+            window.document.title = getString('login');
             this.setState({ locale });
         }
     }
