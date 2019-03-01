@@ -25,7 +25,7 @@ export default class App extends Component {
 
     getDefaultImg(e) {
         const src = './login/background.jpg';
-        if (e.currentTarget.src === window.location.origin + '/login/background.jpg') {
+        if (src === e.currentTarget.getAttribute('src')) {
             e.currentTarget.src = './background.jpg';
         } else {
             e.currentTarget.src = src;
