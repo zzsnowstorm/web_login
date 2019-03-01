@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styles from './index.less';
 import logo from '../../public/logo.png';
 import FileInput from '../../compent/FileInput';
-import { historyPush } from '../../util/index';
+import { historyPush, getString } from '../../util/index';
 import { fetchCustomerData, checkUserName, register } from '../../util/api';
 
 export default class Register extends Component {
@@ -26,7 +26,7 @@ export default class Register extends Component {
                         // 校验账号是否存在
                         checkUserName(customerId, account).then((response) => {
                             if (response.data) {
-                                step1.account.setErrorMessage(`${account}已经是注册过的帐户。如果是你的账户，请立即登录。`);
+                                step1.account.setErrorMessage(account + getString('account_tips'));
                             } else {
                                 historyPush(history, `/register/${step}`);
                             }
@@ -42,7 +42,7 @@ export default class Register extends Component {
                             }
                         }).catch((error) => {
                             const type = error.response.data.error;
-                            step2[type].setErrorMessage(`${type === 'phone' ? phone : email}已被使用`);
+                            step2[type].setErrorMessage((type === 'phone' ? phone : email) + getString('has_been_used'));
                         });
                     }
                 }
@@ -63,18 +63,18 @@ export default class Register extends Component {
 
     checkPassword(value, callback) {
         const check = /\s+/;
-        callback(!check.test(value), '密码中不能有空格');
+        callback(!check.test(value), getString('password_error1'));
     }
 
     checkPhone(value, callback) {
         const check = /^1[3|4|5|7|8]\d{9}$/;
-        callback(check.test(value), '手机号格式不正确');
+        callback(check.test(value), getString('phone_error1'));
     }
 
     checkEmail(value, callback) {
         // eslint-disable-next-line
         const check = /^([A-Za-z0-9_\-\.\u4e00-\u9fa5])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/;
-        callback(check.test(value), '邮箱格式不正确');
+        callback(check.test(value), getString('email_error1'));
     }
 
     renderstep1() {
@@ -84,20 +84,20 @@ export default class Register extends Component {
             <div className='register-content'>
                 <div className='register-logo' style={{ backgroundImage: `url(${customer.logo || logo})` }} />
                 <div className='register-title'>
-                    创建账号
+                    {getString('creater+account')}
                 </div>
                 <FileInput
                     ref={(ref) => { this.domRef.step1.account = ref; }}
                     style={{ width: '100%', marginTop: 30 }}
                     required
-                    placeholder='建议电子邮箱或手机号'
+                    placeholder={getString('account_placeholder')}
                     value={account}
                     onChange={value => this.handleChange({ account: value })}
                     validateFields={(value, callback) => this.checkAccount(value, callback)}
                 />
                 <div className='register-jump'>
                     <span className='jump-span' onClick={() => historyPush(history, '/')}>
-                        <div className='jump-text'>已有账号</div>
+                        <div className='jump-text'>{getString('already+have1+account')}</div>
                         <div className='jump-arrowblueicon' style={{ backgroundImage: 'url(./login/arrowblueicon.png)' }} />
                     </span>
                 </div>
@@ -108,7 +108,7 @@ export default class Register extends Component {
                         style={{ float: 'right', backgroundColor: '#4C84FF' }}
                         onClick={() => this.jump2Step('step2')}
                     >
-                        下一步
+                        {getString('next_step')}
                     </button>
                 </div>
             </div>
@@ -130,14 +130,14 @@ export default class Register extends Component {
                     </span>
                 </div>
                 <div className='register-title'>
-                    创建账号
+                    {getString('creater+account')}
                 </div>
                 <FileInput
                     ref={(ref) => { this.domRef.step2.password = ref; }}
                     type='password'
                     style={{ width: '100%', marginTop: 30 }}
                     required
-                    placeholder='输入密码'
+                    placeholder={getString('please+input+password')}
                     value={password}
                     onChange={value => this.handleChange({ password: value })}
                     validateFields={(value, callback) => this.checkPassword(value, callback)}
@@ -146,7 +146,7 @@ export default class Register extends Component {
                     ref={(ref) => { this.domRef.step2.phone = ref; }}
                     style={{ width: '100%', marginTop: 30 }}
                     required
-                    placeholder='绑定手机号'
+                    placeholder={getString('binding+phone')}
                     value={phone}
                     onChange={value => this.handleChange({ phone: value })}
                     validateFields={(value, callback) => this.checkPhone(value, callback)}
@@ -155,7 +155,7 @@ export default class Register extends Component {
                 <FileInput
                     ref={(ref) => { this.domRef.step2.email = ref; }}
                     style={{ width: '100%', marginTop: 10 }}
-                    placeholder='绑定邮箱'
+                    placeholder={getString('binding+email')}
                     value={email}
                     onChange={value => this.handleChange({ email: value })}
                     validateFields={(value, callback) => this.checkEmail(value, callback)}
@@ -167,7 +167,7 @@ export default class Register extends Component {
                         style={{ float: 'right', backgroundColor: '#4C84FF' }}
                         onClick={() => this.jump2Step('step3')}
                     >
-                        下一步
+                        {getString('next_step')}
                     </button>
                 </div>
             </div>
@@ -178,10 +178,10 @@ export default class Register extends Component {
         return (
             <div className='register-content' style={{ display: 'flex', flexFlow: 'column nowrap', justifyContent: 'center', alignItems: 'center' }}>
                 <div className='register-title'>
-                    注册成功
+                    {getString('register+success')}
                 </div>
                 <div style={{ fontSize: 14, color: 'rgba(0,0,0,0.60)', fontFamily: 'PingFangSC-Regular', marginTop: 30 }}>
-                    现在你可以使用账号到你的帐户。
+                    {getString('register_success_tips')}
                 </div>
                 <div className='register-logo' style={{ backgroundImage: 'url(./login/checkmarkicon.png)', width: 43, height: 43, marginTop: 30 }} />
             </div>
@@ -226,11 +226,11 @@ export default class Register extends Component {
 
     componentDidMount() {
         const { match: { params: { step } }, customerId } = this.props;
-        window.document.title = '注册账号';
+        window.document.title = getString('register+account');
         fetchCustomerData(customerId).then((response) => {
             this.setState({ customer: response.data });
         }).catch((error) => {
-            console.log(error);
+            console.error(error);
         });
 
         if (!step) {
@@ -246,7 +246,7 @@ export default class Register extends Component {
                 { this.renderStep() }
                 <div className='register-copyright'>
                     <span>
-                        ©{(new Date()).getFullYear()} { name || 'Jowoiot' }  使用条款 隐私和Cookie
+                        ©{(new Date()).getFullYear()} { name || 'Jowoiot' }  {getString('copyright')}
                     </span>
                 </div>
             </div>

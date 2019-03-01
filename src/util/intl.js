@@ -40,6 +40,7 @@ const intlMap = {
     userName: ['用户名', 'Username'],
     alias: ['别名', 'Alias'],
     email: ['邮箱', 'Email'],
+    email2: ['电子邮箱', 'Email'],
     password: ['密码', 'password'],
     realtime: ['实时', 'Realtime'],
     history: ['历史', 'History'],
@@ -92,6 +93,9 @@ const intlMap = {
     medias: ['多媒体', 'Medias'],
 
     configuration: ['配置信息', 'Configuration'],
+    verification_code: ['验证码', 'Verification Code'],
+    next_step: ['下一步', 'Next Step'],
+    previous_step: ['上一步', 'Previous Step'],
 
     // 动词
     new: ['新建', 'New'],
@@ -116,6 +120,7 @@ const intlMap = {
     enter: ['进入', 'Enter'],
     control: ['控制', 'Control'],
     have: ['拥有', 'Have'],
+    have1: ['有', 'Have'],
     remember: ['记住', 'Remember'],
     aggregate: ['聚合', 'aggregate'],
     happen: ['发生', 'Happeed'],
@@ -141,8 +146,15 @@ const intlMap = {
     swap: ['切换', 'Swap'],
     click: ['点击', 'Click'],
     submit: ['提交', 'Submit'],
+    forgot: ['忘记', 'Forgot'],
+    input: ['输入', 'Enter'],
+    return: ['返回', 'Return'],
+    register: ['注册', 'Register'],
+    binding: ['绑定', 'Binding'],
+    recover: ['恢复', 'Recover'],
 
     // 形容词/副词
+    new1: ['新的', 'New'],
     success: ['成功', 'Successful'],
     normal: ['正常', 'Normal'],
     fail: ['失败', 'Failed'],
@@ -170,10 +182,12 @@ const intlMap = {
     important: ['重要', 'Important'],
 
     direct: ['直接', 'Direct'],
+    we: ['我们', 'We'],
 
     // 代词
     this: ['该', 'this'],
     me: ['我', 'Me'],
+    your: ['你的', 'Your'],
 
     // 量词
     a: ['个', ''],
@@ -194,6 +208,7 @@ const intlMap = {
     empty: ['空', 'Empty'],
     cannot: ['不能', 'can not'],
     or: ['或', 'Or'],
+    just: ['刚刚', 'Just'],
 
     // 时间词
     minute: ['分钟', 'minute'],
@@ -210,6 +225,7 @@ const intlMap = {
     date: ['日期', 'Date'],
 
     // 专用词
+    copyright: ['使用条款 隐私和Cookie', 'Terms of Use Privacy and Cookie'],
     noConnection: ['无连接', 'Nonconnection'],
     alarmLight: ['光字牌', 'AlarmLight'],
     trendChart: ['趋势图', 'Trend Chart'],
@@ -309,6 +325,28 @@ const intlMap = {
     creating: ['正在新建...', 'Creating...'],
 
     scan_code_download: ['扫码直接下载', 'Download'],
+    non_existent: ['不存在', 'Non-existent'],
+    not_empty: ['该选项不能为空', 'This option cannot be empty'],
+    reset_the_password: ['重新设置密码', 'Reset the password'],
+    successful_password_reset: ['重新设置密码成功', 'Successful password reset'],
+
+    // 提示/报错信息
+    authentication_tips: ['我们刚才向 {phone} 发送了一个验证码。请输入你收到的验证码。', 'We just sent a verification code to {phone}. Please enter the verification code you received.'],
+    account_placeholder: ['建议电子邮箱或手机号', 'Suggested e-mail or mobile phone number'],
+    account_tips: ['已经是注册过的帐户。如果是你的账户，请立即登录。', "is already a registered account. If it's your account, please log in immediately."],
+    register_success_tips: ['现在你可以使用账号到你的帐户。', 'Now you can use your account to your account.'],
+    has_been_used: ['已被使用', 'Has been used'],
+    password_reset_tips1: ['我们可以帮助你重置密码和安全信息。首先，请输入你的帐户，然后按照下面的说明操作。', 'We can help you reset your password and security information. First, please enter your account, and then follow the instructions below.'],
+    password_reset_tips2: ['最少8个字符', 'Minimum 8 characters'],
+    password_reset_tips3: ['现在你可以使用新的安全信息登录到你的帐户。', 'Now you can log in to your account with new security information.'],
+    re_enter_new_password: ['重新输入新密码', 'Re-enter the new password'],
+
+
+    password_error1: ['密码中不能包含空格', 'Spaces cannot be included in passwords'],
+    password_error2: ['请选择以前未用过的密码。为了帮助保护你的帐户，每次重新设置密码时，你需要选择新的密码。', "Please choose a password you haven't used before. To help protect your account, you need to choose a new password every time you reset your password."],
+    sms_code_error1: ['请填写6位验证码', 'Please fill in the 6-digit verification code.'],
+    email_error1: ['邮箱格式不正确', 'The mailbox format is incorrect'],
+    phone_error1: ['手机号格式不正确', 'Incorrect format of mobile phone number'],
 };
 
 const localeMap = {

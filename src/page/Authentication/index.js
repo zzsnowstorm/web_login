@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import FileInput from '../../compent/FileInput';
-import { historyPush, getStorage } from '../../util/index';
+import { historyPush, getStorage, getString } from '../../util/index';
 import { checkSms } from '../../util/api';
 
 export default class Authentication extends Component {
@@ -18,7 +18,7 @@ export default class Authentication extends Component {
         if (value.length === 6) {
             callback(true, '');
         } else {
-            callback(false, '请填写6位验证码');
+            callback(false, getString('sms_code_error1'));
         }
     }
 
@@ -53,15 +53,16 @@ export default class Authentication extends Component {
         return (
             <div className={styles.authentication}>
                 <div className='authentication-content'>
-                    <div className='authentication-title'>手机号验证码</div>
+                    <div className='authentication-title'>{getString('phone+verification_code')}</div>
                     <article className='authentication-points'>
-                        <p>我们刚才向 {phone} 发送了一个验证码。请输入你收到的验证码。</p>
+                        {/* <p>我们刚才向 {phone} 发送了一个验证码。请输入你收到的验证码。</p> */}
+                        <p>{getString('authentication_tips').split('{phone}').join(phone)}</p>
                     </article>
                     <FileInput
                         ref={(ref) => { this.domRef.smsCode = ref; }}
                         style={{ width: '100%', marginTop: 30 }}
                         required
-                        placeholder='请输入验证码'
+                        placeholder={getString('please+input+verification_code')}
                         value={smsCode}
                         onChange={value => this.handleChange({ smsCode: value })}
                         validateFields={(value, callback) => this.checkSmsCode(value, callback)}
@@ -74,7 +75,7 @@ export default class Authentication extends Component {
                                 style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
                                 onClick={() => this.jump2Back('/')}
                             >
-                                返回
+                                {getString('return')}
                             </button>
                             <button
                                 type='button'
@@ -82,14 +83,14 @@ export default class Authentication extends Component {
                                 style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
                                 onClick={() => this.handleSubmit()}
                             >
-                                登录
+                                {getString('login')}
                             </button>
                         </div>
                     </div>
                 </div>
                 <div className='authentication-copyright'>
                     <span>
-                    ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  使用条款 隐私和Cookie
+                    ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  {getString('copyright')}
                     </span>
                 </div>
             </div>

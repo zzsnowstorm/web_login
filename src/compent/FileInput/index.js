@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import propTypes from 'prop-types';
 import styles from './index.less';
+import { getString, getStorage } from '../../util';
 
 export default class FileInput extends Component {
     setErrorMessage(errorMessage) {
@@ -12,7 +13,7 @@ export default class FileInput extends Component {
         return new Promise((resolve) => {
             const { required, value, validateFields } = this.props;
             if (required && !value) {
-                this.setState({ error: true, errorMessage: '该选项不能为空' }, () => resolve(status()));
+                this.setState({ error: true, errorMessage: getString('not_empty') }, () => resolve(status()));
                 return;
             }
             if (!required && !value) {
@@ -47,11 +48,19 @@ export default class FileInput extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            locale: getStorage('locale'),
             error: false,
             errorMessage: '',
 
             focus: false,
         };
+    }
+
+    componentDidUpdate() {
+        const { locale, error, errorMessage } = this.state;
+        if (locale !== getStorage('locale') && error && errorMessage) {
+            this.setState({ locale: getStorage('locale') }, () => this.handleCheck());
+        }
     }
 
     render() {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import FileInput from '../../compent/FileInput';
-import { historyPush } from '../../util/index';
+import { historyPush, getString } from '../../util/index';
 
 export default class PasswordReset extends Component {
     handleChange(state) {
@@ -50,9 +50,9 @@ export default class PasswordReset extends Component {
     checkPassword(value, callback) {
         const check = /\s+/;
         if (check.test(value)) {
-            callback(false, '密码中不能有空格');
+            callback(false, getString('password_error1'));
         } else if (value.length < 8) {
-            callback(false, '最少8个字符');
+            callback(false, getString('password_reset_tips2'));
         } else {
             callback(true, '');
         }
@@ -61,7 +61,7 @@ export default class PasswordReset extends Component {
     checkConfirmPassword(value, callback) {
         const { password } = this.state;
         if (password !== value) {
-            callback(false, '这些密码不匹配');
+            callback(false, getString('password+bu+match'));
         } else {
             callback(true, '');
         }
@@ -71,15 +71,15 @@ export default class PasswordReset extends Component {
         const { account } = this.state;
         return (
             <div className='password_reset-content'>
-                <div className='password_reset-title'>恢复你的账户</div>
+                <div className='password_reset-title'>{getString('recover+your+account')}</div>
                 <article className='password_reset-points'>
-                    <p>我们可以帮助你重置密码和安全信息。首先，请输入你的帐户，然后按照下面的说明操作。</p>
+                    <p>{getString('password_reset_tips1')}</p>
                 </article>
                 <FileInput
                     ref={(ref) => { this.domRef.step1.account = ref; }}
                     style={{ width: '100%', marginTop: 30 }}
                     required
-                    placeholder='请输入手机号'
+                    placeholder={getString('please+input+phone')}
                     value={account}
                     onChange={value => this.handleChange({ account: value })}
                     validateFields={(value, callback) => this.checkAccount(value, callback)}
@@ -91,7 +91,7 @@ export default class PasswordReset extends Component {
                         style={{ backgroundColor: '#4C84FF' }}
                         onClick={() => this.jump2Next('step2')}
                     >
-                        下一步
+                        {getString('next_step')}
                     </button>
                 </div>
             </div>
@@ -102,15 +102,15 @@ export default class PasswordReset extends Component {
         const { account, verificationCode } = this.state;
         return (
             <div className='password_reset-content'>
-                <div className='password_reset-title'>手机号验证码</div>
+                <div className='password_reset-title'>{getString('phone+verification_code')}</div>
                 <article className='password_reset-points'>
-                    <p>我们刚才向 {account} 发送了一个代码。请输入你收到的验证码。</p>
+                    <p>{getString('authentication_tips').split('{phone}').join(account)}</p>
                 </article>
                 <FileInput
                     ref={(ref) => { this.domRef.step2.verificationCode = ref; }}
                     style={{ width: '100%', marginTop: 30 }}
                     required
-                    placeholder='请输入验证码'
+                    placeholder={getString('please+input+verification_code')}
                     value={verificationCode}
                     onChange={value => this.handleChange({ verificationCode: value })}
                 />
@@ -121,7 +121,7 @@ export default class PasswordReset extends Component {
                         style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
                         onClick={() => this.jump2Back('step1')}
                     >
-                        上一步
+                        {getString('previous_step')}
                     </button>
                     <button
                         type='button'
@@ -129,7 +129,7 @@ export default class PasswordReset extends Component {
                         style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
                         onClick={() => this.jump2Next('step3')}
                     >
-                        下一步
+                        {getString('next_step')}
                     </button>
                 </div>
             </div>
@@ -140,12 +140,13 @@ export default class PasswordReset extends Component {
         const { usedPassword, password, confirmPassword } = this.state;
         return (
             <div className='password_reset-content'>
-                <div className='password_reset-title'>重新设置密码</div>
+                <div className='password_reset-title'>{getString('reset_the_password')}</div>
                 {
                     usedPassword
                     && (
                         <article className='password_reset-points' style={{ color: '#FF1F1F' }}>
-                            <p>请选择以前未用过的密码。为了帮助保护你的帐户，每次重新设置密码时，你需要选择新的密码。</p>
+                            {/* <p>请选择以前未用过的密码。为了帮助保护你的帐户，每次重新设置密码时，你需要选择新的密码。</p> */}
+                            <p>{getString('password_error2')}</p>
                         </article>
                     )
                 }
@@ -153,17 +154,17 @@ export default class PasswordReset extends Component {
                     ref={(ref) => { this.domRef.step3.password = ref; }}
                     style={{ width: '100%', marginTop: 30 }}
                     required
-                    placeholder='新密码'
+                    placeholder={getString('new1+password')}
                     value={password}
                     onChange={value => this.handleChange({ password: value })}
                     validateFields={(value, callback) => this.checkPassword(value, callback)}
                 />
-                <div className='password_reset-tips'><p style={{ margin: '10px 0 0 0' }}>最少8个字符</p></div>
+                <div className='password_reset-tips'><p style={{ margin: '10px 0 0 0' }}>{getString('password_reset_tips2')}</p></div>
                 <FileInput
                     ref={(ref) => { this.domRef.step3.confirmPassword = ref; }}
                     style={{ width: '100%', marginTop: 30 }}
                     required
-                    placeholder='重新输入新密码'
+                    placeholder={getString('re_enter_new_password')}
                     value={confirmPassword}
                     onChange={value => this.handleChange({ confirmPassword: value })}
                 />
@@ -174,7 +175,7 @@ export default class PasswordReset extends Component {
                         style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
                         onClick={() => this.jump2Back('step2')}
                     >
-                        上一步
+                        {getString('previous_step')}
                     </button>
                     <button
                         type='button'
@@ -182,7 +183,7 @@ export default class PasswordReset extends Component {
                         style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
                         onClick={() => this.jump2Next('step4')}
                     >
-                        下一步
+                        {getString('next_step')}
                     </button>
                 </div>
             </div>
@@ -193,9 +194,9 @@ export default class PasswordReset extends Component {
         const { history } = this.props;
         return (
             <div className='password_reset-content'>
-                <div className='password_reset-title'>重新设置密码成功</div>
+                <div className='password_reset-title'>{getString('successful_password_reset')}</div>
                 <article className='password_reset-points'>
-                    <p>现在你可以使用新的安全信息登录到你的帐户。</p>
+                    <p>{getString('password_reset_tips3')}</p>
                 </article>
                 <div className='password_reset-footer'>
                     <button
@@ -204,7 +205,7 @@ export default class PasswordReset extends Component {
                         style={{ backgroundColor: '#4C84FF', width: '100%' }}
                         onClick={() => historyPush(history, '/')}
                     >
-                        下一步
+                        {getString('next_step')}
                     </button>
                 </div>
             </div>
@@ -252,7 +253,7 @@ export default class PasswordReset extends Component {
 
     componentDidMount() {
         const { step } = this.props.match.params;
-        window.document.title = '重置密码';
+        window.document.title = getString('reset+password');
         if (!step) {
             const { history } = this.props;
             historyPush(history, '/password_reset/step1');
@@ -265,7 +266,7 @@ export default class PasswordReset extends Component {
                 {this.renderStep()}
                 <div className='password_reset-copyright'>
                     <span>
-                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  使用条款 隐私和Cookie
+                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  {getString('copyright')}
                     </span>
                 </div>
             </div>

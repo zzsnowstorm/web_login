@@ -3,7 +3,7 @@ import localforage from 'localforage';
 import styles from './index.less';
 import Icon from '../../compent/Icon';
 import FileInput from '../../compent/FileInput';
-import { historyPush, clearStorage, setStorage, getString, getStorage } from '../../util/index';
+import { historyPush, clearStorage, setStorage, getString, getStorage, setStore } from '../../util/index';
 import { userLogin } from '../../util/api';
 
 export default class Login extends Component {
@@ -53,7 +53,8 @@ export default class Login extends Component {
                     })
                     .catch((error) => {
                         const type = error.response.data.error;
-                        this.domRefs[type].setErrorMessage(type === 'userName' ? `用户${userName}不存在` : '密码错误');
+                        const eror = type === 'userName' ? getString('user') + userName + getString('non_existent') : getString('password+error');
+                        this.domRefs[type].setErrorMessage(eror);
                     });
             }
         });
@@ -69,7 +70,16 @@ export default class Login extends Component {
 
     checkPassword(value, callback) {
         const check = /\s+/;
-        callback(!check.test(value), '密码中不能有空格');
+        callback(!check.test(value), getString('password_error1'));
+    }
+
+    setLocale(locale) {
+        const { locale: _locale } = this.state;
+        if (locale !== _locale) {
+            setStore('locale', locale);
+            setStorage('locale', locale);
+            this.setState({ locale });
+        }
     }
 
     constructor(props) {
@@ -77,7 +87,9 @@ export default class Login extends Component {
         this.state = {
             userName: '',
             password: '',
+            locale: getStorage('locale'),
             remembered: getStorage('remembered') === 'true',
+
         };
 
         this.domRefs = {};
@@ -98,18 +110,18 @@ export default class Login extends Component {
     }
 
     render() {
-        const { userName, password, remembered } = this.state;
+        const { userName, password, remembered, locale } = this.state;
         return (
             <div className={styles.login}>
                 <div className='login-content'>
-                    <div className='login-title'> 登录 </div>
+                    <div className='login-title'> {getString('login')} </div>
                     <form>
                         <FileInput
                             name='userName'
                             ref={(ref) => { this.domRefs.userName = ref; }}
                             style={{ width: '100%', marginTop: 30 }}
                             required
-                            placeholder='电子邮箱或手机号'
+                            placeholder={getString('email2+or+phone')}
                             value={userName}
                             onChange={value => this.handleChange({ userName: value })}
                             validateFields={(value, callback) => this.checkUserName(value, callback)}
@@ -120,48 +132,51 @@ export default class Login extends Component {
                             style={{ width: '100%', marginTop: 30 }}
                             required
                             type='password'
-                            placeholder='密码'
+                            placeholder={getString('password')}
                             value={password}
                             onChange={value => this.handleChange({ password: value })}
                             validateFields={(value, callback) => this.checkPassword(value, callback)}
                         />
                     </form>
                     <div className='login-block' style={{ marginTop: 30, fontSize: 14, color: ' #4C84FF' }}>
-                        {/* <div
-                            style={{ cursor: 'pointer', display: 'inline-block' }}
-                            onClick={this.jump2passwordReset.bind(this)}
-                        >
-                            忘记密码？
-                        </div> */}
                         <div className='login-rememberme' onClick={() => { this.setState({ remembered: !remembered }); }}>
                             <span className={'checkBox ' + (remembered ? 'checked' : '')}>
                                 {!remembered ? '' : <Icon iconSize={[14, 14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />}
                             </span>
                             <span>{getString('remember+me')}</span>
                         </div>
-                        <a
-                            target='_blank'
-                            rel='noopener noreferrer'
-                            href={'https://fir.im/iiot' + document.domain}
-                            style={{ textDecoration: 'none', color: ' #4C84FF' }}
-                        >
-                            App下载
-                        </a>
+                        <div>
+                            <a href='#' style={{ color: locale === 'zh-CN' ? '#4DA1FF' : '#11171B' }} onClick={() => this.setLocale('zh-CN')}>中文</a>
+                            /
+                            <a href='#' style={{ color: locale === 'zh-CN' ? '#11171B' : '#4DA1FF' }} onClick={() => this.setLocale('en-US')}>English</a>
+                        </div>
                     </div>
                     <div className='login-footer'>
                         <button
                             type='button'
                             className='login-button'
-                            style={{ float: 'right', backgroundColor: '#4C84FF' }}
+                            style={{ backgroundColor: '#4C84FF' }}
                             onClick={() => this.handleSubmit()}
                         >
-                            登录
+                            {getString('login')}
                         </button>
+                        <div className='login-footer-option'>
+                            <div
+                                style={{ cursor: 'pointer' }}
+                                onClick={this.jump2passwordReset.bind(this)}
+                            >
+                                {getString('forgot+password')}
+                            </div>
+                            <div className='login-footer-separate'> · </div>
+                            <div style={{ cursor: 'pointer' }} onClick={() => window.open('https://fir.im/iiot' + document.domain)}>
+                                {getString('App+download')}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className='login-copyright'>
                     <span>
-                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  使用条款 隐私和Cookie
+                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  {getString('copyright')}
                     </span>
                 </div>
             </div>
