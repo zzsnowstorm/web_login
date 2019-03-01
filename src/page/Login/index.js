@@ -8,8 +8,8 @@ import { userLogin } from '../../util/api';
 
 export default class Login extends Component {
     jump2passwordReset() {
-        const { history } = this.props;
-        historyPush(history, '/password_reset/step1');
+        // const { history } = this.props;
+        // historyPush(history, '/password_reset/step1');
     }
 
     handleChange(state) {
