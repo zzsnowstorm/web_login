@@ -56,7 +56,7 @@ export default class Authentication extends Component {
                     <div className='authentication-title'>{getString('phone+verification_code')}</div>
                     <article className='authentication-points'>
                         {/* <p>我们刚才向 {phone} 发送了一个验证码。请输入你收到的验证码。</p> */}
-                        <p>{getString('authentication_tips').split('{phone}').join(phone)}</p>
+                        <p>{getString('authentication_tips').split('{phone}').join(phone || '')}</p>
                     </article>
                     <FileInput
                         ref={(ref) => { this.domRef.smsCode = ref; }}
@@ -68,24 +68,22 @@ export default class Authentication extends Component {
                         validateFields={(value, callback) => this.checkSmsCode(value, callback)}
                     />
                     <div className='authentication-footer'>
-                        <div style={{ float: 'right' }}>
-                            <button
-                                type='button'
-                                className='authentication-button'
-                                style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
-                                onClick={() => this.jump2Back('/')}
-                            >
-                                {getString('return')}
-                            </button>
-                            <button
-                                type='button'
-                                className='authentication-button'
-                                style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
-                                onClick={() => this.handleSubmit()}
-                            >
-                                {getString('login')}
-                            </button>
-                        </div>
+                        <button
+                            type='button'
+                            className='authentication-button'
+                            style={{ backgroundColor: '#CCCCCC', color: 'rgba(0,0,0,0.60)' }}
+                            onClick={() => this.jump2Back('/')}
+                        >
+                            {getString('return')}
+                        </button>
+                        <button
+                            type='button'
+                            className='authentication-button'
+                            style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
+                            onClick={() => this.handleSubmit()}
+                        >
+                            {getString('login')}
+                        </button>
                     </div>
                 </div>
                 <div className='authentication-copyright'>

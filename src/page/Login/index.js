@@ -147,9 +147,9 @@ export default class Login extends Component {
                             <span>{getString('remember+me')}</span>
                         </div>
                         <div>
-                            <a href='#' style={{ color: locale === 'zh-CN' ? '#4DA1FF' : '#11171B' }} onClick={() => this.setLocale('zh-CN')}>中文</a>
+                            <a href='#' style={{ color: locale === 'zh-CN' ? '#4DA1FF' : '#11171B', textDecoration: 'none' }} onClick={() => this.setLocale('zh-CN')}>中文</a>
                             /
-                            <a href='#' style={{ color: locale === 'zh-CN' ? '#11171B' : '#4DA1FF' }} onClick={() => this.setLocale('en-US')}>English</a>
+                            <a href='#' style={{ color: locale === 'zh-CN' ? '#11171B' : '#4DA1FF', textDecoration: 'none' }} onClick={() => this.setLocale('en-US')}>English</a>
                         </div>
                     </div>
                     <div className='login-footer'>
