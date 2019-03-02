@@ -23,6 +23,31 @@
             height: 100%;
             z-index: -1;
         }
+
+        .copyright {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+
+            height: 20px;
+            opacity: 0.6;
+            background-color: #000000;
+            padding: 10px 40px 10px 0;
+
+            display: flex;
+            flex-flow: row nowrap;
+            justify-content: flex-end;
+            align-items: center;
+
+            span {
+                font-family: PingFangSC-Regular;
+                font-size: 14px;
+                color: #FFFFFF;
+                letter-spacing: 0;
+                text-align: right;
+            }
+        }
     }
 }
 
@@ -30,6 +55,16 @@
     .app {
         &:after {
             background-color: rgba(0,0,0,0);
+        }
+
+        :global {
+            .copyright {
+                height: 20px;
+                padding: 0;
+                span {
+                    font-size: 7px;
+                }
+            }
         }
     }
 }

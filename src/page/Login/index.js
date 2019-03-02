@@ -175,11 +175,6 @@ export default class Login extends Component {
                         </div>
                     </div>
                 </div>
-                <div className='login-copyright'>
-                    <span>
-                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  {getString('copyright')}
-                    </span>
-                </div>
             </div>
         );
     }

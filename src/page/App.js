@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import localforage from 'localforage';
-import { config, setStorage, setStore, getStorage, clearStorage } from '../util/index';
+import { config, setStorage, setStore, getStorage, clearStorage, getString } from '../util/index';
 import { fetchMdmData, refreshToken, fetchUserData } from '../util/api';
 import Login from './Login/index';
 import Register from './Register';
@@ -19,6 +19,10 @@ export default class App extends Component {
     //         loaded && this.jumpIfAlreadyLoad();
     //     }, 200);
     // }
+    isMobile() {
+        return /(iPhone|Android)/i.test(navigator.userAgent);
+    }
+
     getBackGround() {
         return `http://jowoiot-front.oss-cn-shanghai.aliyuncs.com/login-pick-${document.domain}.jpg`;
     }
@@ -63,7 +67,8 @@ export default class App extends Component {
     }
 
     resize() {
-        this.setState({ isMobile: window.innerWidth < 768 });
+        // eslint-disable-next-line
+        this.setState({ isMobile: this.isMobile() });
     }
 
     renderPage(component, props) {
@@ -200,9 +205,10 @@ export default class App extends Component {
         const locale = this.getLocale() || 'zh-CN';
         setStorage('locale', locale);
         window.store.locale = locale;
-        const isMobile = window.innerWidth < 768;
+        const isMobile = this.isMobile();
         const searchParams = this.getSearchParams();
         this.state = {
+
             ...searchParams,
             locale,
             isMobile,
@@ -242,6 +248,11 @@ export default class App extends Component {
                         <Route path='/' render={props => this.renderPage(<Login />, props)} />
                     </Switch>
                 </HashRouter>
+                <div className='copyright' style={{ justifyContent: isMobile ? 'center' : 'flex-end' }}>
+                    <span>
+                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  {getString('copyright')}
+                    </span>
+                </div>
                 {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading content='' /></div>}
             </div>
         );

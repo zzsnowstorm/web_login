@@ -86,11 +86,6 @@ export default class Authentication extends Component {
                         </button>
                     </div>
                 </div>
-                <div className='authentication-copyright'>
-                    <span>
-                    ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  {getString('copyright')}
-                    </span>
-                </div>
             </div>
         );
     }

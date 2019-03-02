@@ -240,15 +240,9 @@ export default class Register extends Component {
     }
 
     render() {
-        const { customer: { name } } = this.state;
         return (
             <div className={styles.register}>
                 { this.renderStep() }
-                <div className='register-copyright'>
-                    <span>
-                        ©{(new Date()).getFullYear()} { name || 'Jowoiot' }  {getString('copyright')}
-                    </span>
-                </div>
             </div>
         );
     }

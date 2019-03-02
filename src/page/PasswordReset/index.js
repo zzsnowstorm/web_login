@@ -264,11 +264,6 @@ export default class PasswordReset extends Component {
         return (
             <div className={styles.password_reset}>
                 {this.renderStep()}
-                <div className='password_reset-copyright'>
-                    <span>
-                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  {getString('copyright')}
-                    </span>
-                </div>
             </div>
         );
     }
