@@ -342,6 +342,7 @@ const intlMap = {
     re_enter_new_password: ['重新输入新密码', 'Re-enter the new password'],
 
 
+    login_error: ['用户名或密码错误', 'Incorrect username or password.'],
     password_error1: ['密码中不能包含空格', 'Spaces cannot be included in passwords'],
     password_error2: ['请选择以前未用过的密码。为了帮助保护你的帐户，每次重新设置密码时，你需要选择新的密码。', "Please choose a password you haven't used before. To help protect your account, you need to choose a new password every time you reset your password."],
     sms_code_error1: ['请填写6位验证码', 'Please fill in the 6-digit verification code.'],
