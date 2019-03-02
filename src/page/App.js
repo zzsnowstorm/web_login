@@ -230,21 +230,19 @@ export default class App extends Component {
         const { isMobile, loading } = this.state;
 
         return (
-            <div style={{ width: '100%', height: '100%' }}>
-                <div className={styles.app}>
-                    {!isMobile && <img className='background' src={this.getBackGround()} alt='' onError={this.getDefaultImg.bind(this)} />}
-                    <HashRouter hashType='noslash'>
-                        <Switch>
-                            <Route path='/register/:step' render={props => this.renderPage(<Register />, props)} />
-                            <Route path='/register' render={props => this.renderPage(<Register />, props)} />
-                            <Route path='/password_reset/:step' render={props => this.renderPage(<PasswordReset />, props)} />
-                            <Route path='/password_reset' render={props => this.renderPage(<PasswordReset />, props)} />
-                            <Route path='/authentication' render={props => this.renderPage(<Authentication />, props)} />
-                            <Route path='/' render={props => this.renderPage(<Login />, props)} />
-                        </Switch>
-                    </HashRouter>
-                    {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading content='' /></div>}
-                </div>
+            <div className={styles.app}>
+                {!isMobile && <img className='background' src={this.getBackGround()} alt='' onError={this.getDefaultImg.bind(this)} />}
+                <HashRouter hashType='noslash'>
+                    <Switch>
+                        <Route path='/register/:step' render={props => this.renderPage(<Register />, props)} />
+                        <Route path='/register' render={props => this.renderPage(<Register />, props)} />
+                        <Route path='/password_reset/:step' render={props => this.renderPage(<PasswordReset />, props)} />
+                        <Route path='/password_reset' render={props => this.renderPage(<PasswordReset />, props)} />
+                        <Route path='/authentication' render={props => this.renderPage(<Authentication />, props)} />
+                        <Route path='/' render={props => this.renderPage(<Login />, props)} />
+                    </Switch>
+                </HashRouter>
+                {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading content='' /></div>}
             </div>
         );
     }
