@@ -190,8 +190,8 @@ export default class App extends Component {
         const remembered = getStorage('remembered');
         const token = getStorage('token', true);
         const page = getStorage('page', true);
-        const flag = parseInt(remembered, 10);
-        if (!!flag && token && user && user.customer && page && page.menus && page.componentList && page.pageList) {
+        const flag = remembered === 'true';
+        if (flag && token && user && user.customer && page && page.menus && page.componentList && page.pageList) {
             this.jumpIfAlreadyLoad();
         } else {
             window.localStorage.clear();
@@ -223,6 +223,7 @@ export default class App extends Component {
         this._resize = this.resize.bind(this);
         window.addEventListener('resize', this._resize);
 
+        this.jumpIfAlreadyLogin();
         this.jumpIfHasToken();
     }
 
