@@ -13,7 +13,7 @@ export default class Login extends Component {
     }
 
     handleChange(state) {
-        this.setState(state);
+        this.setState({ ...state, errorMessage: '' });
     }
 
     login(e) {
@@ -67,6 +67,11 @@ export default class Login extends Component {
         callback(!check.test(value), getString('password_error1'));
     }
 
+    setRemembered(remembered) {
+        setStorage('remembered', remembered);
+        this.setState({ remembered });
+    }
+
     setLocale(locale) {
         const { locale: _locale } = this.state;
         if (locale !== _locale) {
@@ -83,7 +88,7 @@ export default class Login extends Component {
             userName: '',
             password: '',
             locale: getStorage('locale'),
-            remembered: getStorage('remembered') === 'true',
+            remembered: Number(getStorage('remembered')),
             errorMessage: '',
         };
 
@@ -132,7 +137,7 @@ export default class Login extends Component {
                         />
                     </form>
                     <div className='login-block' style={{ marginTop: 30, fontSize: 14, color: ' #4C84FF' }}>
-                        <div className='login-rememberme' onClick={() => { this.setState({ remembered: !remembered }); }}>
+                        <div className='login-rememberme' onClick={() => { this.setRemembered(Number(!remembered)); }}>
                             <span className={'checkBox ' + (remembered ? 'checked' : '')}>
                                 {!remembered ? '' : <Icon iconSize={[14, 14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />}
                             </span>

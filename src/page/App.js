@@ -135,7 +135,7 @@ export default class App extends Component {
     }
 
     fetchPageData(token, userId) {
-        const remembered = getStorage('remembered') === 'true';
+        const remembered = Number(getStorage('remembered'));
         setStorage('remembered', remembered);
         window.store.remembered = remembered;
 
@@ -187,11 +187,10 @@ export default class App extends Component {
     jumpIfAlreadyLogin() {
         // const { user, remembered, token, origin, page } = this.state;
         const user = getStorage('user', true);
-        const remembered = getStorage('remembered');
+        const remembered = Number(getStorage('remembered'));
         const token = getStorage('token', true);
         const page = getStorage('page', true);
-        const flag = remembered === 'true';
-        if (flag && token && user && user.customer && page && page.menus && page.componentList && page.pageList) {
+        if (remembered && token && user && user.customer && page && page.menus && page.componentList && page.pageList) {
             this.jumpIfAlreadyLoad();
         } else {
             window.localStorage.clear();
