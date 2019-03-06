@@ -85,6 +85,7 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            domain: getStorage('domain'),
             userName: '',
             password: '',
             locale: getStorage('locale'),
@@ -110,7 +111,7 @@ export default class Login extends Component {
     }
 
     render() {
-        const { errorMessage, userName, password, remembered, locale } = this.state;
+        const { errorMessage, userName, password, remembered, locale, domain } = this.state;
         return (
             <div className={styles.login}>
                 <div className='login-content'>
@@ -166,7 +167,7 @@ export default class Login extends Component {
                                 {getString('forgot+password')}
                             </div>
                             <div className='login-footer-separate'> · </div>
-                            <div style={{ cursor: 'pointer' }} onClick={() => window.open('https://fir.im/iiot' + document.domain)}>
+                            <div style={{ cursor: 'pointer' }} onClick={() => window.open('https://fir.im/iiot' + domain)}>
                                 {getString('App+download')}
                             </div>
                         </div>

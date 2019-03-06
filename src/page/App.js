@@ -23,8 +23,8 @@ export default class App extends Component {
         return /(iPhone|Android)/i.test(navigator.userAgent);
     }
 
-    getBackGround() {
-        return `http://jowoiot-front.oss-cn-shanghai.aliyuncs.com/login-pick-${document.domain}.jpg`;
+    getBackGround(domain) {
+        return `http://jowoiot-front.oss-cn-shanghai.aliyuncs.com/login-pick-${domain}.jpg`;
     }
 
     getDefaultImg(e) {
@@ -201,6 +201,8 @@ export default class App extends Component {
 
     constructor(props) {
         super(props);
+        const domain = document.domain.split('.')[1];
+        setStorage('domain', domain);
         const locale = this.getLocale() || 'zh-CN';
         setStorage('locale', locale);
         window.store.locale = locale;
@@ -233,11 +235,11 @@ export default class App extends Component {
     }
 
     render() {
-        const { isMobile, loading } = this.state;
+        const { isMobile, loading, domain } = this.state;
 
         return (
             <div className={styles.app}>
-                {!isMobile && <img className='background' src={this.getBackGround()} alt='' onError={this.getDefaultImg.bind(this)} />}
+                {!isMobile && <img className='background' src={this.getBackGround(domain)} alt='' onError={this.getDefaultImg.bind(this)} />}
                 <HashRouter hashType='noslash'>
                     <Switch>
                         <Route path='/register/:step' render={props => this.renderPage(<Register />, props)} />
@@ -250,7 +252,7 @@ export default class App extends Component {
                 </HashRouter>
                 <div className='copyright' style={{ justifyContent: isMobile ? 'center' : 'flex-end' }}>
                     <span>
-                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{document.domain}</span>  {getString('copyright')}
+                        ©{(new Date()).getFullYear()} <span style={{ textTransform: 'capitalize' }}>{domain}</span>  {getString('copyright')}
                     </span>
                 </div>
                 {loading && <div style={{ position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, backgroundColor: 'rgba(255,255,255,0.3)' }}><Loading content='' /></div>}
