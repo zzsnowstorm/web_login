@@ -211,6 +211,7 @@ export default class App extends Component {
         this.state = {
 
             ...searchParams,
+            domain,
             locale,
             isMobile,
 
