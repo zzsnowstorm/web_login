@@ -51,11 +51,15 @@ export default class Login extends Component {
                             }
                         }
                     })
-                    .catch(() => {
+                    .catch((error) => {
                         // const type = error.response.data.error;
                         // const eror = type === 'userName' ? getString('user') + userName + getString('non_existent') : getString('password+error');
                         // this.domRefs[type].setErrorMessage(eror);
-                        this.setState({ errorMessage: 'login_error' });
+                        if (error.response.status === 400) {
+                            this.setState({ errorMessage: 'login_error' });
+                        } else {
+                            alert(getString('network_error'));
+                        }
                     });
                 this.setState({ errorMessage: '' });
             }

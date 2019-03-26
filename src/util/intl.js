@@ -348,6 +348,7 @@ const intlMap = {
     sms_code_error1: ['请填写6位验证码', 'Please fill in the 6-digit verification code.'],
     email_error1: ['邮箱格式不正确', 'The mailbox format is incorrect'],
     phone_error1: ['手机号格式不正确', 'Incorrect format of mobile phone number'],
+    network_error: ['网络错误', 'Network Error'],
 };
 
 const localeMap = {
