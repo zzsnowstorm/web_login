@@ -60,6 +60,7 @@ const intlMap = {
     custom: ['自定义', 'custom'],
     properties: ['属性', 'properties'],
     account: ['账号', 'Account'],
+    account1: ['账户', 'Account'],
     result: ['结果', 'result'],
     mode: ['模式', 'mode'],
     curve: ['曲线', 'Curve'],

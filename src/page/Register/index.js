@@ -84,7 +84,7 @@ export default class Register extends Component {
             <div className='register-content'>
                 <div className='register-logo' style={{ backgroundImage: `url(${customer.logo || logo})` }} />
                 <div className='register-title'>
-                    {getString('creater+account')}
+                    {getString('create1+account')}
                 </div>
                 <FileInput
                     ref={(ref) => { this.domRef.step1.account = ref; }}
@@ -130,7 +130,7 @@ export default class Register extends Component {
                     </span>
                 </div>
                 <div className='register-title'>
-                    {getString('create1+account')}
+                    {getString('setting+account1')}
                 </div>
                 <FileInput
                     ref={(ref) => { this.domRef.step2.password = ref; }}
