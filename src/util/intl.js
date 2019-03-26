@@ -100,6 +100,7 @@ const intlMap = {
     // 动词
     new: ['新建', 'New'],
     add: ['添加', 'Add'],
+    create: ['创建', 'Create'],
     show: ['展示', 'Show'],
     revise: ['修改', 'Edit'],
     start: ['开始', 'Start'],

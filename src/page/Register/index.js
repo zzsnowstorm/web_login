@@ -130,7 +130,7 @@ export default class Register extends Component {
                     </span>
                 </div>
                 <div className='register-title'>
-                    {getString('creater+account')}
+                    {getString('create+account')}
                 </div>
                 <FileInput
                     ref={(ref) => { this.domRef.step2.password = ref; }}
