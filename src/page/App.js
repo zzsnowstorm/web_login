@@ -50,7 +50,7 @@ export default class App extends Component {
         if (search) {
             search.split('&').forEach((param) => {
                 const [key, value] = param.split('=');
-                searchParams[key] = value;
+                searchParams[key] = decodeURIComponent(value);
             });
         }
         return searchParams;
@@ -87,7 +87,7 @@ export default class App extends Component {
             if (page) {
                 const { callback } = this.state;
                 const { menus, componentList, pageList } = page;
-                user && menus && componentList && pageList && (window.location = callback ? decodeURIComponent(callback) : '/#/index');
+                user && menus && componentList && pageList && (window.location = callback || '/#/index');
             }
         } catch (e) {
             console.warn('load cache page error:' + e);
