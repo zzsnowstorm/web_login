@@ -85,9 +85,9 @@ export default class App extends Component {
         try {
             const { user, page } = window.store;
             if (page) {
-                const { redirect } = this.state;
+                const { callback } = this.state;
                 const { menus, componentList, pageList } = page;
-                user && menus && componentList && pageList && (window.location = redirect ? decodeURIComponent(redirect) : '/#/index');
+                user && menus && componentList && pageList && (window.location = callback ? decodeURIComponent(callback) : '/#/index');
             }
         } catch (e) {
             console.warn('load cache page error:' + e);
@@ -130,7 +130,7 @@ export default class App extends Component {
                 this.jumpIfAlreadyLoad();
             }).catch((error) => {
                 console.warn(error);
-                this.setState({ loading: false });
+                this.setState({ loading: false }, () => alert(error.response.data.error));
             });
     }
 
@@ -154,7 +154,8 @@ export default class App extends Component {
                     this.jumpIfAlreadyLoad();
                 }
             }).catch((error) => {
-                this.setState({ loading: false }, () => alert(error.response.status));
+                console.warn(error);
+                this.setState({ loading: false }, () => alert(error.response.data.error));
             });
 
         // 页面数据缓存
