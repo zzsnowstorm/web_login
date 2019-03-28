@@ -351,6 +351,7 @@ const intlMap = {
     email_error1: ['邮箱格式不正确', 'The mailbox format is incorrect'],
     phone_error1: ['手机号格式不正确', 'Incorrect format of mobile phone number'],
     network_error: ['网络错误', 'Network Error'],
+    error_401: ['管理员正在审核', 'Administrator Is Auditing'],
 };
 
 const localeMap = {

@@ -130,7 +130,13 @@ export default class App extends Component {
                 this.jumpIfAlreadyLoad();
             }).catch((error) => {
                 console.warn(error);
-                this.setState({ loading: false }, () => alert(error.response.data.error));
+                this.setState({ loading: false }, () => {
+                    if (error.response.status === 401) {
+                        alert(getString('error_401'));
+                    } else {
+                        alert(error.response.data.error);
+                    }
+                });
             });
     }
 
@@ -151,15 +157,21 @@ export default class App extends Component {
                     };
                     setStorage('user', userData);
                     window.store.user = userData;
-                    this.jumpIfAlreadyLoad();
+                    // this.jumpIfAlreadyLoad();
+                    // 页面数据缓存
+                    this.fetchMdmDatas();
                 }
             }).catch((error) => {
                 console.warn(error);
-                this.setState({ loading: false }, () => alert(error.response.data.error));
+                this.setState({ loading: false }, () => {
+                    if (error.response.status === 401) {
+                        alert(getString('error_401'));
+                    } else {
+                        alert(error.response.data.error);
+                    }
+                });
             });
 
-        // 页面数据缓存
-        this.fetchMdmDatas();
         this.setState({ loading: true });
         // window.setTimeout(() => {
         //     this.setState({ loadingText: '正在加载主数据...' });
