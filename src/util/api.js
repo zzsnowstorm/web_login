@@ -3,8 +3,8 @@ import { getStorage } from './index';
 
 const getAuthorization = () => 'Bearer ' + getStorage('token', true).accessToken;
 
-const register = params => new Promise((resolve, reject) => {
-    axios.post('/api/mdm/customer/user/register', params).then((response) => {
+const register = (customerId, params) => new Promise((resolve, reject) => {
+    axios.post('/api/mdm/customer/user/register/' + customerId, params).then((response) => {
         resolve(response);
     }).catch((error) => {
         reject(error);

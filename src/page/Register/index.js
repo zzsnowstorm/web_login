@@ -32,8 +32,8 @@ export default class Register extends Component {
                             }
                         });
                     } else {
-                        const params = { customerKey: customerId, account, password, phone, email };
-                        register(params).then((response) => {
+                        const params = { account, password, phone, email };
+                        register(customerId, params).then((response) => {
                             if (response.status === 200) {
                                 historyPush(history, step);
                                 setTimeout(() => {
