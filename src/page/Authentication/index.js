@@ -31,7 +31,7 @@ export default class Authentication extends Component {
                     const { fetchPageData } = this.props;
                     fetchPageData({ accessToken, refreshToken }, user.userId);
                 }).catch((error) => {
-                    this.domRef.smsCode.setErrorMessage(error.response.data.error);
+                    this.domRef.smsCode.setErrorMessage(error.response.data.message);
                 });
             }
         });
