@@ -78,7 +78,7 @@ export default class Register extends Component {
     }
 
     renderstep1() {
-        const { history } = this.props;
+        const { history, offLine } = this.props;
         const { customer, account } = this.state;
         return (
             <div className='register-content'>
@@ -96,7 +96,9 @@ export default class Register extends Component {
                     validateFields={(value, callback) => this.checkAccount(value, callback)}
                 />
                 <div className='register-jump'>
-                    <span className='jump-span' onClick={() => historyPush(history, '/')}>
+                    <span className='jump-span' onClick={() => {
+                        historyPush(history, '/');
+                    }}>
                         <div className='jump-text'>{getString('already+have1+account')}</div>
                         <div className='jump-arrowblueicon' style={{ backgroundImage: 'url(./login/arrowblueicon.png)' }} />
                     </span>
@@ -105,6 +107,7 @@ export default class Register extends Component {
                     <button
                         type='button'
                         className='register-button'
+                        disabled={offLine}
                         style={{ float: 'right', backgroundColor: '#4C84FF' }}
                         onClick={() => this.jump2Step('step2')}
                     >
@@ -116,6 +119,7 @@ export default class Register extends Component {
     }
 
     renderstep2() {
+        const { offLine } = this.props;
         const { customer, account, password, phone, email } = this.state;
         return (
             <div className='register-content'>
@@ -163,6 +167,7 @@ export default class Register extends Component {
                 <div className='register-footer'>
                     <button
                         type='button'
+                        disabled={offLine}
                         className='register-button'
                         style={{ float: 'right', backgroundColor: '#4C84FF' }}
                         onClick={() => this.jump2Step('step3')}
@@ -225,7 +230,7 @@ export default class Register extends Component {
     }
 
     componentDidMount() {
-        const { match: { params: { step } }, customerId } = this.props;
+        const { match: { params: { step } }, customerId, history } = this.props;
         window.document.title = getString('register+account');
         fetchCustomerData(customerId).then((response) => {
             this.setState({ customer: response.data });
@@ -234,7 +239,6 @@ export default class Register extends Component {
         });
 
         if (!step) {
-            const { history } = this.props;
             historyPush(history, '/register/step1');
         }
     }

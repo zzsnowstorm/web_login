@@ -73,12 +73,16 @@ const clearStorage = () => {
     setStorage('theme', theme);
 };
 
-const historyPush = (history, url) => {
-    // eslint-disable-next-line
-    let [,search] = window.location.href.split('?');
-    search = search ? `?${search}` : '';
-    history.push(url + search);
+const historyPush = (history, pathname) => {
+    const { location: { search } } = history;
+    history.push({ pathname, search });
 };
+
+const isAndroidApp = () => navigator.userAgent.includes('/Android_Native');
+
+const isIosApp = () => navigator.userAgent.includes('/IOS_Native');
+
+const isApp = () => isAndroidApp() || isIosApp();
 
 export {
     getString,
@@ -91,4 +95,7 @@ export {
     getToken,
     clearStorage,
     historyPush,
+    isAndroidApp,
+    isIosApp,
+    isApp,
 };

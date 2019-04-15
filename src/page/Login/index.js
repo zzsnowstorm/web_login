@@ -17,10 +17,11 @@ export default class Login extends Component {
     }
 
     login(e) {
+        const { offLine } = this.props;
         const key = window.event ? e.keyCode : e.which;
         // 获取被按下的键值
         // 判断如果用户按下了回车键keycody=13
-        if (key === 13) {
+        if (!offLine && key === 13) {
             this.handleSubmit();
         }
     }
@@ -89,7 +90,6 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            domain: getStorage('domain'),
             userName: '',
             password: '',
             locale: getStorage('locale'),
@@ -115,7 +115,9 @@ export default class Login extends Component {
     }
 
     render() {
-        const { errorMessage, userName, password, remembered, locale, domain } = this.state;
+        const { offLine, domain } = this.props;
+        const { errorMessage, userName, password, remembered, locale } = this.state;
+
         return (
             <div className={styles.login}>
                 <div className='login-content'>
@@ -158,6 +160,7 @@ export default class Login extends Component {
                         <button
                             type='button'
                             className='login-button'
+                            disabled={offLine}
                             style={{ backgroundColor: '#4C84FF' }}
                             onClick={() => this.handleSubmit()}
                         >
@@ -171,7 +174,7 @@ export default class Login extends Component {
                                 {getString('forgot+password')}
                             </div>
                             <div className='login-footer-separate'> · </div>
-                            <div style={{ cursor: 'pointer' }} onClick={() => window.open('https://fir.im/iiot' + domain)}>
+                            <div style={{ cursor: 'pointer' }} onClick={() => domain && window.open('https://fir.im/iiot' + domain)}>
                                 {getString('App+download')}
                             </div>
                         </div>

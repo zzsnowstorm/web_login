@@ -49,6 +49,7 @@ export default class Authentication extends Component {
     }
 
     render() {
+        const { offLine } = this.props;
         const { phone, smsCode } = this.state;
         return (
             <div className={styles.authentication}>
@@ -78,6 +79,7 @@ export default class Authentication extends Component {
                         </button>
                         <button
                             type='button'
+                            disabled={offLine}
                             className='authentication-button'
                             style={{ backgroundColor: '#4C84FF', marginLeft: 20 }}
                             onClick={() => this.handleSubmit()}

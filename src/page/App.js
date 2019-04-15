@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 import localforage from 'localforage';
-import { config, setStorage, setStore, getStorage, clearStorage, getString } from '../util/index';
+import psl from 'psl';
+import { config, setStorage, setStore, getStorage, clearStorage, getString, isApp } from '../util/index';
 import { fetchMdmData, refreshToken, fetchUserData } from '../util/api';
 import Login from './Login/index';
 import Register from './Register';
@@ -72,11 +73,15 @@ export default class App extends Component {
     }
 
     renderPage(component, props) {
-        const { isMobile, customerId } = this.state;
+        const { isMobile, offLine, domain, searchParams } = this.state;
+        const { customerId } = searchParams;
         return React.cloneElement(component, {
             ...props,
+            domain,
+            offLine,
             isMobile,
             customerId,
+            searchParams,
             fetchPageData: this.fetchPageData.bind(this),
         });
     }
@@ -85,7 +90,7 @@ export default class App extends Component {
         try {
             const { user, page } = window.store;
             if (page) {
-                const { callback } = this.state;
+                const { searchParams: { callback } } = this.state;
                 const { menus, componentList, pageList } = page;
                 user && menus && componentList && pageList && (window.location = callback ? decodeURIComponent(callback) : '/#/index');
             }
@@ -183,7 +188,7 @@ export default class App extends Component {
     }
 
     jumpIfHasToken() {
-        const { token } = this.state;
+        const { searchParams: { token } } = this.state;
         if (token) {
             refreshToken(token)
                 .then((response) => {
@@ -212,10 +217,24 @@ export default class App extends Component {
         }
     }
 
+    ononline() {
+        if (navigator.onLine) {
+            alert('网络已连接');
+            this.setState({ offLine: false });
+        }
+    }
+
+    onoffline() {
+        if (!navigator.onLine) {
+            alert('网络连接不可用，请检查网络连接');
+            this.setState({ offLine: true });
+        }
+    }
+
     constructor(props) {
         super(props);
-        const domain = document.domain.split('.')[1];
-        setStorage('domain', domain);
+        const parsed = psl.parse(document.domain);
+        setStorage('domain', parsed.sld);
         const locale = this.getLocale() || 'zh-CN';
         setStorage('locale', locale);
         window.store.locale = locale;
@@ -223,14 +242,13 @@ export default class App extends Component {
         const searchParams = this.getSearchParams();
         this.state = {
 
-            ...searchParams,
-            domain,
+            searchParams,
+            domain: parsed.sld,
             locale,
             isMobile,
 
             loading: false,
-            // loaded: false,
-            // loadingText: '',
+            offLine: false,
         };
     }
 
@@ -240,10 +258,23 @@ export default class App extends Component {
 
         this.jumpIfAlreadyLogin();
         this.jumpIfHasToken();
+
+        if (isApp()) {
+            this._onoffline = this.onoffline.bind(this);
+            this._ononline = this.ononline.bind(this);
+
+            window.addEventListener('online', this._ononline);
+            window.addEventListener('offline', this._onoffline);
+        }
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this._resize);
+
+        if (isApp()) {
+            window.removeEventListener('online', this._ononline);
+            window.removeEventListener('offline', this._onoffline);
+        }
 
         this.timer && (window.clearInterval(this.timer)) && (delete this.timer);
     }

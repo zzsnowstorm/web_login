@@ -21,18 +21,6 @@ export default class PasswordReset extends Component {
 
         Promise.all(refs.map(ref => ref.handleCheck())).then((values) => {
             if (values.every(Boolean)) {
-                // switch (step) {
-                //     case 'step2':
-                //         return this.renderstep1();
-                //     case 'step3':
-                //         return this.renderstep2();
-                //     case 'step4':
-                //         return this.renderstep3();
-                //     case 'step4':
-                //         return this.renderstep4();
-                //     default:
-                //         return null;
-                // }
                 historyPush(history, `/password_reset/${step}`);
             }
         });
@@ -203,7 +191,9 @@ export default class PasswordReset extends Component {
                         type='button'
                         className='password_reset-button'
                         style={{ backgroundColor: '#4C84FF', width: '100%' }}
-                        onClick={() => historyPush(history, '/')}
+                        onClick={() => {
+                            historyPush(history, '/');
+                        }}
                     >
                         {getString('next_step')}
                     </button>
