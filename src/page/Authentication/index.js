@@ -31,7 +31,11 @@ export default class Authentication extends Component {
                     const { fetchPageData } = this.props;
                     fetchPageData({ accessToken, refreshToken }, user.userId);
                 }).catch((error) => {
-                    this.domRef.smsCode.setErrorMessage(error.response.data.message);
+                    if (error.response.data.message === '资源不可用') {
+                        this.domRef.smsCode.setErrorMessage(getString('verification_code_timeout'));
+                    } else {
+                        this.domRef.smsCode.setErrorMessage(getString('verification_code_error'));
+                    }
                 });
             }
         });

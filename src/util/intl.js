@@ -352,6 +352,9 @@ const intlMap = {
     phone_error1: ['手机号格式不正确', 'Incorrect format of mobile phone number'],
     network_error: ['网络错误', 'Network Error'],
     error_401: ['该用户正在等待管理员审核...', 'The user is waiting for an administrator to review...'],
+    service_error: ['服务异常', 'Service Exception'],
+    verification_code_error: ['验证码错误', 'Verification Code Error'],
+    verification_code_timeout: ['验证码超时', 'Verification Code Timeout'],
 };
 
 const localeMap = {

@@ -53,13 +53,10 @@ export default class Login extends Component {
                         }
                     })
                     .catch((error) => {
-                        // const type = error.response.data.error;
-                        // const eror = type === 'userName' ? getString('user') + userName + getString('non_existent') : getString('password+error');
-                        // this.domRefs[type].setErrorMessage(eror);
-                        if (error.response.status === 400) {
+                        if (error.response.data.message === '用户校验错误') {
                             this.setState({ errorMessage: 'login_error' });
                         } else {
-                            alert(getString('network_error'));
+                            alert(getString('service_error'));
                         }
                     });
                 this.setState({ errorMessage: '' });
