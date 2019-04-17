@@ -182,7 +182,7 @@ export default class Login extends Component {
                 {isApp() && (
                     <div className={styles.scan}>
                         <button type='button' className='scan-but' onClick={() => scan()}>
-                            <img className='scan-icon' alt='' src='./scan.svg' />
+                            <img className='scan-icon' alt='' src='./login/scan.svg' />
                             <span className='scan-text'>{getString('scan+register')}</span>
                         </button>
                     </div>
