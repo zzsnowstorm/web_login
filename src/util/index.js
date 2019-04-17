@@ -84,6 +84,9 @@ const isIosApp = () => navigator.userAgent.includes('/IOS_Native');
 
 const isApp = () => isAndroidApp() || isIosApp();
 
+// eslint-disable-next-line no-return-assign
+const scan = () => isApp() && (window.location = '/qrCode');
+
 export {
     getString,
     config,
@@ -98,4 +101,5 @@ export {
     isAndroidApp,
     isIosApp,
     isApp,
+    scan,
 };

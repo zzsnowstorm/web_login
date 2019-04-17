@@ -3,7 +3,7 @@ import localforage from 'localforage';
 import styles from './index.less';
 import Icon from '../../compent/Icon';
 import FileInput from '../../compent/FileInput';
-import { historyPush, clearStorage, setStorage, getString, getStorage, setStore } from '../../util/index';
+import { historyPush, clearStorage, setStorage, getString, getStorage, setStore, isApp, scan } from '../../util/index';
 import { userLogin } from '../../util/api';
 
 export default class Login extends Component {
@@ -179,12 +179,14 @@ export default class Login extends Component {
                         </div>
                     </div>
                 </div>
-                <div className={styles.scan}>
-                    <button type='button' className='scan-but'>
-                        <img className='scan-icon' alt='' src='./scan.svg' />
-                        <span className='scan-text'>扫描二维码</span>
-                    </button>
-                </div>
+                {isApp() && (
+                    <div className={styles.scan}>
+                        <button type='button' className='scan-but' onClick={() => scan()}>
+                            <img className='scan-icon' alt='' src='./scan.svg' />
+                            <span className='scan-text'>{getString('scan+register')}</span>
+                        </button>
+                    </div>
+                )}
             </Fragment>
         );
     }

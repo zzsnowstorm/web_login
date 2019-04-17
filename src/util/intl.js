@@ -154,6 +154,7 @@ const intlMap = {
     register: ['注册', 'Register'],
     binding: ['绑定', 'Binding'],
     recover: ['恢复', 'Recover'],
+    scan: ['扫码', 'Scan'],
 
     // 形容词/副词
     new1: ['新的', 'New'],
