@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import localforage from 'localforage';
 import styles from './index.less';
 import Icon from '../../compent/Icon';
@@ -116,68 +116,76 @@ export default class Login extends Component {
         const { errorMessage, userName, password, remembered, locale } = this.state;
 
         return (
-            <div className={styles.login}>
-                <div className='login-content'>
-                    <div className='login-title'> {getString('login')} </div>
-                    {errorMessage && <div style={{ marginTop: 10, color: '#FF1F1F' }}> <span>{getString(errorMessage)}</span> </div>}
-                    <form>
-                        <FileInput
-                            name='userName'
-                            ref={(ref) => { this.domRefs.userName = ref; }}
-                            style={{ width: '100%', marginTop: errorMessage ? 10 : 30 }}
-                            placeholder={getString('email2+or+phone')}
-                            value={userName}
-                            onChange={value => this.handleChange({ userName: value })}
-                        />
-                        <FileInput
-                            name='password'
-                            ref={(ref) => { this.domRefs.password = ref; }}
-                            style={{ width: '100%', marginTop: 30 }}
-                            type='password'
-                            placeholder={getString('password')}
-                            value={password}
-                            onChange={value => this.handleChange({ password: value })}
-                            validateFields={(value, callback) => this.checkPassword(value, callback)}
-                        />
-                    </form>
-                    <div className='login-block' style={{ marginTop: 30, fontSize: 14, color: ' #4C84FF' }}>
-                        <div className='login-rememberme' onClick={() => { this.setRemembered(Number(!remembered)); }}>
-                            <span className={'checkBox ' + (remembered ? 'checked' : '')}>
-                                {!remembered ? '' : <Icon iconSize={[14, 14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />}
-                            </span>
-                            <span>{getString('remember+me')}</span>
-                        </div>
-                        <div>
-                            <span style={{ color: locale === 'zh-CN' ? '#4DA1FF' : '#11171B', cursor: 'pointer' }} onClick={() => this.setLocale('zh-CN')}>中文</span>
-                            /
-                            <span style={{ color: locale === 'zh-CN' ? '#11171B' : '#4DA1FF', cursor: 'pointer' }} onClick={() => this.setLocale('en-US')}>English</span>
-                        </div>
-                    </div>
-                    <div className='login-footer'>
-                        <button
-                            type='button'
-                            className='login-button'
-                            disabled={offLine}
-                            style={{ backgroundColor: '#4C84FF' }}
-                            onClick={() => this.handleSubmit()}
-                        >
-                            {getString('login')}
-                        </button>
-                        <div className='login-footer-option'>
-                            <div
-                                style={{ cursor: 'pointer' }}
-                                onClick={this.jump2passwordReset.bind(this)}
-                            >
-                                {getString('forgot+password')}
+            <Fragment>
+                <div className={styles.login}>
+                    <div className='login-content'>
+                        <div className='login-title'> {getString('login')} </div>
+                        {errorMessage && <div style={{ marginTop: 10, color: '#FF1F1F' }}> <span>{getString(errorMessage)}</span> </div>}
+                        <form>
+                            <FileInput
+                                name='userName'
+                                ref={(ref) => { this.domRefs.userName = ref; }}
+                                style={{ width: '100%', marginTop: errorMessage ? 10 : 30 }}
+                                placeholder={getString('email2+or+phone')}
+                                value={userName}
+                                onChange={value => this.handleChange({ userName: value })}
+                            />
+                            <FileInput
+                                name='password'
+                                ref={(ref) => { this.domRefs.password = ref; }}
+                                style={{ width: '100%', marginTop: 30 }}
+                                type='password'
+                                placeholder={getString('password')}
+                                value={password}
+                                onChange={value => this.handleChange({ password: value })}
+                                validateFields={(value, callback) => this.checkPassword(value, callback)}
+                            />
+                        </form>
+                        <div className='login-block' style={{ marginTop: 30, fontSize: 14, color: ' #4C84FF' }}>
+                            <div className='login-rememberme' onClick={() => { this.setRemembered(Number(!remembered)); }}>
+                                <span className={'checkBox ' + (remembered ? 'checked' : '')}>
+                                    {!remembered ? '' : <Icon iconSize={[14, 14]} iconPath='icon-check1' iconColor='rgb(255,255,255)' />}
+                                </span>
+                                <span>{getString('remember+me')}</span>
                             </div>
-                            <div className='login-footer-separate'> · </div>
-                            <div style={{ cursor: 'pointer' }} onClick={() => domain && window.open('https://fir.im/iiot' + domain)}>
-                                {getString('App+download')}
+                            <div>
+                                <span style={{ color: locale === 'zh-CN' ? '#4DA1FF' : '#11171B', cursor: 'pointer' }} onClick={() => this.setLocale('zh-CN')}>中文</span>
+                                /
+                                <span style={{ color: locale === 'zh-CN' ? '#11171B' : '#4DA1FF', cursor: 'pointer' }} onClick={() => this.setLocale('en-US')}>English</span>
+                            </div>
+                        </div>
+                        <div className='login-footer'>
+                            <button
+                                type='button'
+                                className='login-button'
+                                disabled={offLine}
+                                style={{ backgroundColor: '#4C84FF' }}
+                                onClick={() => this.handleSubmit()}
+                            >
+                                {getString('login')}
+                            </button>
+                            <div className='login-footer-option'>
+                                <div
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={this.jump2passwordReset.bind(this)}
+                                >
+                                    {getString('forgot+password')}
+                                </div>
+                                <div className='login-footer-separate'> · </div>
+                                <div style={{ cursor: 'pointer' }} onClick={() => domain && window.open('https://fir.im/iiot' + domain)}>
+                                    {getString('App+download')}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div className={styles.scan}>
+                    <button type='button' className='scan-but'>
+                        <img className='scan-icon' alt='' src='./scan.svg' />
+                        <span className='scan-text'>扫描二维码</span>
+                    </button>
+                </div>
+            </Fragment>
         );
     }
 }
