@@ -53,10 +53,16 @@ export default class Login extends Component {
                         }
                     })
                     .catch((error) => {
-                        if (error.response.data.message === '用户校验错误') {
-                            this.setState({ errorMessage: 'login_error' });
-                        } else {
-                            alert(getString('service_error'));
+                        try {
+                            if (error.response.data.message === '用户校验错误') {
+                                this.setState({ errorMessage: 'login_error' });
+                            } else {
+                                alert(getString('service_error'));
+                            }
+                        } catch (e) {
+                            if (error.message === 'Network Error') {
+                                alert(getString('network_error'));
+                            }
                         }
                     });
                 this.setState({ errorMessage: '' });
