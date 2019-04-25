@@ -55,7 +55,7 @@ export default class Login extends Component {
                     .catch((error) => {
                         try {
                             if (error.response.data.message === '用户校验错误') {
-                                this.setState({ errorMessage: 'login_error' });
+                                this.setState({ errorMessage: error.response.data.error });
                             } else {
                                 alert(getString('service_error'));
                             }
@@ -126,7 +126,7 @@ export default class Login extends Component {
                 <div className={styles.login}>
                     <div className='login-content'>
                         <div className='login-title'> {getString('login')} </div>
-                        {errorMessage && <div style={{ marginTop: 10, color: '#FF1F1F' }}> <span>{getString(errorMessage)}</span> </div>}
+                        {errorMessage && <div style={{ marginTop: 10, color: '#FF1F1F' }}> <span>{errorMessage}</span> </div>}
                         <form>
                             <FileInput
                                 name='userName'
