@@ -27,7 +27,6 @@ export default class Login extends Component {
     }
 
     handleSubmit() {
-        window.localStorage.clear();
         localforage.clear();
         clearStorage();
         const refs = Object.values(this.domRefs);
