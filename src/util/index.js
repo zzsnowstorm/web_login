@@ -66,11 +66,13 @@ const getToken = () => {
 };
 
 const clearStorage = () => {
+    const locale = getStorage('locale');
     const remembered = getStorage('remembered') || 0;
     const theme = getStorage('theme') || 'light';
     window.localStorage.clear();
     setStorage('remembered', remembered);
     setStorage('theme', theme);
+    setStorage('locale', locale);
 };
 
 const historyPush = (history, pathname) => {
