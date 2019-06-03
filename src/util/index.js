@@ -72,7 +72,7 @@ const clearStorage = () => {
     window.localStorage.clear();
     setStorage('remembered', remembered);
     setStorage('theme', theme);
-    setStorage('locale', locale);
+    setStorage('locale', locale || 'zh-CN');
 };
 
 const historyPush = (history, pathname) => {
