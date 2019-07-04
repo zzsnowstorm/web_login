@@ -62,8 +62,67 @@ export default class Register extends Component {
     }
 
     checkPassword(value, callback) {
-        const check = /\s+/;
-        callback(!check.test(value), getString('password_error1'));
+        const { customer } = this.state;
+        function getPasswordRules(customerObj) {
+            const complex = customerObj.complex || [];
+            const rules = [{
+                pattern: /^[^\s]*$/,
+                message: '有空格',
+            }, {
+                pattern: /[\w|\W]{8,}/,
+                message: '密码至少8位',
+            }];
+            complex.map((item, i) => {
+                switch (i) {
+                case 0:
+                    if (Number(item) === 1) {
+                        rules.push({
+                            pattern: /[A-Z]+/,
+                            message: '缺少大写字母',
+                        });
+                    }
+                    break;
+                case 1:
+                    if (Number(item) === 1) {
+                        rules.push({
+                            pattern: /[a-z]+/,
+                            message: '缺少小写字母',
+                        });
+                    }
+                    break;
+                case 2:
+                    if (Number(item) === 1) {
+                        rules.push({
+                            pattern: /[\d]+/,
+                            message: '缺少数字',
+                        });
+                    }
+                    break;
+                case 3:
+                    if (Number(item) === 1) {
+                        rules.push({
+                            pattern: /[\W]+/,
+                            message: '缺少特殊字符',
+                        });
+                    }
+                    break;
+                default:
+                    console.log('default');
+                }
+            });
+            return rules;
+        }
+        const rules = getPasswordRules(customer);
+        for (let i = 0, len = rules.length; i < len; i++) {
+            const { pattern, message } = rules[i];
+            if (!pattern.test(value)) {
+                callback(false, message);
+                break;
+            }
+            if (i === len - 1) {
+                callback(true, '');
+            }
+        }
     }
 
     checkPhone(value, callback) {
