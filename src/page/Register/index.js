@@ -68,9 +68,6 @@ export default class Register extends Component {
             const rules = [{
                 pattern: /^[^\s]*$/,
                 message: '有空格',
-            }, {
-                pattern: /[\w|\W]{8,}/,
-                message: '密码至少8位',
             }];
             complex.map((item, i) => {
                 switch (i) {
@@ -107,7 +104,10 @@ export default class Register extends Component {
                     }
                     break;
                 default:
-                    console.log('default');
+                    rules.push({
+                        pattern: /[\w|\W]{8,}/,
+                        message: '密码至少8位',
+                    });
                 }
             });
             return rules;
