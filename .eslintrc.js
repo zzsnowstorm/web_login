@@ -24,8 +24,8 @@ module.exports = {
         "import",
     ],
     "rules": {
-        "indent": [2, 4], //js缩进 
-        "react/jsx-indent": [2, 4],//jsx缩进 
+        "indent": [2, 4], //js缩进
+        "react/jsx-indent": [2, 4],//jsx缩进
         "react/jsx-indent-props":  [2, 4], //验证JSX中的props缩进
         "react/jsx-wrap-multilines": 2, //将多行 JSX 标签写在 ()里
         "max-len": [1, 250, 2, {"ignoreComments": true}],//当单行代码长度大于200个字符时，检测会报错。
@@ -62,7 +62,7 @@ module.exports = {
         "jsx-a11y/click-events-have-key-events": 0,
         "jsx-a11y/anchor-is-valid": 0,
         "react/jsx-one-expression-per-line": 0,
-
+        "no-plusplus":0,
         "no-alert": 1,//禁用 alert、confirm 和 prompt
     }
 }
