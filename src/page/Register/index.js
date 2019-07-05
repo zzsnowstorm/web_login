@@ -104,10 +104,12 @@ export default class Register extends Component {
                     }
                     break;
                 default:
-                    rules.push({
-                        pattern: /[\w|\W]{8,}/,
-                        message: '密码至少8位',
-                    });
+                    if (Number(item) === 1) {
+                        rules.push({
+                            pattern: /[\w|\W]{8,}/,
+                            message: '密码至少8位',
+                        });
+                    }
                 }
             });
             return rules;
